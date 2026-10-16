@@ -11,7 +11,6 @@ import {
   KeyRound,
   Sparkles,
   Save,
-  RotateCcw,
   Clock,
   Globe,
   Building,
@@ -21,7 +20,7 @@ import {
 
 export default function AdminProfilePage() {
   const { adminProfile, updateAdminProfile } = useAdmin();
-  const { success, error, info } = useToast();
+  const { success, error } = useToast();
 
   // Form states for admin identity
   const [name, setName] = useState(adminProfile.name);
@@ -78,18 +77,6 @@ export default function AdminProfilePage() {
     );
   };
 
-  const handleResetProfileForm = () => {
-    setName(adminProfile.name);
-    setUsername(adminProfile.username);
-    setEmail(adminProfile.email);
-    setPhone(adminProfile.phone);
-    setDepartment(adminProfile.department);
-    setTimezone(adminProfile.timezone);
-    setBio(adminProfile.bio);
-    setAvatarInitials(adminProfile.avatarInitials);
-    info('Form Direset', 'Nilai input dikembalikan ke data profil yang tersimpan.');
-  };
-
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentPassword) {
@@ -121,24 +108,6 @@ export default function AdminProfilePage() {
         title="Profil Admin & Akun Pengelola"
         description="Kelola informasi identitas akun administrator, data kontak operasional HUMORA, dan pembaruan kata sandi."
         breadcrumbs={[{ label: 'Profil Admin' }]}
-        actions={
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleResetProfileForm}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#EEE8F0] bg-white text-xs font-bold text-[#786F7D] hover:text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
-            >
-              <RotateCcw className="w-4 h-4" /> Reset Form
-            </button>
-            <button
-              type="button"
-              onClick={handleSaveProfile}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
-            >
-              <Save className="w-4 h-4 text-[#FFD52E]" /> Simpan Profil
-            </button>
-          </div>
-        }
       />
 
       {/* Hero Banner / Header Identity Card */}

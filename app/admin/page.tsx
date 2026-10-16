@@ -380,7 +380,7 @@ export default function AdminDashboardPage() {
 
           <div className="mt-5 pt-3 border-t border-[#F6F1F8] text-center">
             <span className="text-[11px] text-[#786F7D]">
-              Semua aktivitas demo tersinkronisasi otomatis
+              Semua aktivitas tersinkronisasi otomatis
             </span>
           </div>
         </div>

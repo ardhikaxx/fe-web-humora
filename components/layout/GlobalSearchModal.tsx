@@ -59,7 +59,7 @@ export function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModalProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cari series, episode, atau pengguna demo..."
+            placeholder="Cari series, episode, atau nama pengguna..."
             className="flex-1 bg-transparent border-none text-sm text-[#24172B] placeholder:text-[#786F7D] focus:outline-hidden"
           />
           <button

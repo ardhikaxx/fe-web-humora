@@ -90,7 +90,7 @@ export default function UsersPage() {
       {/* Header */}
       <PageHeader
         title="Pengguna Aplikasi"
-        description="Pantau ringkasan profil pengguna demo aplikasi mobile HUMORA, riwayat tontonan, dan status akun."
+        description="Pantau ringkasan profil pengguna aplikasi mobile HUMORA, riwayat tontonan, dan status akun."
         breadcrumbs={[{ label: 'Pengguna' }]}
       />
 
@@ -99,7 +99,7 @@ export default function UsersPage() {
         <StatCard
           title="Total Pengguna"
           value="24.850"
-          subtitle="Data simulasi terdaftar"
+          subtitle="Total akun terdaftar"
           icon={<Users className="w-5 h-5" />}
           iconBg="bg-[#F6F1F8]"
           iconColor="text-[#4B0B7A]"
@@ -139,7 +139,7 @@ export default function UsersPage() {
           setSearchQuery(val);
           setCurrentPage(1);
         }}
-        searchPlaceholder="Cari nama atau email pengguna demo..."
+        searchPlaceholder="Cari nama atau email pengguna..."
         hasActiveFilters={accountStatusFilter !== 'all' || subStatusFilter !== 'all' || !!searchQuery}
         onResetFilters={() => {
           setSearchQuery('');
@@ -273,7 +273,7 @@ export default function UsersPage() {
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#EEE8F0] transform animate-in zoom-in-95 duration-200 space-y-5">
             <div className="flex items-center justify-between pb-3 border-b border-[#EEE8F0]">
-              <h3 className="text-base font-bold text-[#24172B]">Detail Pengguna Demo</h3>
+              <h3 className="text-base font-bold text-[#24172B]">Detail Pengguna</h3>
               <button
                 onClick={() => setSelectedUser(null)}
                 className="p-1 text-[#786F7D] hover:text-[#24172B] rounded-lg"

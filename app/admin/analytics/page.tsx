@@ -25,8 +25,6 @@ import {
   TrendingUp,
   Crown,
   CreditCard,
-  Smartphone,
-  Tablet,
   Calendar,
 } from 'lucide-react';
 
@@ -161,7 +159,7 @@ export default function AnalyticsPage() {
         />
 
         <StatCard
-          title="Pendapatan (Demo)"
+          title="Total Pendapatan"
           value={formatRupiah(summary.totalRevenue)}
           change={summary.revenueChangePercent}
           changeLabel="vs periode lalu"
@@ -254,7 +252,7 @@ export default function AnalyticsPage() {
               <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider flex items-center gap-2">
                 <Users className="w-4 h-4 text-[#4B0B7A]" /> Audience Insights
               </h3>
-              <span className="text-xs text-[#786F7D]">Aktivitas Penonton Demo</span>
+              <span className="text-xs text-[#786F7D]">Aktivitas Penonton</span>
             </div>
 
             <p className="text-xs text-[#786F7D] mb-6">
@@ -305,23 +303,6 @@ export default function AnalyticsPage() {
                     style={{ width: `${AUDIENCE_INSIGHTS.returningPercent}%` }}
                   />
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-4 border-t border-[#EEE8F0] grid grid-cols-2 gap-4 text-xs">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F8F7FA]">
-              <Smartphone className="w-5 h-5 text-[#4B0B7A]" />
-              <div>
-                <p className="font-bold text-[#24172B]">{AUDIENCE_INSIGHTS.mobileDevicePercent}% Mobile</p>
-                <p className="text-[10px] text-[#786F7D]">Smartphone iOS & Android</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#F8F7FA]">
-              <Tablet className="w-5 h-5 text-[#7028B8]" />
-              <div>
-                <p className="font-bold text-[#24172B]">{AUDIENCE_INSIGHTS.tabletDevicePercent}% Tablet</p>
-                <p className="text-[10px] text-[#786F7D]">iPad & Android Tablet</p>
               </div>
             </div>
           </div>
