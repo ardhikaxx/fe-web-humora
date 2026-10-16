@@ -10,6 +10,7 @@ interface ConfirmDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   variant?: 'danger' | 'warning' | 'info';
+  icon?: React.ReactNode;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -21,6 +22,7 @@ export function ConfirmDialog({
   confirmLabel = 'Konfirmasi',
   cancelLabel = 'Batal',
   variant = 'danger',
+  icon,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
@@ -55,7 +57,7 @@ export function ConfirmDialog({
       >
         <div className="flex items-start gap-4">
           <div className={`p-3 rounded-xl shrink-0 ${iconBg}`}>
-            {variant === 'danger' ? <Trash2 className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+            {icon ? icon : variant === 'danger' ? <Trash2 className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
           </div>
 
           <div className="flex-1 min-w-0">

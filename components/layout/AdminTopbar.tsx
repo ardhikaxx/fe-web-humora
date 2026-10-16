@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAdmin } from '../../lib/context/AdminContext';
 import { GlobalSearchModal } from './GlobalSearchModal';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
@@ -12,7 +13,7 @@ import {
   Bell,
   CheckCircle2,
   Settings,
-  RotateCcw,
+  LogOut,
   ChevronDown,
   User,
 } from 'lucide-react';
@@ -22,20 +23,26 @@ interface AdminTopbarProps {
 }
 
 export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
-  const { recentActivities, resetAllDataToDefault, adminProfile } = useAdmin();
+  const router = useRouter();
+  const { recentActivities, adminProfile } = useAdmin();
   const { success } = useToast();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNotifDropdownOpen, setIsNotifDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
 
   const systemAlerts = (recentActivities || []).slice(0, 5);
 
-  const handleResetData = () => {
-    resetAllDataToDefault();
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('humora_admin_session');
+      localStorage.setItem('humora_admin_logged_out', 'true');
+    }
     setIsProfileDropdownOpen(false);
-    success('Data Berhasil Direset', 'Katalog dan analitik dikembalikan ke kondisi demo awal.');
+    setIsLogoutDialogOpen(false);
+    success('Berhasil Keluar', 'Sesi admin telah diakhiri. Sampai jumpa kembali!');
+    router.push('/login');
   };
 
   return (
@@ -161,13 +168,13 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
 
                   <button
                     onClick={() => {
-                      setIsResetDialogOpen(true);
                       setIsProfileDropdownOpen(false);
+                      setIsLogoutDialogOpen(true);
                     }}
                     className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#D94152] hover:bg-[#FEECEF] transition-colors text-left"
                   >
-                    <RotateCcw className="w-4 h-4 text-[#D94152]" />
-                    <span>Reset Semua Data Demo</span>
+                    <LogOut className="w-4 h-4 text-[#D94152]" />
+                    <span>Keluar (Logout)</span>
                   </button>
                 </div>
               </div>
@@ -179,16 +186,17 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
       {/* Global Search Modal */}
       <GlobalSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-      {/* Reset Confirmation Dialog */}
+      {/* Logout Confirmation Dialog */}
       <ConfirmDialog
-        isOpen={isResetDialogOpen}
-        title="Reset Seluruh Data Demo?"
-        message="Tindakan ini akan mengembalikan data series, episode, kategori, subtitle, user, dan transaksi ke kondisi bawaan awal. Seluruh perubahan lokal Anda akan diganti dengan dataset demo asli."
-        confirmLabel="Ya, Reset Data Demo"
+        isOpen={isLogoutDialogOpen}
+        title="Keluar dari Akun Admin?"
+        message="Sesi login Anda akan diakhiri. Anda perlu memasukkan kredensial administrator kembali untuk mengakses dashboard."
+        confirmLabel="Ya, Keluar"
         cancelLabel="Batal"
         variant="danger"
-        onConfirm={handleResetData}
-        onCancel={() => setIsResetDialogOpen(false)}
+        icon={<LogOut className="w-6 h-6 text-[#D94152]" />}
+        onConfirm={handleLogout}
+        onCancel={() => setIsLogoutDialogOpen(false)}
       />
     </>
   );
