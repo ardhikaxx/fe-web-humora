@@ -14,7 +14,6 @@ import {
   Users,
   Crown,
   Receipt,
-  Bell,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -80,7 +79,6 @@ export function AdminSidebar({
     {
       groupTitle: 'Sistem',
       items: [
-        { label: 'Notifikasi', href: '/admin/notifications', icon: Bell },
         { label: 'Profil Admin', href: '/admin/profile', icon: UserCheck },
         { label: 'Pengaturan', href: '/admin/settings', icon: Settings },
       ],

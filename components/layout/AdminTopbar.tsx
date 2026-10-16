@@ -22,7 +22,7 @@ interface AdminTopbarProps {
 }
 
 export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
-  const { notifications, resetAllDataToDefault, adminProfile } = useAdmin();
+  const { recentActivities, resetAllDataToDefault, adminProfile } = useAdmin();
   const { success } = useToast();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -30,7 +30,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
 
-  const unreadNotifs = notifications.filter((n) => n.status === 'published').slice(0, 4);
+  const systemAlerts = (recentActivities || []).slice(0, 5);
 
   const handleResetData = () => {
     resetAllDataToDefault();
@@ -63,7 +63,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
           </button>
         </div>
 
-        {/* Right Actions: Notification Bell, User Avatar */}
+        {/* Right Actions: System Activity Bell, User Avatar */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Demo Mode Badge */}
           <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EAF8F1] border border-[#C6EFD9] text-[11px] font-semibold text-[#21865B]">
@@ -71,7 +71,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
             Demo Mode Aktif
           </div>
 
-          {/* Notifications Dropdown */}
+          {/* Activity Alerts Dropdown */}
           <div className="relative">
             <button
               onClick={() => {
@@ -79,42 +79,40 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
                 setIsProfileDropdownOpen(false);
               }}
               className="relative p-2 rounded-xl text-[#786F7D] hover:text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
-              aria-label="Pusat Notifikasi"
+              aria-label="Aktivitas Sistem"
             >
               <Bell className="w-5 h-5" />
-              {unreadNotifs.length > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#D94152] ring-2 ring-white" />
+              {systemAlerts.length > 0 && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#4B0B7A] ring-2 ring-white" />
               )}
             </button>
 
             {isNotifDropdownOpen && (
               <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-[#EEE8F0] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-[#EEE8F0] mb-2 px-1">
-                  <span className="text-xs font-bold text-[#24172B]">Notifikasi Demo ({unreadNotifs.length})</span>
-                  <Link
-                    href="/admin/notifications"
-                    onClick={() => setIsNotifDropdownOpen(false)}
-                    className="text-[11px] font-semibold text-[#4B0B7A] hover:underline"
-                  >
-                    Kelola Semua
-                  </Link>
+                  <span className="text-xs font-bold text-[#24172B]">Aktivitas Sistem ({systemAlerts.length})</span>
+                  <span className="text-[10px] font-semibold text-[#786F7D]">Terbaru</span>
                 </div>
 
                 <div className="space-y-1.5 max-h-64 overflow-y-auto no-scrollbar">
-                  {unreadNotifs.map((n) => (
-                    <div
-                      key={n.id}
-                      className="p-2.5 rounded-xl hover:bg-[#F6F1F8] transition-colors flex items-start gap-2.5 text-left"
-                    >
-                      <div className="p-1.5 rounded-lg bg-[#EAF8F1] text-[#21865B] shrink-0 mt-0.5">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
+                  {systemAlerts.length > 0 ? (
+                    systemAlerts.map((act) => (
+                      <div
+                        key={act.id}
+                        className="p-2.5 rounded-xl hover:bg-[#F6F1F8] transition-colors flex items-start gap-2.5 text-left"
+                      >
+                        <div className="p-1.5 rounded-lg bg-[#EAF8F1] text-[#21865B] shrink-0 mt-0.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-bold text-[#24172B] leading-tight truncate">{act.title}</p>
+                          <p className="text-[11px] text-[#786F7D] line-clamp-2 mt-0.5">{act.description}</p>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-xs font-bold text-[#24172B] leading-tight truncate">{n.title}</p>
-                        <p className="text-[11px] text-[#786F7D] line-clamp-2 mt-0.5">{n.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className="text-xs text-[#786F7D] text-center py-4">Belum ada aktivitas tercatat.</p>
+                  )}
                 </div>
               </div>
             )}

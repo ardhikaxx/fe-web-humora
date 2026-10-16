@@ -148,20 +148,6 @@ export interface AdminTransaction {
   notes?: string;
 }
 
-export interface AdminNotification {
-  id: string;
-  title: string;
-  description: string;
-  category: 'episode_baru' | 'series_baru' | 'promo' | 'langganan';
-  categoryLabel: string;
-  status: 'published' | 'draft';
-  targetUrl: string;
-  targetSeriesId?: string;
-  thumbnail?: string;
-  createdAt: string;
-  sentCount: number;
-  openCount: number;
-}
 
 export interface AnalyticsDataPoint {
   date: string;

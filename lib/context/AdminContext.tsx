@@ -10,7 +10,6 @@ import {
   AdminUser,
   AdminSubscriber,
   AdminTransaction,
-  AdminNotification,
   AdminSettingsConfig,
   AdminProfileConfig,
   PublicationStatus,
@@ -25,14 +24,13 @@ import {
   INITIAL_USERS,
   INITIAL_SUBSCRIBERS,
   INITIAL_TRANSACTIONS,
-  INITIAL_NOTIFICATIONS,
   INITIAL_SETTINGS,
   INITIAL_ADMIN_PROFILE,
 } from '../data/initialData';
 
 export interface ActivityItem {
   id: string;
-  type: 'episode_published' | 'series_created' | 'access_changed' | 'settings_updated' | 'notification_sent';
+  type: 'episode_published' | 'series_created' | 'access_changed' | 'settings_updated' | 'transaction_verified';
   title: string;
   description: string;
   timestamp: string;
@@ -48,7 +46,6 @@ interface AdminContextType {
   users: AdminUser[];
   subscribers: AdminSubscriber[];
   transactions: AdminTransaction[];
-  notifications: AdminNotification[];
   settings: AdminSettingsConfig;
   adminProfile: AdminProfileConfig;
   isLoaded: boolean;
@@ -97,12 +94,6 @@ interface AdminContextType {
   // User actions
   updateUserStatus: (id: string, status: 'active' | 'suspended') => void;
 
-  // Notification actions
-  addNotification: (notifData: Omit<AdminNotification, 'id' | 'createdAt' | 'sentCount' | 'openCount'>) => AdminNotification;
-  updateNotification: (id: string, updates: Partial<AdminNotification>) => void;
-  deleteNotification: (id: string) => void;
-  toggleNotificationPublish: (id: string) => void;
-
   // Transaction Verification & Simulation
   verifyTransaction: (
     transactionId: string,
@@ -131,7 +122,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [users, setUsers] = useState<AdminUser[]>(INITIAL_USERS);
   const [subscribers, setSubscribers] = useState<AdminSubscriber[]>(INITIAL_SUBSCRIBERS);
   const [transactions, setTransactions] = useState<AdminTransaction[]>(INITIAL_TRANSACTIONS);
-  const [notifications, setNotifications] = useState<AdminNotification[]>(INITIAL_NOTIFICATIONS);
   const [settings, setSettings] = useState<AdminSettingsConfig>(INITIAL_SETTINGS);
   const [adminProfile, setAdminProfile] = useState<AdminProfileConfig>(INITIAL_ADMIN_PROFILE);
   const [activities, setActivities] = useState<ActivityItem[]>([
@@ -145,11 +135,11 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     },
     {
       id: 'act-2',
-      type: 'notification_sent',
-      title: 'Notifikasi Terkirim',
-      description: 'Promo Spesial HUMORAHEMAT terkirim ke 24.850 pengguna aplikasi mobile.',
+      type: 'transaction_verified',
+      title: 'Pembayaran Diverifikasi',
+      description: 'Pembayaran Paket Tahunan oleh Dimas Aditya berhasil diverifikasi.',
       timestamp: '2026-10-14T11:30:00Z',
-      link: '/admin/notifications',
+      link: '/admin/transactions',
     },
     {
       id: 'act-3',
@@ -183,7 +173,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.users && Array.isArray(parsed.users)) setUsers(parsed.users);
         if (parsed.subscribers && Array.isArray(parsed.subscribers)) setSubscribers(parsed.subscribers);
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
-        if (parsed.notifications && Array.isArray(parsed.notifications)) setNotifications(parsed.notifications);
         if (parsed.settings) setSettings(parsed.settings);
         if (parsed.adminProfile) setAdminProfile(parsed.adminProfile);
         if (parsed.activities && Array.isArray(parsed.activities)) setActivities(parsed.activities);
@@ -207,7 +196,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         users,
         subscribers,
         transactions,
-        notifications,
         settings,
         adminProfile,
         activities,
@@ -225,7 +213,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     users,
     subscribers,
     transactions,
-    notifications,
     settings,
     adminProfile,
     activities,
@@ -497,55 +484,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, status } : u)));
   }, []);
 
-  // Notification Actions
-  const addNotification = useCallback(
-    (notifData: Omit<AdminNotification, 'id' | 'createdAt' | 'sentCount' | 'openCount'>): AdminNotification => {
-      const newNotif: AdminNotification = {
-        ...notifData,
-        id: `notif-${Date.now()}`,
-        sentCount: notifData.status === 'published' ? 24850 : 0,
-        openCount: notifData.status === 'published' ? 8400 : 0,
-        createdAt: new Date().toISOString(),
-      };
-      setNotifications((prev) => [newNotif, ...prev]);
-
-      addActivity({
-        type: 'notification_sent',
-        title: 'Notifikasi Dibuat',
-        description: `Notifikasi "${newNotif.title}" disimpan sebagai ${newNotif.status}.`,
-        link: '/admin/notifications',
-      });
-
-      return newNotif;
-    },
-    [addActivity]
-  );
-
-  const updateNotification = useCallback((id: string, updates: Partial<AdminNotification>) => {
-    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates } : n)));
-  }, []);
-
-  const deleteNotification = useCallback((id: string) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  }, []);
-
-  const toggleNotificationPublish = useCallback((id: string) => {
-    setNotifications((prev) =>
-      prev.map((n) => {
-        if (n.id === id) {
-          const nextStatus = n.status === 'published' ? 'draft' : 'published';
-          return {
-            ...n,
-            status: nextStatus,
-            sentCount: nextStatus === 'published' ? (n.sentCount || 24850) : 0,
-            openCount: nextStatus === 'published' ? (n.openCount || 8400) : 0,
-          };
-        }
-        return n;
-      })
-    );
-  }, []);
-
   // Transaction Verification (Approve / Reject)
   const verifyTransaction = useCallback(
     (transactionId: string, action: 'approve' | 'reject', rejectionReason?: string) => {
@@ -695,7 +633,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setUsers(INITIAL_USERS);
     setSubscribers(INITIAL_SUBSCRIBERS);
     setTransactions(INITIAL_TRANSACTIONS);
-    setNotifications(INITIAL_NOTIFICATIONS);
     setSettings(INITIAL_SETTINGS);
     setAdminProfile(INITIAL_ADMIN_PROFILE);
     setActivities([
@@ -717,7 +654,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     users,
     subscribers,
     transactions,
-    notifications,
     settings,
     adminProfile,
     isLoaded,
@@ -739,10 +675,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addSubtitle,
     deleteSubtitle,
     updateUserStatus,
-    addNotification,
-    updateNotification,
-    deleteNotification,
-    toggleNotificationPublish,
     verifyTransaction,
     createSimulationPayment,
     updateSettings,
