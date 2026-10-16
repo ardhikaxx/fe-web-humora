@@ -20,7 +20,9 @@ import {
   ChevronRight,
   Shield,
   Sparkles,
+  UserCheck,
 } from 'lucide-react';
+import { useAdmin } from '../../lib/context/AdminContext';
 
 interface AdminSidebarProps {
   isCollapsed: boolean;
@@ -48,6 +50,7 @@ export function AdminSidebar({
   onCloseMobile,
 }: AdminSidebarProps) {
   const pathname = usePathname();
+  const { adminProfile } = useAdmin();
 
   const navGroups: NavGroup[] = [
     {
@@ -78,6 +81,7 @@ export function AdminSidebar({
       groupTitle: 'Sistem',
       items: [
         { label: 'Notifikasi', href: '/admin/notifications', icon: Bell },
+        { label: 'Profil Admin', href: '/admin/profile', icon: UserCheck },
         { label: 'Pengaturan', href: '/admin/settings', icon: Settings },
       ],
     },
@@ -166,10 +170,17 @@ export function AdminSidebar({
 
       {/* Admin Demo Profile Card in Footer */}
       <div className="p-3 border-t border-[#EEE8F0] bg-[#FAF8FB]">
-        <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : 'p-2'}`}>
-          <div className="relative">
+        <Link
+          href="/admin/profile"
+          onClick={onCloseMobile}
+          className={`flex items-center gap-3 rounded-xl transition-colors hover:bg-[#F3E8FF]/70 ${
+            isCollapsed ? 'justify-center p-1' : 'p-2'
+          } ${checkIsActive('/admin/profile') ? 'bg-[#F3E8FF]' : ''}`}
+          title="Buka Profil Admin"
+        >
+          <div className="relative shrink-0">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#4B0B7A] to-[#7028B8] text-white font-bold text-xs flex items-center justify-center shadow-xs border border-white">
-              AH
+              {adminProfile.avatarInitials || 'AH'}
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#21865B] border-2 border-white" />
           </div>
@@ -177,15 +188,17 @@ export function AdminSidebar({
           {!isCollapsed && (
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
-                <p className="text-xs font-bold text-[#24172B] truncate leading-tight">Admin HUMORA</p>
+                <p className="text-xs font-bold text-[#24172B] truncate leading-tight">
+                  {adminProfile.name}
+                </p>
                 <Shield className="w-3 h-3 text-[#4B0B7A] shrink-0" />
               </div>
               <p className="text-[10px] text-[#786F7D] truncate mt-0.5 flex items-center gap-1">
-                <Sparkles className="w-2.5 h-2.5 text-[#E58A16]" /> Content Admin
+                <Sparkles className="w-2.5 h-2.5 text-[#E58A16]" /> {adminProfile.roleBadge || adminProfile.role}
               </p>
             </div>
           )}
-        </div>
+        </Link>
       </div>
     </div>
   );

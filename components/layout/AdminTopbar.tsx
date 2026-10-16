@@ -14,6 +14,7 @@ import {
   Settings,
   RotateCcw,
   ChevronDown,
+  User,
 } from 'lucide-react';
 
 interface AdminTopbarProps {
@@ -21,7 +22,7 @@ interface AdminTopbarProps {
 }
 
 export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
-  const { notifications, resetAllDataToDefault } = useAdmin();
+  const { notifications, resetAllDataToDefault, adminProfile } = useAdmin();
   const { success } = useToast();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -129,7 +130,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
               className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-xl hover:bg-[#F6F1F8] transition-colors"
             >
               <div className="w-8 h-8 rounded-lg bg-[#4B0B7A] text-[#FFD52E] font-extrabold text-xs flex items-center justify-center">
-                AH
+                {adminProfile.avatarInitials || 'AH'}
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-[#786F7D]" />
             </button>
@@ -137,14 +138,23 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
             {isProfileDropdownOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#EEE8F0] p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="p-2.5 border-b border-[#EEE8F0] mb-1">
-                  <p className="text-xs font-bold text-[#24172B]">Admin HUMORA</p>
-                  <p className="text-[11px] text-[#786F7D]">admin@humora.id</p>
+                  <p className="text-xs font-bold text-[#24172B]">{adminProfile.name}</p>
+                  <p className="text-[11px] text-[#786F7D]">{adminProfile.email}</p>
                   <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                    Content Administrator
+                    {adminProfile.roleBadge || adminProfile.role}
                   </span>
                 </div>
 
                 <div className="space-y-0.5">
+                  <Link
+                    href="/admin/profile"
+                    onClick={() => setIsProfileDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
+                  >
+                    <User className="w-4 h-4 text-[#4B0B7A]" />
+                    <span>Profil Saya</span>
+                  </Link>
+
                   <Link
                     href="/admin/settings"
                     onClick={() => setIsProfileDropdownOpen(false)}

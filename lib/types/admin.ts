@@ -194,3 +194,21 @@ export interface AdminSettingsConfig {
   demoModeNotice: boolean;
   plans: SubscriptionPlanConfig[];
 }
+
+export interface AdminProfileConfig {
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  role: string;
+  roleBadge: string;
+  department: string;
+  bio: string;
+  timezone: string;
+  avatarInitials: string;
+  avatarUrl?: string;
+  twoFactorEnabled: boolean;
+  joinedDate: string;
+  lastLogin: string;
+}
+

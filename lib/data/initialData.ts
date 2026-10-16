@@ -8,6 +8,7 @@ import {
   AdminTransaction,
   AdminNotification,
   AdminSettingsConfig,
+  AdminProfileConfig,
 } from '../types/admin';
 
 export const INITIAL_CATEGORIES: AdminCategory[] = [
@@ -1076,3 +1077,20 @@ export const INITIAL_SETTINGS: AdminSettingsConfig = {
     },
   ],
 };
+
+export const INITIAL_ADMIN_PROFILE: AdminProfileConfig = {
+  name: 'Admin HUMORA',
+  username: 'admin_humora',
+  email: 'admin@humora.id',
+  phone: '+62 812-8899-7711',
+  role: 'Super Administrator',
+  roleBadge: 'Content Admin',
+  department: 'Content Operations & Platform Curation',
+  bio: 'Kurator konten utama HUMORA, bertanggung jawab atas manajemen rilis series mingguan, verifikasi transaksi pembayaran langganan, dan pemeliharaan platform streaming.',
+  timezone: 'Asia/Jakarta (WIB, UTC+7)',
+  avatarInitials: 'AH',
+  twoFactorEnabled: true,
+  joinedDate: 'Januari 2026',
+  lastLogin: 'Hari ini, 15:30 WIB (Chrome di Windows 11)',
+};
+

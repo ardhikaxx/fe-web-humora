@@ -12,6 +12,7 @@ import {
   AdminTransaction,
   AdminNotification,
   AdminSettingsConfig,
+  AdminProfileConfig,
   PublicationStatus,
   AccessType,
 } from '../types/admin';
@@ -26,6 +27,7 @@ import {
   INITIAL_TRANSACTIONS,
   INITIAL_NOTIFICATIONS,
   INITIAL_SETTINGS,
+  INITIAL_ADMIN_PROFILE,
 } from '../data/initialData';
 
 export interface ActivityItem {
@@ -48,6 +50,7 @@ interface AdminContextType {
   transactions: AdminTransaction[];
   notifications: AdminNotification[];
   settings: AdminSettingsConfig;
+  adminProfile: AdminProfileConfig;
   isLoaded: boolean;
 
   // Computed metrics
@@ -112,6 +115,7 @@ interface AdminContextType {
 
   // Settings & System
   updateSettings: (newSettings: Partial<AdminSettingsConfig>) => void;
+  updateAdminProfile: (updates: Partial<AdminProfileConfig>) => void;
   resetAllDataToDefault: () => void;
 }
 
@@ -129,6 +133,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<AdminTransaction[]>(INITIAL_TRANSACTIONS);
   const [notifications, setNotifications] = useState<AdminNotification[]>(INITIAL_NOTIFICATIONS);
   const [settings, setSettings] = useState<AdminSettingsConfig>(INITIAL_SETTINGS);
+  const [adminProfile, setAdminProfile] = useState<AdminProfileConfig>(INITIAL_ADMIN_PROFILE);
   const [activities, setActivities] = useState<ActivityItem[]>([
     {
       id: 'act-1',
@@ -180,6 +185,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
         if (parsed.notifications && Array.isArray(parsed.notifications)) setNotifications(parsed.notifications);
         if (parsed.settings) setSettings(parsed.settings);
+        if (parsed.adminProfile) setAdminProfile(parsed.adminProfile);
         if (parsed.activities && Array.isArray(parsed.activities)) setActivities(parsed.activities);
       }
     } catch (e) {
@@ -203,6 +209,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         transactions,
         notifications,
         settings,
+        adminProfile,
         activities,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
@@ -220,6 +227,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     transactions,
     notifications,
     settings,
+    adminProfile,
     activities,
   ]);
 
@@ -672,6 +680,11 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setSettings((prev) => ({ ...prev, ...newSettings }));
   }, []);
 
+  // Admin Profile
+  const updateAdminProfile = useCallback((updates: Partial<AdminProfileConfig>) => {
+    setAdminProfile((prev) => ({ ...prev, ...updates }));
+  }, []);
+
   // Reset to default
   const resetAllDataToDefault = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
@@ -684,12 +697,13 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setTransactions(INITIAL_TRANSACTIONS);
     setNotifications(INITIAL_NOTIFICATIONS);
     setSettings(INITIAL_SETTINGS);
+    setAdminProfile(INITIAL_ADMIN_PROFILE);
     setActivities([
       {
         id: 'act-init',
         type: 'settings_updated',
         title: 'Data Demo Direset',
-        description: 'Seluruh katalog series, episode, user, dan metrik telah dikembalikan ke kondisi demo awal.',
+        description: 'Seluruh katalog series, episode, user, profil admin, dan metrik telah dikembalikan ke kondisi demo awal.',
         timestamp: new Date().toISOString(),
       },
     ]);
@@ -705,6 +719,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     transactions,
     notifications,
     settings,
+    adminProfile,
     isLoaded,
     stats,
     topPerformingVideos,
@@ -731,6 +746,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     verifyTransaction,
     createSimulationPayment,
     updateSettings,
+    updateAdminProfile,
     resetAllDataToDefault,
   };
 
