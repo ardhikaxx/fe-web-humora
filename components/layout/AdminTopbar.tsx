@@ -65,12 +65,6 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
 
         {/* Right Actions: System Activity Bell, User Avatar */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Status Badge */}
-          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EAF8F1] border border-[#C6EFD9] text-[11px] font-semibold text-[#21865B]">
-            <span className="w-2 h-2 rounded-full bg-[#21865B] animate-pulse" />
-            Sistem Aktif
-          </div>
-
           {/* Activity Alerts Dropdown */}
           <div className="relative">
             <button
