@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
             >
               <Plus className="w-4 h-4 text-[#FFD52E]" />
-              Tambah Episode
+              Tambah Video
             </Link>
           </>
         }
@@ -130,6 +130,8 @@ export default function AdminDashboardPage() {
         <StatCard
           title="Published Ep"
           value={formatNumber(stats.publishedEpisodesCount)}
+          change={16.7}
+          changeLabel="vs bln lalu"
           subtitle={`${stats.draftEpisodesCount} draft`}
           icon={<Video className="w-5 h-5" />}
           iconBg="bg-[#E0F2FE]"
@@ -200,7 +202,7 @@ export default function AdminDashboardPage() {
           <CategoryBarChart
             categories={CATEGORY_DISTRIBUTION}
             title="Distribusi Genre Tontonan"
-            className="h-full flex flex-col justify-between"
+            className="h-full"
           />
         </div>
       </div>
