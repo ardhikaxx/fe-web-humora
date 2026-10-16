@@ -8,6 +8,7 @@ import {
   AdminTransaction,
   AdminSettingsConfig,
   AdminProfileConfig,
+  AdminAccount,
 } from '../types/admin';
 
 export const INITIAL_CATEGORIES: AdminCategory[] = [
@@ -995,7 +996,7 @@ export const INITIAL_ADMIN_PROFILE: AdminProfileConfig = {
   email: 'admin@humora.id',
   phone: '+62 812-8899-7711',
   role: 'Super Administrator',
-  roleBadge: 'Content Admin',
+  roleBadge: 'Super Admin',
   department: 'Content Operations & Platform Curation',
   bio: 'Kurator konten utama HUMORA, bertanggung jawab atas manajemen rilis series mingguan, verifikasi transaksi pembayaran langganan, dan pemeliharaan platform streaming.',
   timezone: 'Asia/Jakarta (WIB, UTC+7)',
@@ -1003,4 +1004,52 @@ export const INITIAL_ADMIN_PROFILE: AdminProfileConfig = {
   joinedDate: 'Januari 2026',
   lastLogin: 'Hari ini, 15:30 WIB (Chrome di Windows 11)',
 };
+
+export const INITIAL_ADMINS: AdminAccount[] = [
+  {
+    id: 'adm-1',
+    name: 'Admin HUMORA',
+    username: 'admin_humora',
+    email: 'admin@humora.id',
+    phone: '+62 812-8899-7711',
+    role: 'Super Administrator',
+    roleBadge: 'Super Admin',
+    department: 'Content Operations & Platform Curation',
+    avatarInitials: 'AH',
+    status: 'active',
+    isPrimary: true, // Akun admin pertama (utama)
+    createdAt: '2026-01-01T08:00:00Z',
+    lastLogin: 'Hari ini, 15:30 WIB',
+  },
+  {
+    id: 'adm-2',
+    name: 'Sarah Wijaya',
+    username: 'sarah_curator',
+    email: 'sarah.w@humora.id',
+    phone: '+62 813-7722-1144',
+    role: 'Content Admin',
+    roleBadge: 'Editor Konten',
+    department: 'Video Editorial & Metadata',
+    avatarInitials: 'SW',
+    status: 'active',
+    isPrimary: false,
+    createdAt: '2026-02-15T09:30:00Z',
+    lastLogin: 'Kemarin, 17:40 WIB',
+  },
+  {
+    id: 'adm-3',
+    name: 'Rian Pratama',
+    username: 'rian_finance',
+    email: 'rian.p@humora.id',
+    phone: '+62 818-5544-2200',
+    role: 'Finance Admin',
+    roleBadge: 'Finance & Billing',
+    department: 'Revenue & Transaction Verification',
+    avatarInitials: 'RP',
+    status: 'active',
+    isPrimary: false,
+    createdAt: '2026-03-01T11:15:00Z',
+    lastLogin: '3 hari lalu, 11:20 WIB',
+  },
+];
 

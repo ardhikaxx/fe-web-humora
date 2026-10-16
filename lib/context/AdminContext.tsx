@@ -12,6 +12,7 @@ import {
   AdminTransaction,
   AdminSettingsConfig,
   AdminProfileConfig,
+  AdminAccount,
   PublicationStatus,
   AccessType,
 } from '../types/admin';
@@ -26,6 +27,7 @@ import {
   INITIAL_TRANSACTIONS,
   INITIAL_SETTINGS,
   INITIAL_ADMIN_PROFILE,
+  INITIAL_ADMINS,
 } from '../data/initialData';
 
 export interface ActivityItem {
@@ -48,6 +50,7 @@ interface AdminContextType {
   transactions: AdminTransaction[];
   settings: AdminSettingsConfig;
   adminProfile: AdminProfileConfig;
+  admins: AdminAccount[];
   isLoaded: boolean;
 
   // Computed metrics
@@ -94,6 +97,12 @@ interface AdminContextType {
   // User actions
   updateUserStatus: (id: string, status: 'active' | 'suspended') => void;
 
+  // Admin Management actions
+  addAdmin: (adminData: Omit<AdminAccount, 'id' | 'createdAt' | 'lastLogin' | 'avatarInitials'>) => AdminAccount;
+  updateAdmin: (id: string, updates: Partial<AdminAccount>) => void;
+  deleteAdmin: (id: string) => boolean;
+  toggleAdminStatus: (id: string) => void;
+
   // Transaction Verification & Simulation
   verifyTransaction: (
     transactionId: string,
@@ -124,6 +133,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [transactions, setTransactions] = useState<AdminTransaction[]>(INITIAL_TRANSACTIONS);
   const [settings, setSettings] = useState<AdminSettingsConfig>(INITIAL_SETTINGS);
   const [adminProfile, setAdminProfile] = useState<AdminProfileConfig>(INITIAL_ADMIN_PROFILE);
+  const [admins, setAdmins] = useState<AdminAccount[]>(INITIAL_ADMINS);
   const [activities, setActivities] = useState<ActivityItem[]>([
     {
       id: 'act-1',
@@ -175,6 +185,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
         if (parsed.settings) setSettings(parsed.settings);
         if (parsed.adminProfile) setAdminProfile(parsed.adminProfile);
+        if (parsed.admins && Array.isArray(parsed.admins)) setAdmins(parsed.admins);
         if (parsed.activities && Array.isArray(parsed.activities)) setActivities(parsed.activities);
       }
     } catch (e) {
@@ -198,6 +209,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         transactions,
         settings,
         adminProfile,
+        admins,
         activities,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
@@ -215,6 +227,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     transactions,
     settings,
     adminProfile,
+    admins,
     activities,
   ]);
 
@@ -645,6 +658,106 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setAdminProfile((prev) => ({ ...prev, ...updates }));
   }, []);
 
+  // Admin Management Actions (Tambah admin selain admin utama/pertama)
+  const addAdmin = useCallback(
+    (adminData: Omit<AdminAccount, 'id' | 'createdAt' | 'lastLogin' | 'avatarInitials'>): AdminAccount => {
+      const parts = adminData.name.trim().split(/\s+/);
+      const initials =
+        parts.length === 1
+          ? parts[0].slice(0, 2).toUpperCase()
+          : (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+
+      const newAdmin: AdminAccount = {
+        ...adminData,
+        id: `adm-${Date.now()}`,
+        avatarInitials: initials,
+        isPrimary: false,
+        createdAt: new Date().toISOString(),
+        lastLogin: 'Belum pernah login',
+      };
+
+      setAdmins((prev) => [newAdmin, ...prev]);
+
+      addActivity({
+        type: 'settings_updated',
+        title: 'Admin Baru Ditambahkan',
+        description: `${newAdmin.name} (${newAdmin.roleBadge || newAdmin.role}) berhasil ditambahkan ke tim pengelola.`,
+        link: '/admin/admins',
+      });
+
+      return newAdmin;
+    },
+    [addActivity]
+  );
+
+  const updateAdmin = useCallback(
+    (id: string, updates: Partial<AdminAccount>) => {
+      setAdmins((prev) =>
+        prev.map((adm) => {
+          if (adm.id === id) {
+            let initials = adm.avatarInitials;
+            if (updates.name && updates.name !== adm.name) {
+              const parts = updates.name.trim().split(/\s+/);
+              initials =
+                parts.length === 1
+                  ? parts[0].slice(0, 2).toUpperCase()
+                  : (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return {
+              ...adm,
+              ...updates,
+              avatarInitials: initials,
+            };
+          }
+          return adm;
+        })
+      );
+
+      addActivity({
+        type: 'settings_updated',
+        title: 'Data Admin Diperbarui',
+        description: 'Informasi dan hak akses administrator berhasil diperbarui.',
+        link: '/admin/admins',
+      });
+    },
+    [addActivity]
+  );
+
+  const deleteAdmin = useCallback(
+    (id: string): boolean => {
+      const target = admins.find((a) => a.id === id);
+      if (!target) return false;
+      if (target.isPrimary) {
+        return false; // Akun admin pertama tidak bisa dihapus
+      }
+
+      setAdmins((prev) => prev.filter((a) => a.id !== id));
+
+      addActivity({
+        type: 'settings_updated',
+        title: 'Admin Dihapus',
+        description: `Hak akses administrator ${target.name} (${target.email}) telah dinonaktifkan dan dihapus.`,
+        link: '/admin/admins',
+      });
+
+      return true;
+    },
+    [admins, addActivity]
+  );
+
+  const toggleAdminStatus = useCallback((id: string) => {
+    setAdmins((prev) =>
+      prev.map((adm) => {
+        if (adm.id === id) {
+          if (adm.isPrimary) return adm; // Admin utama pertama selalu aktif
+          const nextStatus = adm.status === 'active' ? 'inactive' : 'active';
+          return { ...adm, status: nextStatus };
+        }
+        return adm;
+      })
+    );
+  }, []);
+
   // Reset to default
   const resetAllDataToDefault = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
@@ -657,6 +770,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setTransactions(INITIAL_TRANSACTIONS);
     setSettings(INITIAL_SETTINGS);
     setAdminProfile(INITIAL_ADMIN_PROFILE);
+    setAdmins(INITIAL_ADMINS);
     setActivities([
       {
         id: 'act-init',
@@ -678,6 +792,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     transactions,
     settings,
     adminProfile,
+    admins,
     isLoaded,
     stats,
     topPerformingVideos,
@@ -697,6 +812,10 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addSubtitle,
     deleteSubtitle,
     updateUserStatus,
+    addAdmin,
+    updateAdmin,
+    deleteAdmin,
+    toggleAdminStatus,
     verifyTransaction,
     createSimulationPayment,
     updateSettings,

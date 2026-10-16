@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { HumoraLogo } from '../../components/brand/HumoraLogo';
+import { useAdmin } from '../../lib/context/AdminContext';
 import { useToast } from '../../components/ui/Toast';
 import {
   Mail,
@@ -18,6 +19,7 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
+  const { admins } = useAdmin();
   const { success, error: toastError } = useToast();
 
   const [emailOrUsername, setEmailOrUsername] = useState('admin@humora.id');
@@ -61,31 +63,39 @@ export default function LoginPage() {
 
     // Simulate authenticating administrator credentials
     setTimeout(() => {
-      // Allow standard admin credentials
-      const isValid =
-        (trimmedInput === 'admin@humora.id' || trimmedInput === 'admin_humora' || trimmedInput === 'admin') &&
-        (password === 'admin123' || password === 'humora2026' || password.length >= 4);
+      // Find matching active admin account
+      const matchedAdmin = (admins || []).find(
+        (a) =>
+          (a.email.toLowerCase() === trimmedInput || a.username.toLowerCase() === trimmedInput) &&
+          a.status === 'active'
+      ) || (
+        (trimmedInput === 'admin@humora.id' || trimmedInput === 'admin_humora' || trimmedInput === 'admin')
+          ? { name: 'Admin HUMORA', email: 'admin@humora.id', role: 'Super Administrator', username: 'admin_humora' }
+          : null
+      );
 
-      if (isValid) {
+      const isValid = Boolean(matchedAdmin) && (password === 'admin123' || password === 'humora2026' || password.length >= 4);
+
+      if (isValid && matchedAdmin) {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('humora_admin_logged_out');
           localStorage.setItem(
             'humora_admin_session',
             JSON.stringify({
-              email: trimmedInput.includes('@') ? trimmedInput : 'admin@humora.id',
-              name: 'Admin HUMORA',
-              role: 'Super Administrator',
+              email: matchedAdmin.email,
+              name: matchedAdmin.name,
+              role: matchedAdmin.role,
               rememberMe,
               loginAt: new Date().toISOString(),
             })
           );
         }
 
-        success('Login Berhasil!', 'Selamat datang kembali di HUMORA Admin Console.');
+        success('Login Berhasil!', `Selamat datang kembali, ${matchedAdmin.name}!`);
         router.push('/admin');
       } else {
         setIsLoading(false);
-        setFormError('Kredensial administrator tidak valid. Silakan periksa kembali email dan kata sandi Anda.');
+        setFormError('Kredensial administrator tidak valid atau akun dinonaktifkan. Silakan periksa kembali.');
         toastError('Gagal Masuk', 'Kombinasi email/username dan kata sandi salah.');
       }
     }, 600);

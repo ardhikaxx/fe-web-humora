@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Shield,
+  ShieldCheck,
   Sparkles,
   UserCheck,
 } from 'lucide-react';
@@ -79,6 +80,7 @@ export function AdminSidebar({
     {
       groupTitle: 'Sistem',
       items: [
+        { label: 'Kelola Admin', href: '/admin/admins', icon: ShieldCheck },
         { label: 'Profil Admin', href: '/admin/profile', icon: UserCheck },
         { label: 'Pengaturan', href: '/admin/settings', icon: Settings },
       ],

@@ -16,7 +16,7 @@ import {
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
-  const { adminProfile } = useAdmin();
+  const { adminProfile, admins } = useAdmin();
   const { success, error: toastError } = useToast();
 
   const [email, setEmail] = useState('admin@humora.id');
@@ -41,9 +41,9 @@ export default function ForgotPasswordPage() {
     setTimeout(() => {
       // Valid administrator accounts registered in system database
       const registeredAdminEmails = [
+        ...(admins || []).filter((a) => a.status === 'active').map((a) => a.email.toLowerCase()),
         (adminProfile.email || 'admin@humora.id').toLowerCase(),
         'admin@humora.id',
-        'superadmin@humora.id',
       ];
 
       const isFoundInDatabase = registeredAdminEmails.includes(trimmedEmail);
