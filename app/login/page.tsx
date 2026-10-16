@@ -14,8 +14,6 @@ import {
   ArrowRight,
   CheckCircle2,
   AlertCircle,
-  HelpCircle,
-  X,
 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -28,7 +26,6 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
 
   // If already logged in, show hint or let them continue
   const [hasExistingSession, setHasExistingSession] = useState(false);
@@ -168,13 +165,12 @@ export default function LoginPage() {
                 <label className="block text-xs font-bold text-[#24172B]" htmlFor="password-input">
                   Kata Sandi
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setIsForgotModalOpen(true)}
+                <Link
+                  href="/forgot-password"
                   className="text-[11px] font-semibold text-[#4B0B7A] hover:underline"
                 >
                   Lupa sandi?
-                </button>
+                </Link>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#786F7D]">
@@ -240,46 +236,6 @@ export default function LoginPage() {
       <footer className="w-full py-4 px-6 text-center text-xs text-[#786F7D] border-t border-[#EEE8F0] bg-white/50 backdrop-blur-xs z-10">
         <p>© 2026 HUMORA Indonesia. Seluruh hak cipta dilindungi undang-undang.</p>
       </footer>
-
-      {/* Forgot Password Modal */}
-      {isForgotModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-[#EEE8F0] animate-in zoom-in-95 duration-150">
-            <div className="flex items-start justify-between">
-              <div className="p-2.5 rounded-xl bg-[#F6F1F8] text-[#4B0B7A]">
-                <HelpCircle className="w-5 h-5" />
-              </div>
-              <button
-                onClick={() => setIsForgotModalOpen(false)}
-                className="p-1 rounded-lg text-[#786F7D] hover:bg-[#F6F1F8]"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <h3 className="mt-3 text-base font-bold text-[#24172B]">Bantuan Kredensial Administrator</h3>
-            <p className="mt-2 text-xs text-[#786F7D] leading-relaxed">
-              Karena alasan keamanan portal CMS internal, pengaturan ulang kata sandi admin utama dilakukan langsung oleh Super Administrator atau tim IT HUMORA.
-            </p>
-
-            <div className="mt-4 p-3 rounded-xl bg-[#FAF8FB] border border-[#EEE8F0] text-xs">
-              <p className="font-bold text-[#24172B]">Kontak Administrator:</p>
-              <p className="text-[#786F7D] mt-1 font-mono text-[11px]">
-                Email: <span className="text-[#4B0B7A] font-bold">admin@humora.id</span>
-              </p>
-            </div>
-
-            <div className="mt-5">
-              <button
-                onClick={() => setIsForgotModalOpen(false)}
-                className="w-full py-2.5 rounded-xl bg-[#4B0B7A] text-white text-xs font-bold hover:bg-[#3B0762] transition-colors"
-              >
-                Kembali ke Halaman Login
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
