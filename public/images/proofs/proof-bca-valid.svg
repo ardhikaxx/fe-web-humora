@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 620" width="100%" height="100%">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <!-- Receipt Card Background -->
+  <rect x="10" y="10" width="380" height="600" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- Top Bank Header -->
+  <rect x="10" y="10" width="380" height="90" rx="20" fill="#003D79"/>
+  <rect x="10" y="80" width="380" height="20" fill="#003D79"/>
+  
+  <!-- Bank BCA Brand -->
+  <text x="30" y="48" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FFFFFF" letter-spacing="1">BCA</text>
+  <text x="30" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="500" fill="#93C5FD">m-Transfer • Bukti Transaksi Berhasil</text>
+  
+  <!-- Status Success Badge -->
+  <circle cx="345" cy="50" r="18" fill="#10B981"/>
+  <path d="M338 50 L343 55 L352 45" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Transaction Amount Callout -->
+  <rect x="30" y="120" width="340" height="85" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+  <text x="50" y="148" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#15803D" text-transform="uppercase" letter-spacing="0.5">TRANSFER BERHASIL</text>
+  <text x="50" y="184" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#14532D">Rp49.000</text>
+  
+  <!-- Key Value Grid -->
+  <g font-family="Arial, sans-serif" font-size="12">
+    <!-- Waktu -->
+    <text x="35" y="240" fill="#64748B" font-weight="500">Waktu Transaksi</text>
+    <text x="365" y="240" fill="#0F172A" font-weight="700" text-anchor="end">16 Okt 2026, 09:45:12 WIB</text>
+    <line x1="35" y1="252" x2="365" y2="252" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- No Referensi -->
+    <text x="35" y="276" fill="#64748B" font-weight="500">No. Referensi</text>
+    <text x="365" y="276" fill="#003D79" font-family="monospace" font-weight="700" text-anchor="end">BCA202610169482103</text>
+    <line x1="35" y1="288" x2="365" y2="288" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Rekening Pengirim -->
+    <text x="35" y="312" fill="#64748B" font-weight="500">Dari Rekening</text>
+    <text x="365" y="312" fill="#0F172A" font-weight="700" text-anchor="end">DEWI LESTARI</text>
+    <text x="365" y="328" fill="#64748B" font-size="10" text-anchor="end">BCA • 5270******18</text>
+    <line x1="35" y1="338" x2="365" y2="338" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Rekening Tujuan -->
+    <text x="35" y="362" fill="#64748B" font-weight="500">Rekening Tujuan</text>
+    <text x="365" y="362" fill="#0F172A" font-weight="700" text-anchor="end">PT HUMORA MEDIA DIGITAL</text>
+    <text x="365" y="378" fill="#64748B" font-size="10" text-anchor="end">BCA VA • 88029012345678</text>
+    <line x1="35" y1="388" x2="365" y2="388" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Keterangan Paket -->
+    <text x="35" y="412" fill="#64748B" font-weight="500">Paket Langganan</text>
+    <text x="365" y="412" fill="#4B0B7A" font-weight="800" text-anchor="end">HUMORA Paket 3 Bulan (90 Hari)</text>
+    <line x1="35" y1="424" x2="365" y2="424" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Berita Transfer -->
+    <text x="35" y="448" fill="#64748B" font-weight="500">Berita / Catatan</text>
+    <text x="365" y="448" fill="#0F172A" font-weight="600" text-anchor="end">Langganan Humora Dewi L.</text>
+    <line x1="35" y1="460" x2="365" y2="460" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Biaya Admin -->
+    <text x="35" y="484" fill="#64748B" font-weight="500">Biaya Layanan</text>
+    <text x="365" y="484" fill="#15803D" font-weight="700" text-anchor="end">GRATIS</text>
+  </g>
+
+  <!-- Security Seal & Disclaimer -->
+  <rect x="30" y="520" width="340" height="65" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-dasharray="4 4"/>
+  <text x="200" y="546" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#475569" text-anchor="middle">BUKTI TRANSFER ELEKTRONIK SAH</text>
+  <text x="200" y="562" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8" text-anchor="middle">Disimpan otomatis oleh sistem perbankan m-BCA</text>
+</svg>
