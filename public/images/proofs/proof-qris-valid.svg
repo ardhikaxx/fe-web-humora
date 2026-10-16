@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 620" width="100%" height="100%">
+  <defs>
+    <filter id="shadow-qris" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <!-- Receipt Card Background -->
+  <rect x="10" y="10" width="380" height="600" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#shadow-qris)"/>
+  
+  <!-- Top GoPay Header -->
+  <rect x="10" y="10" width="380" height="90" rx="20" fill="#00AED6"/>
+  <rect x="10" y="80" width="380" height="20" fill="#00AED6"/>
+  
+  <text x="30" y="48" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FFFFFF">GoPay</text>
+  <text x="30" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="500" fill="#E0F7FA">Pembayaran QRIS Berhasil</text>
+  
+  <!-- Checkmark -->
+  <circle cx="345" cy="50" r="18" fill="#10B981"/>
+  <path d="M338 50 L343 55 L352 45" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Amount Card -->
+  <rect x="30" y="120" width="340" height="85" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+  <text x="50" y="148" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#15803D" text-transform="uppercase">TRANSAKSI SUKSES</text>
+  <text x="50" y="184" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#14532D">Rp19.000</text>
+  
+  <!-- Details -->
+  <g font-family="Arial, sans-serif" font-size="12">
+    <text x="35" y="240" fill="#64748B">Waktu Bayar</text>
+    <text x="365" y="240" fill="#0F172A" font-weight="700" text-anchor="end">16 Okt 2026, 10:14:05 WIB</text>
+    <line x1="35" y1="252" x2="365" y2="252" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="276" fill="#64748B">ID Transaksi GoPay</text>
+    <text x="365" y="276" fill="#00AED6" font-family="monospace" font-weight="700" text-anchor="end">GPY-99481023910</text>
+    <line x1="35" y1="288" x2="365" y2="288" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="312" fill="#64748B">Sumber Dana</text>
+    <text x="365" y="312" fill="#0F172A" font-weight="700" text-anchor="end">Saldo GoPay</text>
+    <text x="365" y="328" fill="#64748B" font-size="10" text-anchor="end">Budi Pratama (0812-****-8899)</text>
+    <line x1="35" y1="338" x2="365" y2="338" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="362" fill="#64748B">Merchant Penerima</text>
+    <text x="365" y="362" fill="#0F172A" font-weight="700" text-anchor="end">HUMORA VIDEO STREAMING</text>
+    <text x="365" y="378" fill="#64748B" font-size="10" text-anchor="end">NMID: ID1020048192038</text>
+    <line x1="35" y1="388" x2="365" y2="388" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="412" fill="#64748B">Paket Layanan</text>
+    <text x="365" y="412" fill="#4B0B7A" font-weight="800" text-anchor="end">HUMORA Paket Bulanan (30 Hari)</text>
+    <line x1="35" y1="424" x2="365" y2="424" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="448" fill="#64748B">Metode Pembayaran</text>
+    <text x="365" y="448" fill="#0F172A" font-weight="600" text-anchor="end">QRIS GoPay Instan</text>
+    <line x1="35" y1="460" x2="365" y2="460" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="484" fill="#64748B">Status Pembayaran</text>
+    <text x="365" y="484" fill="#15803D" font-weight="700" text-anchor="end">LUNAS / BERHASIL</text>
+  </g>
+
+  <rect x="30" y="520" width="340" height="65" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-dasharray="4 4"/>
+  <text x="200" y="546" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#475569" text-anchor="middle">BUKTI RESMI TRANSAKSI QRIS NASIONAL</text>
+  <text x="200" y="562" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8" text-anchor="middle">Sesuai standar Bank Indonesia &amp; ASPI</text>
+</svg>
