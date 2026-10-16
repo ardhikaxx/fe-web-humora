@@ -11,14 +11,10 @@ import {
   KeyRound,
   Sparkles,
   Save,
-  Clock,
   Globe,
   Building,
   Eye,
   EyeOff,
-  ShieldCheck,
-  CheckCircle2,
-  Calendar,
 } from 'lucide-react';
 
 export default function AdminProfilePage() {
@@ -116,8 +112,8 @@ export default function AdminProfilePage() {
 
       {/* Bento Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Bento Cell 1 (Span 2 cols): Profile Overview Card */}
-        <div className="lg:col-span-2 bg-white rounded-3xl border border-[#EEE8F0] p-6 sm:p-7 shadow-xs relative overflow-hidden flex flex-col justify-between gap-6 transition-all hover:border-[#D8B4FE]/70">
+        {/* Bento Cell 1 (Span 3 cols): Profile Overview Hero Card */}
+        <div className="lg:col-span-3 bg-white rounded-3xl border border-[#EEE8F0] p-6 sm:p-7 shadow-xs relative overflow-hidden flex flex-col justify-between gap-6 transition-all hover:border-[#D8B4FE]/70">
           {/* Subtle Ambient Glow Decoration */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#F3E8FF]/60 via-[#FAF5FF]/30 to-transparent pointer-events-none rounded-full blur-2xl" />
 
@@ -130,7 +126,6 @@ export default function AdminProfilePage() {
               </div>
               <span
                 className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#21865B] ring-2 ring-white shadow-xs"
-                title="Status: Online & Aktif"
               />
             </div>
 
@@ -167,62 +162,6 @@ export default function AdminProfilePage() {
               </div>
             </div>
           )}
-        </div>
-
-        {/* Bento Cell 2 (Span 1 col): System & Access Status Card */}
-        <div className="bg-white rounded-3xl border border-[#EEE8F0] p-6 shadow-xs flex flex-col justify-between gap-5 transition-all hover:border-[#D8B4FE]/70">
-          <div className="flex items-center justify-between pb-3 border-b border-[#EEE8F0]">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#21865B] animate-pulse" />
-              <span className="text-xs font-bold text-[#21865B] uppercase tracking-wider">
-                Status: Online & Aktif
-              </span>
-            </div>
-            <ShieldCheck className="w-4 h-4 text-[#4B0B7A]" />
-          </div>
-
-          <div className="space-y-3.5 py-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-[#786F7D] flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#4B0B7A]" /> Login Terakhir
-              </span>
-              <span className="font-semibold text-[#24172B] truncate max-w-[160px]" title={adminProfile.lastLogin}>
-                {adminProfile.lastLogin}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-[#786F7D] flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5 text-[#4B0B7A]" /> Zona Waktu
-              </span>
-              <span className="font-semibold text-[#24172B]">
-                {timezone.split(' ')[0]} (WIB)
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-[#786F7D] flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#4B0B7A]" /> Bergabung
-              </span>
-              <span className="font-semibold text-[#24172B]">
-                {adminProfile.joinedDate}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-[#786F7D] flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#21865B]" /> Akses CMS
-              </span>
-              <span className="font-bold text-[#21865B]">
-                Full Permission
-              </span>
-            </div>
-          </div>
-
-          <div className="p-3 bg-[#FAF8FB] rounded-xl border border-[#EEE8F0] text-[11px] text-[#786F7D] flex items-center gap-2">
-            <Building className="w-3.5 h-3.5 text-[#4B0B7A] shrink-0" />
-            <span className="truncate">Portal Konsol Administrator HUMORA</span>
-          </div>
         </div>
 
         {/* Bento Cell 3 (Span 2 cols): Form Edit Informasi Akun */}
