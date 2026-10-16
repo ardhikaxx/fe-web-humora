@@ -12,7 +12,6 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
-  ShieldCheck,
   CheckCircle2,
   AlertCircle,
   HelpCircle,
@@ -89,16 +88,10 @@ export default function LoginPage() {
         router.push('/admin');
       } else {
         setIsLoading(false);
-        setFormError('Kredensial tidak valid. Gunakan demo akun admin@humora.id / sandi admin123');
+        setFormError('Kredensial administrator tidak valid. Silakan periksa kembali email dan kata sandi Anda.');
         toastError('Gagal Masuk', 'Kombinasi email/username dan kata sandi salah.');
       }
     }, 600);
-  };
-
-  const handleQuickDemoFill = () => {
-    setEmailOrUsername('admin@humora.id');
-    setPassword('admin123');
-    setFormError(null);
   };
 
   return (
@@ -107,7 +100,7 @@ export default function LoginPage() {
       <div className="absolute top-0 -left-40 w-96 h-96 bg-[#4B0B7A]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 -right-40 w-96 h-96 bg-[#FFD52E]/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Centered Login Content (Without Topbar and Without Left Feature Column) */}
+      {/* Main Centered Login Content */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 z-10">
         <div className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-[#4B0B7A]/5 border border-[#EEE8F0] relative animate-in fade-in zoom-in-95 duration-200">
           {/* Card Header with Centered Humora Logo */}
@@ -240,34 +233,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Autofill Box */}
-          <div className="mt-5 pt-4 border-t border-[#EEE8F0]">
-            <button
-              type="button"
-              onClick={handleQuickDemoFill}
-              className="w-full p-2.5 rounded-xl bg-[#FAF8FB] hover:bg-[#F6F1F8] border border-dashed border-[#D4C3E2] transition-colors flex items-center justify-between text-left group"
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FFD52E] shadow-xs" />
-                <div>
-                  <p className="text-[11px] font-bold text-[#24172B] group-hover:text-[#4B0B7A]">
-                    Gunakan Kredensial Admin Demo
-                  </p>
-                  <p className="text-[10px] text-[#786F7D]">admin@humora.id • sandi: admin123</p>
-                </div>
-              </div>
-              <span className="text-[10px] font-bold text-[#4B0B7A] bg-white px-2 py-1 rounded-md border border-[#EEE8F0] shadow-2xs">
-                Isi Otomatis
-              </span>
-            </button>
-          </div>
-
-          {/* Bottom Security Note */}
-          <div className="mt-5 flex items-center justify-center gap-1.5 text-[11px] text-[#786F7D] text-center">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#21865B]" />
-            <span>Koneksi aman SSL 256-bit • Portal internal HUMORA</span>
-          </div>
         </div>
       </main>
 
@@ -294,26 +259,22 @@ export default function LoginPage() {
 
             <h3 className="mt-3 text-base font-bold text-[#24172B]">Bantuan Kredensial Administrator</h3>
             <p className="mt-2 text-xs text-[#786F7D] leading-relaxed">
-              Karena alasan keamanan portal CMS internal, pengaturan ulang kata sandi admin utama dilakukan langsung oleh Super Administrator.
+              Karena alasan keamanan portal CMS internal, pengaturan ulang kata sandi admin utama dilakukan langsung oleh Super Administrator atau tim IT HUMORA.
             </p>
 
             <div className="mt-4 p-3 rounded-xl bg-[#FAF8FB] border border-[#EEE8F0] text-xs">
-              <p className="font-bold text-[#24172B]">Kredensial Demo Saat Ini:</p>
+              <p className="font-bold text-[#24172B]">Kontak Administrator:</p>
               <p className="text-[#786F7D] mt-1 font-mono text-[11px]">
-                Email: <span className="text-[#4B0B7A] font-bold">admin@humora.id</span><br />
-                Sandi: <span className="text-[#4B0B7A] font-bold">admin123</span>
+                Email: <span className="text-[#4B0B7A] font-bold">admin@humora.id</span>
               </p>
             </div>
 
             <div className="mt-5">
               <button
-                onClick={() => {
-                  handleQuickDemoFill();
-                  setIsForgotModalOpen(false);
-                }}
+                onClick={() => setIsForgotModalOpen(false)}
                 className="w-full py-2.5 rounded-xl bg-[#4B0B7A] text-white text-xs font-bold hover:bg-[#3B0762] transition-colors"
               >
-                Gunakan Kredensial Demo Ini
+                Kembali ke Halaman Login
               </button>
             </div>
           </div>
