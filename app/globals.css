@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Brand Colors */
+  --brand-yellow: #FFD52E;
+  --brand-yellow-light: #FFF2A6;
+  --brand-yellow-warm: #FFF9E0;
+  --brand-purple: #4B0B7A;
+  --brand-purple-dark: #21052F;
+  --brand-purple-light: #7028B8;
+  --brand-purple-soft: #F6F1F8;
+  --brand-purple-muted: #E9DEEF;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Surfaces & Backgrounds */
+  --bg-admin: #F8F7FA;
+  --surface-card: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --border-light: #EEE8F0;
+  --border-subtle: #F3EEF5;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Typography Colors */
+  --text-main: #24172B;
+  --text-muted: #786F7D;
+  --text-subtle: #A39CA9;
+  --text-inverse: #FFFFFF;
+
+  /* Status Colors */
+  --status-success: #21865B;
+  --status-success-bg: #EAF8F1;
+  --status-warning: #E58A16;
+  --status-warning-bg: #FFF5E8;
+  --status-error: #D94152;
+  --status-error-bg: #FEECEF;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-admin);
+  color: var(--text-main);
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Custom Clean Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D0DE;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B6ADC0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hide Next.js Dev Tools button / overlay */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dev-tools-button],
+div[data-nextjs-dev-tools-button],
+button[aria-label*="Dev Tools"],
+button[aria-label*="dev tools"],
+div:has(> button[aria-label*="Dev Tools"]) {
+  display: none !important;
+}
+
