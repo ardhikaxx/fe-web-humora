@@ -16,6 +16,9 @@ import {
   Building,
   Eye,
   EyeOff,
+  ShieldCheck,
+  CheckCircle2,
+  Calendar,
 } from 'lucide-react';
 
 export default function AdminProfilePage() {
@@ -36,7 +39,8 @@ export default function AdminProfilePage() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   // Auto calculate initials if admin edits their name
   const handleNameChange = (val: string) => {
@@ -97,7 +101,7 @@ export default function AdminProfilePage() {
     setConfirmPassword('');
     success(
       'Kata Sandi Diperbarui',
-      'Kata sandi admin berhasil diperbarui.'
+      'Kata sandi akun administrator berhasil diperbarui.'
     );
   };
 
@@ -110,79 +114,123 @@ export default function AdminProfilePage() {
         breadcrumbs={[{ label: 'Profil Admin' }]}
       />
 
-      {/* Hero Banner / Header Identity Card */}
-      <div className="bg-white rounded-2xl border border-[#EEE8F0] overflow-hidden shadow-xs">
-        <div className="h-28 bg-gradient-to-r from-[#21052F] via-[#4B0B7A] to-[#7028B8] relative p-6 flex items-start justify-between">
-          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-medium border border-white/20">
-            <Sparkles className="w-3.5 h-3.5 text-[#FFD52E]" />
-            <span>Administrator Portal Resmi HUMORA</span>
-          </div>
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Bento Cell 1 (Span 2 cols): Profile Overview Card */}
+        <div className="lg:col-span-2 bg-white rounded-3xl border border-[#EEE8F0] p-6 sm:p-7 shadow-xs relative overflow-hidden flex flex-col justify-between gap-6 transition-all hover:border-[#D8B4FE]/70">
+          {/* Subtle Ambient Glow Decoration */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#F3E8FF]/60 via-[#FAF5FF]/30 to-transparent pointer-events-none rounded-full blur-2xl" />
 
-          <div className="hidden sm:flex items-center gap-2 bg-[#21865B]/90 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-bold shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[#34D399] animate-pulse" />
-            <span>Status: Aktif & Online</span>
-          </div>
-        </div>
-
-        <div className="p-6 pt-0 relative">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-10 mb-4">
-            <div className="flex items-end gap-4">
-              {/* Avatar Box */}
-              <div className="relative">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#4B0B7A] to-[#7028B8] text-[#FFD52E] font-black text-2xl flex items-center justify-center border-4 border-white shadow-md">
-                  {avatarInitials || 'AH'}
-                </div>
-                <span
-                  className="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-[#21865B] border-2 border-white shadow-xs"
-                  title="Online"
-                />
+          {/* Profile Identity Top Row */}
+          <div className="relative flex flex-col sm:flex-row sm:items-center gap-5">
+            {/* Avatar Box */}
+            <div className="relative shrink-0">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#4B0B7A] via-[#5C0E99] to-[#7028B8] text-[#FFD52E] font-black text-2xl flex items-center justify-center shadow-md ring-4 ring-[#F6F1F8]">
+                {avatarInitials || 'AH'}
               </div>
-
-              {/* Identity text */}
-              <div className="pb-1">
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <h2 className="text-xl sm:text-2xl font-black text-[#24172B] tracking-tight">
-                    {name || 'Admin HUMORA'}
-                  </h2>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#F3E8FF] text-[#6B21A8] border border-[#D8B4FE]">
-                    {adminProfile.roleBadge || 'Content Admin'}
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#EBF7F2] text-[#21865B] border border-[#A7F3D0]">
-                    {adminProfile.role}
-                  </span>
-                </div>
-                <p className="text-xs text-[#786F7D] font-medium mt-0.5 flex items-center gap-1.5 flex-wrap">
-                  <span>@{username || 'admin_humora'}</span>
-                  <span>•</span>
-                  <span>{email || 'admin@humora.id'}</span>
-                  <span>•</span>
-                  <span className="text-[#4B0B7A] font-semibold">{department}</span>
-                </p>
-              </div>
+              <span
+                className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#21865B] ring-2 ring-white shadow-xs"
+                title="Status: Online & Aktif"
+              />
             </div>
 
-            {/* Quick Meta Info */}
-            <div className="flex sm:flex-col items-start sm:items-end gap-1.5 text-xs text-[#786F7D] bg-[#FAF8FB] sm:bg-transparent p-3 sm:p-0 rounded-xl">
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#21865B]" />
-                <span>Login Terakhir: <span className="text-[#24172B] font-medium">{adminProfile.lastLogin}</span></span>
+            {/* Profile Info */}
+            <div className="min-w-0 flex-1 space-y-2">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h2 className="text-2xl sm:text-3xl font-black text-[#24172B] tracking-tight">
+                  {name || 'Admin HUMORA'}
+                </h2>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-[#F3E8FF] text-[#6B21A8] border border-[#E9D5FF]">
+                  {adminProfile.roleBadge || 'Content Admin'}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#EAF8F1] text-[#21865B] border border-[#C6EFD9]">
+                  {adminProfile.role}
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#786F7D] font-medium">
+                <span className="text-[#24172B] font-bold">@{username || 'admin_humora'}</span>
+                <span>•</span>
+                <span>{email || 'admin@humora.id'}</span>
+                <span>•</span>
+                <span className="text-[#4B0B7A] font-semibold">{department || 'Content Operations'}</span>
               </div>
             </div>
           </div>
 
+          {/* Bio Quote */}
           {bio && (
-            <p className="text-xs sm:text-sm text-[#786F7D] bg-[#FAF8FB] border border-[#EEE8F0] p-3.5 rounded-xl leading-relaxed">
-              &quot;{bio}&quot;
-            </p>
+            <div className="relative pt-1">
+              <div className="p-4 rounded-2xl bg-[#FAF8FB] border border-[#EEE8F0] text-xs sm:text-sm text-[#5B5263] leading-relaxed italic flex items-start gap-2.5">
+                <Sparkles className="w-4 h-4 text-[#FFD52E] shrink-0 mt-0.5 fill-[#FFD52E]" />
+                <span>&ldquo;{bio}&rdquo;</span>
+              </div>
+            </div>
           )}
         </div>
-      </div>
 
-      {/* Main Grid: Data Diri Form & Ganti Kata Sandi */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Column (2 cols): Informasi Akun Administrator */}
+        {/* Bento Cell 2 (Span 1 col): System & Access Status Card */}
+        <div className="bg-white rounded-3xl border border-[#EEE8F0] p-6 shadow-xs flex flex-col justify-between gap-5 transition-all hover:border-[#D8B4FE]/70">
+          <div className="flex items-center justify-between pb-3 border-b border-[#EEE8F0]">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#21865B] animate-pulse" />
+              <span className="text-xs font-bold text-[#21865B] uppercase tracking-wider">
+                Status: Online & Aktif
+              </span>
+            </div>
+            <ShieldCheck className="w-4 h-4 text-[#4B0B7A]" />
+          </div>
+
+          <div className="space-y-3.5 py-1">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[#786F7D] flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-[#4B0B7A]" /> Login Terakhir
+              </span>
+              <span className="font-semibold text-[#24172B] truncate max-w-[160px]" title={adminProfile.lastLogin}>
+                {adminProfile.lastLogin}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[#786F7D] flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-[#4B0B7A]" /> Zona Waktu
+              </span>
+              <span className="font-semibold text-[#24172B]">
+                {timezone.split(' ')[0]} (WIB)
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[#786F7D] flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#4B0B7A]" /> Bergabung
+              </span>
+              <span className="font-semibold text-[#24172B]">
+                {adminProfile.joinedDate}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[#786F7D] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#21865B]" /> Akses CMS
+              </span>
+              <span className="font-bold text-[#21865B]">
+                Full Permission
+              </span>
+            </div>
+          </div>
+
+          <div className="p-3 bg-[#FAF8FB] rounded-xl border border-[#EEE8F0] text-[11px] text-[#786F7D] flex items-center gap-2">
+            <Building className="w-3.5 h-3.5 text-[#4B0B7A] shrink-0" />
+            <span className="truncate">Portal Konsol Administrator HUMORA</span>
+          </div>
+        </div>
+
+        {/* Bento Cell 3 (Span 2 cols): Form Edit Informasi Akun */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSaveProfile} className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-5">
+          <form
+            onSubmit={handleSaveProfile}
+            className="bg-white p-6 sm:p-7 rounded-3xl border border-[#EEE8F0] shadow-xs space-y-5 transition-all hover:border-[#D8B4FE]/70"
+          >
             <div className="flex items-center justify-between pb-3 border-b border-[#EEE8F0]">
               <div>
                 <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider">
@@ -322,7 +370,7 @@ export default function AdminProfilePage() {
             <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
               >
                 <Save className="w-4 h-4 text-[#FFD52E]" /> Simpan Perubahan Profil
               </button>
@@ -330,9 +378,12 @@ export default function AdminProfilePage() {
           </form>
         </div>
 
-        {/* Side Column (1 col): Ganti Kata Sandi */}
+        {/* Bento Cell 4 (Span 1 col): Ganti Kata Sandi Card */}
         <div>
-          <form onSubmit={handleChangePassword} className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
+          <form
+            onSubmit={handleChangePassword}
+            className="bg-white p-6 rounded-3xl border border-[#EEE8F0] shadow-xs space-y-4 transition-all hover:border-[#D8B4FE]/70"
+          >
             <div className="flex items-center justify-between pb-3 border-b border-[#EEE8F0]">
               <div>
                 <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider">
@@ -351,7 +402,7 @@ export default function AdminProfilePage() {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showCurrentPassword ? 'text' : 'password'}
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Kata sandi saat ini"
@@ -359,10 +410,10 @@ export default function AdminProfilePage() {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                   className="absolute right-3.5 top-3 text-[#786F7D] hover:text-[#24172B]"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -371,13 +422,22 @@ export default function AdminProfilePage() {
               <label className="block text-xs font-bold text-[#24172B] uppercase tracking-wide mb-1.5">
                 Kata Sandi Baru *
               </label>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Minimal 8 karakter"
-                className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-medium text-[#24172B] focus:outline-none focus:border-[#4B0B7A] focus:bg-white transition-all"
-              />
+              <div className="relative">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Minimal 8 karakter"
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-medium text-[#24172B] focus:outline-none focus:border-[#4B0B7A] focus:bg-white transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3.5 top-3 text-[#786F7D] hover:text-[#24172B]"
+                >
+                  {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <div>
@@ -385,7 +445,7 @@ export default function AdminProfilePage() {
                 Konfirmasi Kata Sandi Baru *
               </label>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showNewPassword ? 'text' : 'password'}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Ulangi kata sandi baru"
