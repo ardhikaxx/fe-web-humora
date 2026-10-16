@@ -4,6 +4,7 @@ import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { HumoraLogo } from '../../components/brand/HumoraLogo';
+import { useAdmin } from '../../lib/context/AdminContext';
 import { useToast } from '../../components/ui/Toast';
 import {
   Lock,
@@ -19,6 +20,7 @@ import {
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { admins, updateAdmin } = useAdmin();
   const { success } = useToast();
 
   const userEmail = searchParams.get('email') || 'admin@humora.id';
@@ -58,8 +60,13 @@ function ResetPasswordForm() {
 
     setIsLoading(true);
 
-    // Simulate saving new password to database
+    // Save new password to database / context
     setTimeout(() => {
+      const targetAdmin = (admins || []).find((a) => a.email.toLowerCase() === userEmail.toLowerCase());
+      if (targetAdmin) {
+        updateAdmin(targetAdmin.id, { password: newPassword });
+      }
+
       setIsLoading(false);
       setIsSuccess(true);
       success('Kata Sandi Berhasil Diperbarui!', 'Kata sandi baru Anda telah aktif. Mengarahkan ke halaman login...');

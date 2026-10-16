@@ -201,22 +201,13 @@ export interface AdminProfileConfig {
   lastLogin: string;
 }
 
-export type AdminRole = 'Super Administrator' | 'Content Admin' | 'Finance Admin' | 'Support Admin';
-
 export interface AdminAccount {
   id: string;
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  role: AdminRole;
-  roleBadge: string;
-  department: string;
-  avatarInitials: string;
-  avatarUrl?: string;
-  status: 'active' | 'inactive';
-  isPrimary?: boolean; // Admin utama pertama, tidak bisa dihapus
-  createdAt: string;
-  lastLogin: string;
+  name: string; // Nama Lengkap
+  email: string; // Email
+  password: string; // Password
+  phone: string; // Nomor Telfon
+  avatarInitials?: string;
+  isPrimary?: boolean; // Penanda akun admin pertama
 }
 

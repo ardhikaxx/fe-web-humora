@@ -97,11 +97,10 @@ interface AdminContextType {
   // User actions
   updateUserStatus: (id: string, status: 'active' | 'suspended') => void;
 
-  // Admin Management actions
-  addAdmin: (adminData: Omit<AdminAccount, 'id' | 'createdAt' | 'lastLogin' | 'avatarInitials'>) => AdminAccount;
+  // Admin Management actions (Nama Lengkap, Email, Password, Nomor Telfon)
+  addAdmin: (adminData: { name: string; email: string; password: string; phone: string }) => AdminAccount;
   updateAdmin: (id: string, updates: Partial<AdminAccount>) => void;
   deleteAdmin: (id: string) => boolean;
-  toggleAdminStatus: (id: string) => void;
 
   // Transaction Verification & Simulation
   verifyTransaction: (
@@ -658,9 +657,9 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setAdminProfile((prev) => ({ ...prev, ...updates }));
   }, []);
 
-  // Admin Management Actions (Tambah admin selain admin utama/pertama)
+  // Admin Management Actions (Hanya Nama Lengkap, Email, Password, Nomor Telfon)
   const addAdmin = useCallback(
-    (adminData: Omit<AdminAccount, 'id' | 'createdAt' | 'lastLogin' | 'avatarInitials'>): AdminAccount => {
+    (adminData: { name: string; email: string; password: string; phone: string }): AdminAccount => {
       const parts = adminData.name.trim().split(/\s+/);
       const initials =
         parts.length === 1
@@ -668,12 +667,13 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
           : (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 
       const newAdmin: AdminAccount = {
-        ...adminData,
         id: `adm-${Date.now()}`,
+        name: adminData.name.trim(),
+        email: adminData.email.trim().toLowerCase(),
+        password: adminData.password,
+        phone: adminData.phone.trim(),
         avatarInitials: initials,
         isPrimary: false,
-        createdAt: new Date().toISOString(),
-        lastLogin: 'Belum pernah login',
       };
 
       setAdmins((prev) => [newAdmin, ...prev]);
@@ -681,7 +681,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       addActivity({
         type: 'settings_updated',
         title: 'Admin Baru Ditambahkan',
-        description: `${newAdmin.name} (${newAdmin.roleBadge || newAdmin.role}) berhasil ditambahkan ke tim pengelola.`,
+        description: `${newAdmin.name} (${newAdmin.email}) berhasil didaftarkan sebagai administrator.`,
         link: '/admin/admins',
       });
 
@@ -716,7 +716,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       addActivity({
         type: 'settings_updated',
         title: 'Data Admin Diperbarui',
-        description: 'Informasi dan hak akses administrator berhasil diperbarui.',
+        description: 'Informasi administrator berhasil diperbarui.',
         link: '/admin/admins',
       });
     },
@@ -736,7 +736,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       addActivity({
         type: 'settings_updated',
         title: 'Admin Dihapus',
-        description: `Hak akses administrator ${target.name} (${target.email}) telah dinonaktifkan dan dihapus.`,
+        description: `Akun administrator ${target.name} (${target.email}) telah dihapus dari sistem.`,
         link: '/admin/admins',
       });
 
@@ -744,19 +744,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     },
     [admins, addActivity]
   );
-
-  const toggleAdminStatus = useCallback((id: string) => {
-    setAdmins((prev) =>
-      prev.map((adm) => {
-        if (adm.id === id) {
-          if (adm.isPrimary) return adm; // Admin utama pertama selalu aktif
-          const nextStatus = adm.status === 'active' ? 'inactive' : 'active';
-          return { ...adm, status: nextStatus };
-        }
-        return adm;
-      })
-    );
-  }, []);
 
   // Reset to default
   const resetAllDataToDefault = useCallback(() => {
@@ -815,7 +802,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addAdmin,
     updateAdmin,
     deleteAdmin,
-    toggleAdminStatus,
     verifyTransaction,
     createSimulationPayment,
     updateSettings,

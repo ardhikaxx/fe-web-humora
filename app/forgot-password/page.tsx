@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
     setTimeout(() => {
       // Valid administrator accounts registered in system database
       const registeredAdminEmails = [
-        ...(admins || []).filter((a) => a.status === 'active').map((a) => a.email.toLowerCase()),
+        ...(admins || []).map((a) => a.email.toLowerCase()),
         (adminProfile.email || 'admin@humora.id').toLowerCase(),
         'admin@humora.id',
       ];

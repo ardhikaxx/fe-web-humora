@@ -63,18 +63,19 @@ export default function LoginPage() {
 
     // Simulate authenticating administrator credentials
     setTimeout(() => {
-      // Find matching active admin account
+      // Find matching admin account based on email and password
       const matchedAdmin = (admins || []).find(
         (a) =>
-          (a.email.toLowerCase() === trimmedInput || a.username.toLowerCase() === trimmedInput) &&
-          a.status === 'active'
+          a.email.toLowerCase() === trimmedInput &&
+          (a.password === password || password === 'admin123' || password === 'humora2026')
       ) || (
-        (trimmedInput === 'admin@humora.id' || trimmedInput === 'admin_humora' || trimmedInput === 'admin')
-          ? { name: 'Admin HUMORA', email: 'admin@humora.id', role: 'Super Administrator', username: 'admin_humora' }
+        (trimmedInput === 'admin@humora.id' || trimmedInput === 'admin_humora' || trimmedInput === 'admin') &&
+        (password === 'admin123' || password === 'humora2026' || password.length >= 4)
+          ? { name: 'Admin HUMORA', email: 'admin@humora.id', password: 'admin123', phone: '0812-8899-7711' }
           : null
       );
 
-      const isValid = Boolean(matchedAdmin) && (password === 'admin123' || password === 'humora2026' || password.length >= 4);
+      const isValid = Boolean(matchedAdmin);
 
       if (isValid && matchedAdmin) {
         if (typeof window !== 'undefined') {
@@ -84,7 +85,6 @@ export default function LoginPage() {
             JSON.stringify({
               email: matchedAdmin.email,
               name: matchedAdmin.name,
-              role: matchedAdmin.role,
               rememberMe,
               loginAt: new Date().toISOString(),
             })
@@ -95,8 +95,8 @@ export default function LoginPage() {
         router.push('/admin');
       } else {
         setIsLoading(false);
-        setFormError('Kredensial administrator tidak valid atau akun dinonaktifkan. Silakan periksa kembali.');
-        toastError('Gagal Masuk', 'Kombinasi email/username dan kata sandi salah.');
+        setFormError('Email atau kata sandi administrator salah. Silakan periksa kembali.');
+        toastError('Gagal Masuk', 'Kombinasi email dan kata sandi salah.');
       }
     }, 600);
   };
@@ -147,10 +147,10 @@ export default function LoginPage() {
 
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* Email / Username Input */}
+            {/* Email Input */}
             <div>
               <label className="block text-xs font-bold text-[#24172B] mb-1.5" htmlFor="email-input">
-                Email atau Username Administrator
+                Email Administrator
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#786F7D]">
@@ -158,7 +158,7 @@ export default function LoginPage() {
                 </div>
                 <input
                   id="email-input"
-                  type="text"
+                  type="email"
                   value={emailOrUsername}
                   onChange={(e) => setEmailOrUsername(e.target.value)}
                   placeholder="admin@humora.id"
