@@ -186,19 +186,20 @@ export interface AdminSettingsConfig {
 }
 
 export interface AdminProfileConfig {
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  role: string;
-  roleBadge: string;
-  department: string;
-  bio: string;
-  timezone: string;
+  name: string; // Nama Lengkap
+  email: string; // Email
+  phone: string; // Nomor Telfon
+  password?: string; // Password
   avatarInitials: string;
+  username?: string;
+  role?: string;
+  roleBadge?: string;
+  department?: string;
+  bio?: string;
+  timezone?: string;
   avatarUrl?: string;
-  joinedDate: string;
-  lastLogin: string;
+  joinedDate?: string;
+  lastLogin?: string;
 }
 
 export interface AdminAccount {

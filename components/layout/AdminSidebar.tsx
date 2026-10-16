@@ -194,7 +194,7 @@ export function AdminSidebar({
                 <Shield className="w-3 h-3 text-[#4B0B7A] shrink-0" />
               </div>
               <p className="text-[10px] text-[#786F7D] truncate mt-0.5 flex items-center gap-1">
-                <Sparkles className="w-2.5 h-2.5 text-[#E58A16]" /> {adminProfile.roleBadge || adminProfile.role}
+                <Sparkles className="w-2.5 h-2.5 text-[#E58A16]" /> {adminProfile.roleBadge || adminProfile.role || 'Pengelola Portal'}
               </p>
             </div>
           )}

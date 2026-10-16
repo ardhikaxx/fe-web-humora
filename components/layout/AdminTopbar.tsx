@@ -140,7 +140,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
                   <p className="text-xs font-bold text-[#24172B]">{adminProfile.name}</p>
                   <p className="text-[11px] text-[#786F7D]">{adminProfile.email}</p>
                   <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                    {adminProfile.roleBadge || adminProfile.role}
+                    {adminProfile.roleBadge || adminProfile.role || 'Pengelola Portal'}
                   </span>
                 </div>
 
