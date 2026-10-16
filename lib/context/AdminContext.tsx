@@ -11,7 +11,6 @@ import {
   AdminSubscriber,
   AdminTransaction,
   AdminNotification,
-  MobileHomeLayoutConfig,
   AdminSettingsConfig,
   PublicationStatus,
   AccessType,
@@ -26,7 +25,6 @@ import {
   INITIAL_SUBSCRIBERS,
   INITIAL_TRANSACTIONS,
   INITIAL_NOTIFICATIONS,
-  INITIAL_MOBILE_HOME_LAYOUT,
   INITIAL_SETTINGS,
 } from '../data/initialData';
 
@@ -49,7 +47,6 @@ interface AdminContextType {
   subscribers: AdminSubscriber[];
   transactions: AdminTransaction[];
   notifications: AdminNotification[];
-  mobileHomeLayout: MobileHomeLayoutConfig;
   settings: AdminSettingsConfig;
   isLoaded: boolean;
 
@@ -103,13 +100,6 @@ interface AdminContextType {
   deleteNotification: (id: string) => void;
   toggleNotificationPublish: (id: string) => void;
 
-  // Mobile home layout actions
-  updateMobileHomeLayout: (newLayout: MobileHomeLayoutConfig) => void;
-  setHeroSeries: (seriesId: string) => void;
-  toggleSectionVisibility: (sectionId: string) => void;
-  reorderSection: (sectionId: string, direction: 'up' | 'down') => void;
-  updateSectionSeries: (sectionId: string, seriesIds: string[]) => void;
-
   // Transaction Verification & Simulation
   verifyTransaction: (
     transactionId: string,
@@ -138,7 +128,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [subscribers, setSubscribers] = useState<AdminSubscriber[]>(INITIAL_SUBSCRIBERS);
   const [transactions, setTransactions] = useState<AdminTransaction[]>(INITIAL_TRANSACTIONS);
   const [notifications, setNotifications] = useState<AdminNotification[]>(INITIAL_NOTIFICATIONS);
-  const [mobileHomeLayout, setMobileHomeLayout] = useState<MobileHomeLayoutConfig>(INITIAL_MOBILE_HOME_LAYOUT);
   const [settings, setSettings] = useState<AdminSettingsConfig>(INITIAL_SETTINGS);
   const [activities, setActivities] = useState<ActivityItem[]>([
     {
@@ -190,16 +179,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.subscribers && Array.isArray(parsed.subscribers)) setSubscribers(parsed.subscribers);
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
         if (parsed.notifications && Array.isArray(parsed.notifications)) setNotifications(parsed.notifications);
-        if (parsed.mobileHomeLayout) {
-          // Guarantee fixed standard immutable sequence and default sections
-          setMobileHomeLayout({
-            ...INITIAL_MOBILE_HOME_LAYOUT,
-            heroSeriesId: parsed.mobileHomeLayout.heroSeriesId || INITIAL_MOBILE_HOME_LAYOUT.heroSeriesId,
-            heroHeadline: parsed.mobileHomeLayout.heroHeadline || INITIAL_MOBILE_HOME_LAYOUT.heroHeadline,
-            heroSubheadline: parsed.mobileHomeLayout.heroSubheadline || INITIAL_MOBILE_HOME_LAYOUT.heroSubheadline,
-            sections: INITIAL_MOBILE_HOME_LAYOUT.sections,
-          });
-        }
         if (parsed.settings) setSettings(parsed.settings);
         if (parsed.activities && Array.isArray(parsed.activities)) setActivities(parsed.activities);
       }
@@ -223,7 +202,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         subscribers,
         transactions,
         notifications,
-        mobileHomeLayout,
         settings,
         activities,
       };
@@ -241,7 +219,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     subscribers,
     transactions,
     notifications,
-    mobileHomeLayout,
     settings,
     activities,
   ]);
@@ -561,35 +538,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
-  // Mobile Home Actions
-  const updateMobileHomeLayout = useCallback((newLayout: MobileHomeLayoutConfig) => {
-    setMobileHomeLayout(newLayout);
-  }, []);
-
-  const setHeroSeries = useCallback((seriesId: string) => {
-    setMobileHomeLayout((prev) => ({
-      ...prev,
-      heroSeriesId: seriesId,
-    }));
-  }, []);
-
-  // Section visibility is 100% automated based on published series data (no manual toggle allowed)
-  const toggleSectionVisibility = useCallback(() => {
-    // No-op: Visibilitas section otomatis ditentukan oleh ketersediaan data konten
-  }, []);
-
-  // Section order is immutable (#1 Populer, #2 Terbaru, #3 Rekomendasi, #4 Gratis)
-  const reorderSection = useCallback(() => {
-    // No-op: Urutan section beranda bersifat tetap dan tidak dapat dipindah-pindah
-  }, []);
-
-  const updateSectionSeries = useCallback((sectionId: string, seriesIds: string[]) => {
-    setMobileHomeLayout((prev) => ({
-      ...prev,
-      sections: prev.sections.map((s) => (s.id === sectionId ? { ...s, seriesIds } : s)),
-    }));
-  }, []);
-
   // Transaction Verification (Approve / Reject)
   const verifyTransaction = useCallback(
     (transactionId: string, action: 'approve' | 'reject', rejectionReason?: string) => {
@@ -735,7 +683,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setSubscribers(INITIAL_SUBSCRIBERS);
     setTransactions(INITIAL_TRANSACTIONS);
     setNotifications(INITIAL_NOTIFICATIONS);
-    setMobileHomeLayout(INITIAL_MOBILE_HOME_LAYOUT);
     setSettings(INITIAL_SETTINGS);
     setActivities([
       {
@@ -757,7 +704,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     subscribers,
     transactions,
     notifications,
-    mobileHomeLayout,
     settings,
     isLoaded,
     stats,
@@ -782,11 +728,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     updateNotification,
     deleteNotification,
     toggleNotificationPublish,
-    updateMobileHomeLayout,
-    setHeroSeries,
-    toggleSectionVisibility,
-    reorderSection,
-    updateSectionSeries,
     verifyTransaction,
     createSimulationPayment,
     updateSettings,

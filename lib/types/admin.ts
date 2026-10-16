@@ -163,21 +163,6 @@ export interface AdminNotification {
   openCount: number;
 }
 
-export interface MobileHomeSection {
-  id: string;
-  title: string;
-  subtitle: string;
-  enabled: boolean;
-  seriesIds: string[];
-}
-
-export interface MobileHomeLayoutConfig {
-  heroSeriesId: string;
-  heroHeadline: string;
-  heroSubheadline: string;
-  sections: MobileHomeSection[];
-}
-
 export interface AnalyticsDataPoint {
   date: string;
   dateLabel: string;

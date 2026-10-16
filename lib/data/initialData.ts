@@ -7,7 +7,6 @@ import {
   AdminSubscriber,
   AdminTransaction,
   AdminNotification,
-  MobileHomeLayoutConfig,
   AdminSettingsConfig,
 } from '../types/admin';
 
@@ -1013,42 +1012,6 @@ export const INITIAL_NOTIFICATIONS: AdminNotification[] = [
     createdAt: '2026-10-16T08:00:00Z',
   },
 ];
-
-export const INITIAL_MOBILE_HOME_LAYOUT: MobileHomeLayoutConfig = {
-  heroSeriesId: 'series-1',
-  heroHeadline: 'SERIES SPESIAL BULAN INI',
-  heroSubheadline: 'Kontrak formal 30 hari yang berujung cinta sejati',
-  sections: [
-    {
-      id: 'section-popular',
-      title: 'Series Populer 🔥',
-      subtitle: 'Paling banyak ditonton minggu ini',
-      enabled: true,
-      seriesIds: ['series-1', 'series-2', 'series-3', 'series-5', 'series-8'],
-    },
-    {
-      id: 'section-new',
-      title: 'Terbaru di HUMORA ✨',
-      subtitle: 'Episode segar rilis tiap minggu',
-      enabled: true,
-      seriesIds: ['series-2', 'series-4', 'series-7'],
-    },
-    {
-      id: 'section-recommended',
-      title: 'Rekomendasi Buat Kamu 💡',
-      subtitle: 'Dipilih berdasarkan tontonan favoritmu',
-      enabled: true,
-      seriesIds: ['series-5', 'series-1', 'series-6', 'series-4'],
-    },
-    {
-      id: 'section-free',
-      title: 'Gratis untuk Kamu 🍿',
-      subtitle: 'Tonton 2 episode pertama tanpa langganan',
-      enabled: true,
-      seriesIds: ['series-1', 'series-2', 'series-3', 'series-4', 'series-5', 'series-6', 'series-7', 'series-8'],
-    },
-  ],
-};
 
 export const INITIAL_SETTINGS: AdminSettingsConfig = {
   appName: 'HUMORA',

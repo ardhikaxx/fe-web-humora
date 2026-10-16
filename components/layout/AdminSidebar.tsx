@@ -9,7 +9,6 @@ import {
   BarChart3,
   Clapperboard,
   Video,
-  Smartphone,
   FolderTree,
   FileText,
   Users,
@@ -63,7 +62,6 @@ export function AdminSidebar({
       items: [
         { label: 'Series', href: '/admin/series', icon: Clapperboard },
         { label: 'Videos & Episodes', href: '/admin/videos', icon: Video },
-        { label: 'Mobile Home Layout', href: '/admin/mobile-home', icon: Smartphone, badge: 'Live UI' },
         { label: 'Kategori', href: '/admin/categories', icon: FolderTree },
         { label: 'Subtitle', href: '/admin/subtitles', icon: FileText },
       ],

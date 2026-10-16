@@ -10,7 +10,6 @@ import {
   Menu,
   Search,
   Bell,
-  Smartphone,
   CheckCircle2,
   Settings,
   RotateCcw,
@@ -63,17 +62,8 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
           </button>
         </div>
 
-        {/* Right Actions: Mobile Home Preview, Notification Bell, User Avatar */}
+        {/* Right Actions: Notification Bell, User Avatar */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Quick link to Mobile Home Layout */}
-          <Link
-            href="/admin/mobile-home"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F6F1F8] hover:bg-[#E9DEEF] text-xs font-bold text-[#4B0B7A] transition-colors"
-          >
-            <Smartphone className="w-3.5 h-3.5" />
-            <span>Beranda Mobile</span>
-          </Link>
-
           {/* Demo Mode Badge */}
           <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EAF8F1] border border-[#C6EFD9] text-[11px] font-semibold text-[#21865B]">
             <span className="w-2 h-2 rounded-full bg-[#21865B] animate-pulse" />
@@ -164,14 +154,6 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
                     <span>Pengaturan Umum</span>
                   </Link>
 
-                  <Link
-                    href="/admin/mobile-home"
-                    onClick={() => setIsProfileDropdownOpen(false)}
-                    className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-semibold text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
-                  >
-                    <Smartphone className="w-4 h-4 text-[#786F7D]" />
-                    <span>Layout Beranda Mobile</span>
-                  </Link>
 
                   <div className="my-1 border-t border-[#EEE8F0]" />
 
