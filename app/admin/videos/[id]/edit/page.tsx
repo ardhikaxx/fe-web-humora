@@ -52,18 +52,18 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
       videoSource,
     });
 
-    success('Episode Diperbarui', `Episode ${episodeNumber} "${title}" berhasil disimpan.`);
+    success('Video Diperbarui', `Video ${episodeNumber} "${title}" berhasil disimpan.`);
     router.push('/admin/videos');
   };
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`Edit Episode: ${ep.title}`}
-        description={`Bagian dari series "${ep.seriesTitle}". Ubah status akses atau kelengkapan media.`}
+        title={`Edit Video: ${ep.title}`}
+        description={`Bagian dari judul besar "${ep.seriesTitle}". Ubah status akses, durasi, atau thumbnail video.`}
         breadcrumbs={[
-          { label: 'Videos & Episodes', href: '/admin/videos' },
-          { label: `Ep ${ep.number}` },
+          { label: 'Kelola Video', href: '/admin/videos' },
+          { label: `Video #${ep.number}` },
           { label: 'Edit' },
         ]}
         actions={
@@ -78,7 +78,7 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
               onClick={handleSave}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
             >
-              <Save className="w-4 h-4 text-[#FFD52E]" /> Simpan Perubahan
+              <Save className="w-4 h-4 text-[#FFD52E]" /> Simpan Video
             </button>
           </div>
         }
@@ -88,13 +88,13 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              Informasi Episode
+              Informasi Video
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <div className="sm:col-span-1">
                 <label className="block text-xs font-bold text-[#24172B] uppercase tracking-wide mb-1.5">
-                  Nomor Ep
+                  Nomor Video
                 </label>
                 <input
                   type="number"
@@ -107,7 +107,7 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
 
               <div className="sm:col-span-3">
                 <label className="block text-xs font-bold text-[#24172B] uppercase tracking-wide mb-1.5">
-                  Judul Episode
+                  Judul / Sub-Topik Video
                 </label>
                 <input
                   type="text"

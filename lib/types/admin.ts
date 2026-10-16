@@ -34,10 +34,12 @@ export interface AdminSeries {
   title: string;
   synopsis: string;
   genres: string[];
-  poster: string; // 2:3 vertical aspect ratio
-  cover: string; // horizontal banner aspect ratio
+  thumbnail: string; // Unified 16:9 thumbnail (tidak perlu poster dan cover terpisah)
+  poster?: string; // Optional fallback
+  cover?: string; // Optional fallback
   rating: number; // e.g. 4.9
   year: number;
+  videoCount?: number;
   episodeCount: number;
   featured: boolean;
   isPopular: boolean;

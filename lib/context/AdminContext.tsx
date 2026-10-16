@@ -110,7 +110,7 @@ interface AdminContextType {
   resetAllDataToDefault: () => void;
 }
 
-const STORAGE_KEY = 'humora_admin_data_v1';
+const STORAGE_KEY = 'humora_admin_data_v2';
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
@@ -128,8 +128,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     {
       id: 'act-1',
       type: 'episode_published',
-      title: 'Episode Terbit',
-      description: 'Kontrak Jadi Pacar: Episode 3 "Malam Puncak Reuni Akbar" dipublikasikan.',
+      title: 'Video Terbit',
+      description: 'Tipe Penumpang Taxi Online: Video 1 "Tipe Bawel" dipublikasikan.',
       timestamp: '2026-10-15T09:00:00Z',
       link: '/admin/videos',
     },
@@ -144,16 +144,16 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     {
       id: 'act-3',
       type: 'series_created',
-      title: 'Draft Series Baru',
-      description: 'Series "Mertua Idaman Netizen" ditambahkan sebagai draf produksi.',
+      title: 'Judul Konten Baru',
+      description: 'Judul "Cara Deketin Cewek" berhasil ditambahkan ke katalog.',
       timestamp: '2026-10-12T10:00:00Z',
       link: '/admin/series',
     },
     {
       id: 'act-4',
       type: 'access_changed',
-      title: 'Pembaruan Akses Episode',
-      description: 'Episode 2 Kos Paling Berisik diubah menjadi Free Preview.',
+      title: 'Pembaruan Akses Video',
+      description: 'Video 2 Cara Deketin Cewek diubah menjadi Free Preview.',
       timestamp: '2026-10-10T14:15:00Z',
       link: '/admin/videos',
     },
@@ -267,13 +267,17 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       .slice(0, 8);
   }, [episodes]);
 
-  // Series Actions
+  // Series / Judul Konten Actions
   const addSeries = useCallback(
     (seriesData: Omit<AdminSeries, 'id' | 'createdAt' | 'updatedAt'>): AdminSeries => {
       const now = new Date().toISOString();
       const newId = `series-${Date.now()}`;
+      const thumb = seriesData.thumbnail || seriesData.cover || seriesData.poster || '/images/thumbnails/tipe-penumpang-taxi-online.jpg';
       const newSeries: AdminSeries = {
         ...seriesData,
+        thumbnail: thumb,
+        poster: seriesData.poster || thumb,
+        cover: seriesData.cover || thumb,
         id: newId,
         createdAt: now,
         updatedAt: now,
@@ -282,8 +286,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
       addActivity({
         type: 'series_created',
-        title: 'Series Baru Ditambahkan',
-        description: `Series "${newSeries.title}" berhasil dibuat dengan status ${newSeries.publicationStatus}.`,
+        title: 'Judul Konten Baru Ditambahkan',
+        description: `Judul "${newSeries.title}" berhasil dibuat dengan status ${newSeries.publicationStatus}.`,
         link: `/admin/series/${newSeries.id}`,
       });
 
@@ -294,7 +298,25 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   const updateSeries = useCallback((id: string, updates: Partial<AdminSeries>) => {
     setSeries((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, ...updates, updatedAt: new Date().toISOString() } : s))
+      prev.map((s) => {
+        if (s.id === id) {
+          const thumb: string =
+            updates.thumbnail ||
+            s.thumbnail ||
+            updates.cover ||
+            updates.poster ||
+            '/images/thumbnails/tipe-penumpang-taxi-online.jpg';
+          return {
+            ...s,
+            ...updates,
+            thumbnail: thumb,
+            poster: updates.poster || thumb,
+            cover: updates.cover || thumb,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return s;
+      })
     );
   }, []);
 

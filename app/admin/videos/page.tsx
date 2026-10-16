@@ -131,16 +131,16 @@ export default function VideosListPage() {
     <div className="space-y-6">
       {/* Header */}
       <PageHeader
-        title="Videos & Episodes"
-        description="Kelola seluruh video episode, aturan akses Free Preview vs Premium, serta publikasi tayangan HUMORA."
-        breadcrumbs={[{ label: 'Videos & Episodes' }]}
+        title="Kelola Video Konten"
+        description="Kelola seluruh video sketsa (-+2 menit) berdasarkan judul besar, aturan akses Free Preview vs Premium, serta status publikasi."
+        breadcrumbs={[{ label: 'Kelola Video' }]}
         actions={
           <Link
             href="/admin/videos/create"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
           >
             <Plus className="w-4 h-4 text-[#FFD52E]" />
-            Tambah Episode Baru
+            Tambah Video Baru
           </Link>
         }
       />
@@ -148,16 +148,16 @@ export default function VideosListPage() {
       {/* Summary KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StatCard
-          title="Total Episode"
+          title="Total Video"
           value={episodes.length.toString()}
-          subtitle="Seluruh series lokal"
+          subtitle="Seluruh video terdaftar"
           icon={<Video className="w-5 h-5" />}
           iconBg="bg-[#F6F1F8]"
           iconColor="text-[#4B0B7A]"
         />
         <StatCard
           title="Free Preview"
-          value={`${freeCount} Ep`}
+          value={`${freeCount} Video`}
           subtitle="Gratis tanpa langganan"
           icon={<Sparkles className="w-5 h-5" />}
           iconBg="bg-[#EAF8F1]"

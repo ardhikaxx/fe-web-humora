@@ -100,16 +100,16 @@ export default function SeriesListPage() {
     <div className="space-y-6">
       {/* Header */}
       <PageHeader
-        title="Manajemen Series"
-        description="Kelola seluruh judul series, sinopsis, poster, dan episode yang tampil dalam katalog mobile HUMORA."
-        breadcrumbs={[{ label: 'Series' }]}
+        title="Judul Konten & Video"
+        description="Kelola seluruh judul konten besar dan video yang tampil dalam katalog mobile HUMORA."
+        breadcrumbs={[{ label: 'Judul Konten' }]}
         actions={
           <Link
             href="/admin/series/create"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
           >
             <Plus className="w-4 h-4 text-[#FFD52E]" />
-            Tambah Series Baru
+            Tambah Judul Baru
           </Link>
         }
       />
@@ -117,7 +117,7 @@ export default function SeriesListPage() {
       {/* Series Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          title="Total Series"
+          title="Total Judul"
           value={series.length.toString()}
           subtitle="Seluruh katalog lokal"
           icon={<Clapperboard className="w-5 h-5" />}
@@ -126,7 +126,7 @@ export default function SeriesListPage() {
         />
 
         <StatCard
-          title="Series Terbit"
+          title="Judul Terbit"
           value={publishedCount.toString()}
           subtitle="Tampil di mobile app"
           icon={<CheckCircle2 className="w-5 h-5" />}
@@ -271,12 +271,16 @@ export default function SeriesListPage() {
 
                   return (
                     <tr key={s.id} className="hover:bg-[#FAF8FB] transition-colors">
-                      {/* Poster & Title */}
+                      {/* Thumbnail & Title */}
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-14 rounded-lg overflow-hidden bg-black/10 shrink-0 relative border border-[#EEE8F0]">
+                          <div className="aspect-16/9 w-16 rounded-lg overflow-hidden bg-black/10 shrink-0 relative border border-[#EEE8F0]">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={s.poster} alt={s.title} className="w-full h-full object-cover" />
+                            <img
+                              src={s.thumbnail || s.cover || s.poster || ''}
+                              alt={s.title}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <div className="min-w-0 max-w-[200px]">
                             <Link
@@ -410,11 +414,11 @@ export default function SeriesListPage() {
                 className="bg-white rounded-2xl border border-[#EEE8F0] shadow-xs overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group"
               >
                 <div>
-                  {/* Poster Aspect Ratio 2:3 */}
-                  <div className="relative aspect-[2/3] w-full overflow-hidden bg-black/10">
+                  {/* Thumbnail Aspect Ratio 16:9 */}
+                  <div className="relative aspect-16/9 w-full overflow-hidden bg-black/10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={s.poster}
+                      src={s.thumbnail || s.cover || s.poster || ''}
                       alt={s.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

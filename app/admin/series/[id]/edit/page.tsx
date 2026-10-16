@@ -25,8 +25,9 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
   const [featured, setFeatured] = useState(seriesItem.featured);
   const [isPopular, setIsPopular] = useState(seriesItem.isPopular);
   const [isNew, setIsNew] = useState(seriesItem.isNew);
-  const [posterUrl, setPosterUrl] = useState(seriesItem.poster);
-  const [coverUrl, setCoverUrl] = useState(seriesItem.cover);
+  const [thumbnailUrl, setThumbnailUrl] = useState(
+    seriesItem.thumbnail || seriesItem.cover || seriesItem.poster || ''
+  );
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -64,11 +65,12 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
       featured,
       isPopular,
       isNew,
-      poster: posterUrl,
-      cover: coverUrl,
+      thumbnail: thumbnailUrl,
+      poster: thumbnailUrl,
+      cover: thumbnailUrl,
     });
 
-    success('Perubahan Disimpan', `Series "${title}" berhasil diperbarui.`);
+    success('Perubahan Disimpan', `Judul konten "${title}" berhasil diperbarui.`);
     router.push(`/admin/series/${seriesItem.id}`);
   };
 
@@ -199,22 +201,15 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
 
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              Aset Visual
+              Thumbnail Konten (16:9)
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <UploadDropzone
-                acceptType="image"
-                value={posterUrl}
-                label="Poster Vertikal (2:3)"
-                onSelect={(m) => m?.previewUrl && setPosterUrl(m.previewUrl)}
-              />
-              <UploadDropzone
-                acceptType="image"
-                value={coverUrl}
-                label="Cover Banner (16:9)"
-                onSelect={(m) => m?.previewUrl && setCoverUrl(m.previewUrl)}
-              />
-            </div>
+            <UploadDropzone
+              acceptType="image"
+              value={thumbnailUrl}
+              label="Thumbnail Utama (16:9)"
+              hint="Format rasio 16:9 terpadu untuk beranda dan katalog mobile"
+              onSelect={(m) => m?.previewUrl && setThumbnailUrl(m.previewUrl)}
+            />
           </div>
         </div>
 

@@ -128,7 +128,7 @@ function SeriesDetailContent() {
               href={`/admin/videos/create?seriesId=${currentSeries.id}`}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
             >
-              <Plus className="w-4 h-4 text-[#FFD52E]" /> Tambah Episode
+              <Plus className="w-4 h-4 text-[#FFD52E]" /> Tambah Video
             </Link>
           </div>
         }
@@ -137,10 +137,10 @@ function SeriesDetailContent() {
       {/* Series Hero Info Card */}
       <div className="bg-white rounded-2xl border border-[#EEE8F0] shadow-xs overflow-hidden">
         <div className="p-6 flex flex-col md:flex-row gap-6">
-          <div className="w-36 h-52 sm:w-44 sm:h-64 rounded-2xl overflow-hidden bg-black/10 shrink-0 relative border border-[#EEE8F0] shadow-sm">
+          <div className="aspect-16/9 w-full md:w-80 rounded-2xl overflow-hidden bg-black/10 shrink-0 relative border border-[#EEE8F0] shadow-sm">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={currentSeries.poster}
+              src={currentSeries.thumbnail || currentSeries.cover || currentSeries.poster || ''}
               alt={currentSeries.title}
               className="w-full h-full object-cover"
             />

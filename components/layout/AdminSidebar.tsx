@@ -62,8 +62,8 @@ export function AdminSidebar({
     {
       groupTitle: 'Manajemen Konten',
       items: [
-        { label: 'Series', href: '/admin/series', icon: Clapperboard },
-        { label: 'Videos & Episodes', href: '/admin/videos', icon: Video },
+        { label: 'Judul Konten', href: '/admin/series', icon: Clapperboard },
+        { label: 'Kelola Video', href: '/admin/videos', icon: Video },
         { label: 'Kategori', href: '/admin/categories', icon: FolderTree },
         { label: 'Subtitle', href: '/admin/subtitles', icon: FileText },
       ],
