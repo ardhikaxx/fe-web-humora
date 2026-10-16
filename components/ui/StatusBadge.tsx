@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Crown, CheckCircle2, Clock, ShieldAlert, ShieldCheck } from 'lucide-react';
+import { Sparkles, Crown, CheckCircle2, Clock, ShieldAlert, ShieldCheck, AlertCircle } from 'lucide-react';
 
 interface StatusBadgeProps {
   type: 'access' | 'publication' | 'account' | 'subscription' | 'transaction';
