@@ -57,7 +57,7 @@ Platform HUMORA beroperasi dengan model freemium video series:
 | `/admin/users` | **Pengguna Aplikasi** | Daftar pengguna demo, status akun (Aktif/Ditangguhkan), modal detail profil pengguna beserta riwayat tontonan terakhir. |
 | `/admin/subscribers` | **Pelanggan Aktif** | Distribusi paket (Bulanan/Tahunan), tanggal kedaluwarsa, nilai kontribusi LTV, dan modal linimasa riwayat perpanjangan langganan. |
 | `/admin/transactions` | **Verifikasi & Transaksi** | Manajemen alur 3 status pembayaran (*Menunggu Verifikasi*, *Diverifikasi*, *Ditolak*), pemeriksaan foto bukti transfer bank/QRIS, perbandingan data nominal vs bukti, aktivasi otomatis akun Premium saat disetujui, penolakan bukti palsu/kurang bayar, dan cetak kuitansi digital. |
-| `/admin/profile` | **Profil Admin** | Pengelolaan identitas administrator, pembaruan data diri & username, penggantian kata sandi, konfigurasi 2FA TOTP, manajemen sesi login aktif, dan matriks hak akses CMS. |
+| `/admin/profile` | **Profil Admin** | Pengelolaan identitas administrator, pembaruan data diri, username, email resmi, kontak, bio tugas, dan pembaruan kata sandi akun pengelola. |
 | `/admin/settings` | **Pengaturan Prototype** | Konfigurasi identitas platform, penyesuaian tarif langganan, pengaturan batas episode gratis default, dan tombol **Reset Data Simulasi ke Standar Pabrik**. |
 
 ---
