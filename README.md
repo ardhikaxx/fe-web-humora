@@ -52,7 +52,7 @@ Platform HUMORA beroperasi dengan model freemium video series:
 | `/admin/videos` | **Videos & Episodes** | Pengelolaan seluruh episode platform, filter lintas series, status akses, status rilis, dan metadata durasi. |
 | `/admin/videos/create` | **Tambah Episode Baru** | Auto-suggestion nomor episode berikutnya, radio card pilihan *Free Preview* vs *Premium*, drag-and-drop simulasi file video, dan checklist kelengkapan metadata otomatis. |
 | `/admin/videos/[id]/edit` | **Edit Episode** | Perubahan judul, deskripsi, durasi menit:detik, tanggal rilis, thumbnail, dan status akses. |
-| `/admin/mobile-home` | **Mobile Home Layout CMS** | Manajemen kurasi layar beranda mobile: Banner Hero Pilihan, Urutan Seksi Konten, Toggle Tampilkan/Sembunyikan seksi, dilengkapi dengan **Interactive Smartphone Mockup** yang memperlihatkan preview real-time. |
+| `/admin/mobile-home` | **Mobile Home Layout CMS** | Manajemen kurasi layar beranda mobile: Kurasi Sorotan Hero Banner Utama, Urutan Section Tetap Baku (#1 Populer, #2 Terbaru, #3 Rekomendasi, #4 Gratis — tidak dapat diubah/dipindah), Visibilitas Section Otomatis Sesuai Data Konten (aktif otomatis jika ada series yang sesuai, tanpa toggle manual), dilengkapi dengan **Interactive Smartphone Mockup** yang memperlihatkan preview real-time. |
 | `/admin/categories` | **Kategori & Genre** | Tabel kategori lengkap, formulir tambah/edit dengan validasi keunikan slug, serta pengaman penghapusan (*deletion guard*) jika masih ada series terkait. |
 | `/admin/subtitles` | **Subtitle & Kepsion** | Pengelolaan trek subtitle multi-bahasa (ID/EN) dan format (SRT/VTT), unduh simulasi file, serta **Modal Pratinjau Cue Lines Interaktif** dengan timestamp penanda waktu. |
 | `/admin/users` | **Pengguna Aplikasi** | Daftar pengguna demo, status akun (Aktif/Ditangguhkan), modal detail profil pengguna beserta riwayat tontonan terakhir. |
@@ -136,4 +136,4 @@ Aset gambar (poster series, thumbnail episode, cover hero banner) serta metadata
 - *Influencer Kampung* (Satire)
 - *Rencana Nikah Batal* (Romantic Comedy)
 
-Admin dapat memanipulasi susunan urutan, promosi beranda mobile, status langganan, dan visibilitas episode untuk menguji skenario pengalaman pengguna (*user experience*) di kedua sisi secara komprehensif.
+Admin dapat mengurasi sorotan promosi beranda mobile (Hero Spotlight Banner), status langganan, verifikasi pembayaran transaksi, dan visibilitas episode untuk menguji skenario pengalaman pengguna (*user experience*) di kedua sisi secara komprehensif.

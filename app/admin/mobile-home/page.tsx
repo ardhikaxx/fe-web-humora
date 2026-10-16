@@ -150,7 +150,7 @@ export default function MobileHomeLayoutPage() {
       {/* Header */}
       <PageHeader
         title="Mobile Home Layout CMS"
-        description="Atur sorotan Hero Spotlight Banner pada beranda aplikasi mobile HUMORA. Urutan section telah dibakukan secara tetap, dan visibilitas setiap section aktif secara otomatis mengikuti ketersediaan data konten."
+        description="Atur sorotan Hero Spotlight Banner pada beranda aplikasi mobile HUMORA. Urutan section telah dibakukan secara tetap (tidak dapat diubah atau dipindah-pindah), dan visibilitas setiap section otomatis menyesuaikan ketersediaan data konten series."
         breadcrumbs={[{ label: 'Mobile Home Layout' }]}
         actions={
           <button
@@ -167,11 +167,11 @@ export default function MobileHomeLayoutPage() {
         <Info className="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
         <div className="space-y-1">
           <p className="font-extrabold text-[13px] text-[#21052F]">
-            Standar Otomatisasi UX Beranda Mobile HUMORA
+            Ketentuan Urutan Tetap &amp; Visibilitas Otomatis Beranda Mobile HUMORA
           </p>
           <p className="text-[11px] text-[#786F7D] leading-relaxed">
-            1. <strong>Urutan Section Tetap:</strong> Urutan carousel beranda di bawah ini telah <strong>dibakukan</strong> (#1 Populer, #2 Terbaru, #3 Rekomendasi, #4 Gratis) dan tidak dapat diubah atau dipindah-pindah demi konsistensi pengalaman pengguna mobile.<br />
-            2. <strong>Visibilitas Otomatis Sesuai Data:</strong> Anda tidak perlu menyalakan atau mematikan section secara manual. Section akan <strong>otomatis tampil</strong> jika terdapat minimal 1 series terpublikasi yang memenuhi kriteria, dan otomatis disembunyikan jika datanya kosong.
+            1. <strong>Urutan Section Tetap:</strong> Susunan section di bawah ini telah <strong>ditetapkan secara baku</strong> (#1 Populer, #2 Terbaru, #3 Rekomendasi, #4 Gratis) sehingga <strong>tidak dapat diubah, diotak-atik, atau dipindah-pindah</strong> demi konsistensi navigasi pengguna mobile.<br />
+            2. <strong>Visibilitas Section Beranda Otomatis:</strong> Visibilitas tampil/sembunyi <strong>otomatis disesuaikan dengan data</strong>. Section otomatis muncul jika terdapat minimal 1 series terpublikasi yang memenuhi kriteria, dan otomatis disembunyikan jika belum ada data yang sesuai tanpa perlu pengaturan manual.
           </p>
         </div>
       </div>
@@ -242,10 +242,10 @@ export default function MobileHomeLayoutPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#EEE8F0] gap-2">
               <div>
                 <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-[#4B0B7A]" /> 2. Section Beranda Mobile (Urutan Tetap &amp; Otomatis Sesuai Data)
+                  <Layers className="w-4 h-4 text-[#4B0B7A]" /> 2. Urutan &amp; Visibilitas Section Beranda (Urutan Tetap &amp; Otomatis Sesuai Data)
                 </h3>
                 <p className="text-[11px] text-[#786F7D] mt-0.5">
-                  Urutan section bersifat tetap tidak dapat diubah. Visibilitas aktif/sembunyi ditentukan 100% secara otomatis oleh data katalog series.
+                  Urutan section telah dibakukan secara tetap (tidak bisa dipindah-pindah/diotak-atik). Visibilitas section otomatis menyesuaikan ketersediaan data series terpublikasi tanpa perlu pengaturan manual.
                 </p>
               </div>
               <span className="self-start sm:self-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#F6F1F8] text-[#4B0B7A] border border-[#EEE8F0] shrink-0 flex items-center gap-1">
@@ -275,8 +275,8 @@ export default function MobileHomeLayoutPage() {
                             {sec.icon}
                             {sec.title}
                           </h4>
-                          <span className="text-[9px] text-[#786F7D] bg-white px-1.5 py-0.5 rounded border border-[#EEE8F0] font-semibold">
-                            Urutan Tetap #{idx + 1}
+                          <span className="text-[9px] text-[#4B0B7A] bg-[#F6F1F8] px-2 py-0.5 rounded-full border border-[#EEE8F0] font-bold flex items-center gap-1">
+                            <Lock className="w-2.5 h-2.5" /> Urutan Tetap #{idx + 1}
                           </span>
                         </div>
                         <p className="text-[10px] text-[#786F7D] mt-0.5">{sec.subtitle}</p>
@@ -291,7 +291,7 @@ export default function MobileHomeLayoutPage() {
                           title="Section otomatis tampil di aplikasi mobile karena terdapat data series yang sesuai kriteria"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>Otomatis Tampil ({sec.seriesList.length} Series Sesuai)</span>
+                          <span>Visibilitas: Otomatis Tampil ({sec.seriesList.length} Series Sesuai)</span>
                         </span>
                       ) : (
                         <span
@@ -299,7 +299,7 @@ export default function MobileHomeLayoutPage() {
                           title="Section otomatis disembunyikan karena belum ada data series yang sesuai kriteria"
                         >
                           <EyeOff className="w-3.5 h-3.5" />
-                          <span>Otomatis Disembunyikan (0 Data)</span>
+                          <span>Visibilitas: Otomatis Disembunyikan (0 Data)</span>
                         </span>
                       )}
                     </div>

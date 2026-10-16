@@ -190,7 +190,16 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.subscribers && Array.isArray(parsed.subscribers)) setSubscribers(parsed.subscribers);
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
         if (parsed.notifications && Array.isArray(parsed.notifications)) setNotifications(parsed.notifications);
-        if (parsed.mobileHomeLayout) setMobileHomeLayout(parsed.mobileHomeLayout);
+        if (parsed.mobileHomeLayout) {
+          // Guarantee fixed standard immutable sequence and default sections
+          setMobileHomeLayout({
+            ...INITIAL_MOBILE_HOME_LAYOUT,
+            heroSeriesId: parsed.mobileHomeLayout.heroSeriesId || INITIAL_MOBILE_HOME_LAYOUT.heroSeriesId,
+            heroHeadline: parsed.mobileHomeLayout.heroHeadline || INITIAL_MOBILE_HOME_LAYOUT.heroHeadline,
+            heroSubheadline: parsed.mobileHomeLayout.heroSubheadline || INITIAL_MOBILE_HOME_LAYOUT.heroSubheadline,
+            sections: INITIAL_MOBILE_HOME_LAYOUT.sections,
+          });
+        }
         if (parsed.settings) setSettings(parsed.settings);
         if (parsed.activities && Array.isArray(parsed.activities)) setActivities(parsed.activities);
       }
@@ -564,28 +573,14 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const toggleSectionVisibility = useCallback((sectionId: string) => {
-    setMobileHomeLayout((prev) => ({
-      ...prev,
-      sections: prev.sections.map((s) => (s.id === sectionId ? { ...s, enabled: !s.enabled } : s)),
-    }));
+  // Section visibility is 100% automated based on published series data (no manual toggle allowed)
+  const toggleSectionVisibility = useCallback(() => {
+    // No-op: Visibilitas section otomatis ditentukan oleh ketersediaan data konten
   }, []);
 
-  const reorderSection = useCallback((sectionId: string, direction: 'up' | 'down') => {
-    setMobileHomeLayout((prev) => {
-      const idx = prev.sections.findIndex((s) => s.id === sectionId);
-      if (idx === -1) return prev;
-      if (direction === 'up' && idx === 0) return prev;
-      if (direction === 'down' && idx === prev.sections.length - 1) return prev;
-
-      const targetIdx = direction === 'up' ? idx - 1 : idx + 1;
-      const newSections = [...prev.sections];
-      const temp = newSections[idx];
-      newSections[idx] = newSections[targetIdx];
-      newSections[targetIdx] = temp;
-
-      return { ...prev, sections: newSections };
-    });
+  // Section order is immutable (#1 Populer, #2 Terbaru, #3 Rekomendasi, #4 Gratis)
+  const reorderSection = useCallback(() => {
+    // No-op: Urutan section beranda bersifat tetap dan tidak dapat dipindah-pindah
   }, []);
 
   const updateSectionSeries = useCallback((sectionId: string, seriesIds: string[]) => {
