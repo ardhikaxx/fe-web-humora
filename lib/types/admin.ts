@@ -126,14 +126,26 @@ export interface AdminTransaction {
   userId: string;
   userName: string;
   userEmail: string;
+  userPhone?: string;
+  userAvatar?: string;
   planId: 'monthly' | 'quarterly' | 'annual';
   planName: string;
+  planDurationDays?: number;
   amount: number;
   discount: number;
   total: number;
-  paymentMethod: 'QRIS' | 'BCA Virtual Account' | 'Mandiri VA' | 'GoPay' | 'OVO' | 'ShopeePay';
-  status: 'success' | 'pending' | 'failed';
+  paymentMethod: 'QRIS' | 'BCA Virtual Account' | 'Mandiri VA' | 'GoPay' | 'OVO' | 'ShopeePay' | 'Transfer Bank BCA' | 'Transfer Bank Mandiri';
+  status: 'pending' | 'success' | 'failed';
   createdAt: string;
+  // Verification details
+  paymentProofUrl?: string; // foto bukti pembayaran / screenshot transfer
+  senderName?: string; // nama pengirim di bukti transfer
+  senderBank?: string; // nama bank / e-wallet pengirim
+  referenceNumber?: string; // nomor referensi transaksi
+  verifiedAt?: string; // waktu diverifikasi / ditolak
+  verifiedBy?: string; // admin yang memverifikasi
+  rejectionReason?: string; // alasan jika ditolak
+  notes?: string;
 }
 
 export interface AdminNotification {
