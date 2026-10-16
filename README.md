@@ -56,7 +56,7 @@ Platform HUMORA beroperasi dengan model freemium video series:
 | `/admin/subtitles` | **Subtitle & Kepsion** | Pengelolaan trek subtitle multi-bahasa (ID/EN) dan format (SRT/VTT), unduh simulasi file, serta **Modal Pratinjau Cue Lines Interaktif** dengan timestamp penanda waktu. |
 | `/admin/users` | **Pengguna Aplikasi** | Daftar pengguna demo, status akun (Aktif/Ditangguhkan), modal detail profil pengguna beserta riwayat tontonan terakhir. |
 | `/admin/subscribers` | **Pelanggan Aktif** | Distribusi paket (Bulanan/Tahunan), tanggal kedaluwarsa, nilai kontribusi LTV, dan modal linimasa riwayat perpanjangan langganan. |
-| `/admin/transactions` | **Verifikasi & Transaksi** | Manajemen alur 3 status pembayaran (*Menunggu Verifikasi*, *Diverifikasi*, *Ditolak*), pemeriksaan foto bukti transfer bank/QRIS, perbandingan data nominal vs bukti, aktivasi otomatis akun Premium saat disetujui, penolakan bukti palsu/kurang bayar, cetak kuitansi digital, serta fitur **Simulasi Pembayaran Masuk (User Pay Demo)**. |
+| `/admin/transactions` | **Verifikasi & Transaksi** | Manajemen alur 3 status pembayaran (*Menunggu Verifikasi*, *Diverifikasi*, *Ditolak*), pemeriksaan foto bukti transfer bank/QRIS, perbandingan data nominal vs bukti, aktivasi otomatis akun Premium saat disetujui, penolakan bukti palsu/kurang bayar, dan cetak kuitansi digital. |
 | `/admin/notifications` | **Notifikasi & Siaran** | Pembuat notifikasi push ke aplikasi mobile, filter status, target tautan rilis konten, serta **Live Smartphone Lockscreen Notification Mockup**. |
 | `/admin/settings` | **Pengaturan Prototype** | Konfigurasi identitas platform, penyesuaian tarif langganan, pengaturan batas episode gratis default, dan tombol **Reset Data Simulasi ke Standar Pabrik**. |
 
