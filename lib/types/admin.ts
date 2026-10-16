@@ -148,6 +148,8 @@ export interface AdminTransaction {
   notes?: string;
 }
 
+/** @deprecated Kompatibilitas cache dev server: fitur notifikasi manual admin sudah dihapus */
+export type AdminNotification = Record<string, unknown>;
 
 export interface AnalyticsDataPoint {
   date: string;

@@ -946,6 +946,8 @@ export const INITIAL_TRANSACTIONS: AdminTransaction[] = [
   },
 ];
 
+/** @deprecated Kompatibilitas cache dev server: fitur notifikasi manual admin sudah dihapus */
+export const INITIAL_NOTIFICATIONS: unknown[] = [];
 
 export const INITIAL_SETTINGS: AdminSettingsConfig = {
   appName: 'HUMORA',
