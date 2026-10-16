@@ -195,7 +195,6 @@ export interface AdminProfileConfig {
   timezone: string;
   avatarInitials: string;
   avatarUrl?: string;
-  twoFactorEnabled: boolean;
   joinedDate: string;
   lastLogin: string;
 }

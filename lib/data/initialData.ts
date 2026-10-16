@@ -1024,7 +1024,6 @@ export const INITIAL_ADMIN_PROFILE: AdminProfileConfig = {
   bio: 'Kurator konten utama HUMORA, bertanggung jawab atas manajemen rilis series mingguan, verifikasi transaksi pembayaran langganan, dan pemeliharaan platform streaming.',
   timezone: 'Asia/Jakarta (WIB, UTC+7)',
   avatarInitials: 'AH',
-  twoFactorEnabled: true,
   joinedDate: 'Januari 2026',
   lastLogin: 'Hari ini, 15:30 WIB (Chrome di Windows 11)',
 };
