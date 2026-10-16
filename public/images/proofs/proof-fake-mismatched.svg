@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 620" width="100%" height="100%">
+  <defs>
+    <filter id="shadow-fake" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <rect x="10" y="10" width="380" height="600" rx="20" fill="#FFFDFD" stroke="#FECDD3" stroke-width="1.5" filter="url(#shadow-fake)"/>
+  
+  <!-- Suspicious / Edited Header -->
+  <rect x="10" y="10" width="380" height="90" rx="20" fill="#475569"/>
+  <rect x="10" y="80" width="380" height="20" fill="#475569"/>
+  
+  <text x="30" y="48" font-family="Arial, sans-serif" font-size="20" font-weight="900" fill="#FFFFFF">E-Transfer Struk</text>
+  <text x="30" y="68" font-family="Arial, sans-serif" font-size="11" font-weight="500" fill="#CBD5E1">Screenshot Unggahan Pengguna (Perlu Verifikasi Teliti)</text>
+
+  <!-- Suspicious Warning Banner -->
+  <rect x="30" y="115" width="340" height="85" rx="14" fill="#FEF2F2" stroke="#F87171" stroke-width="1.5"/>
+  <text x="50" y="142" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#DC2626" text-transform="uppercase">⚠️ PERINGATAN SISTEM: NOMINAL TIDAK SESUAI</text>
+  <text x="50" y="175" font-family="Arial, sans-serif" font-size="26" font-weight="900" fill="#991B1B">Rp10.000 (Kurang Bayar!)</text>
+  <text x="50" y="190" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">Tagihan Paket Seharusnya: Rp49.000</text>
+  
+  <!-- Details -->
+  <g font-family="Arial, sans-serif" font-size="12">
+    <text x="35" y="240" fill="#64748B">Waktu Transaksi</text>
+    <text x="365" y="240" fill="#0F172A" font-weight="700" text-anchor="end">16 Okt 2026, 08:02:11 WIB</text>
+    <line x1="35" y1="252" x2="365" y2="252" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="276" fill="#64748B">No. Referensi Bukti</text>
+    <text x="365" y="276" fill="#DC2626" font-family="monospace" font-weight="700" text-anchor="end">TRX-TEST-FAKE-999</text>
+    <line x1="35" y1="288" x2="365" y2="288" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="312" fill="#64748B">Nama Pengirim</text>
+    <text x="365" y="312" fill="#0F172A" font-weight="700" text-anchor="end">FIKRI HAIKAL</text>
+    <text x="365" y="328" fill="#DC2626" font-size="10" font-weight="600" text-anchor="end">Rekening Tidak Terdaftar di Mutasi</text>
+    <line x1="35" y1="338" x2="365" y2="338" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="362" fill="#64748B">Tujuan Transfer</text>
+    <text x="365" y="362" fill="#0F172A" font-weight="700" text-anchor="end">HUMORA STREAMING</text>
+    <line x1="35" y1="378" x2="365" y2="378" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="402" fill="#64748B">Paket yang Diminta</text>
+    <text x="365" y="402" fill="#4B0B7A" font-weight="800" text-anchor="end">HUMORA Paket 3 Bulan (Tagihan: Rp49.000)</text>
+    <line x1="35" y1="416" x2="365" y2="416" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="440" fill="#64748B">Status Mutasi Bank</text>
+    <text x="365" y="440" fill="#DC2626" font-weight="700" text-anchor="end">DANA BELUM DITERIMA</text>
+    <line x1="35" y1="456" x2="365" y2="456" stroke="#F1F5F9" stroke-width="1"/>
+
+    <text x="35" y="480" fill="#64748B">Catatan Admin</text>
+    <text x="365" y="480" fill="#B91C1C" font-size="11" font-weight="600" text-anchor="end">Nominal transfer berbeda jauh dari paket</text>
+  </g>
+
+  <!-- Red Action Recommendation -->
+  <rect x="30" y="520" width="340" height="65" rx="12" fill="#FEF2F2" stroke="#FCA5A5" stroke-dasharray="4 4"/>
+  <text x="200" y="546" font-family="Arial, sans-serif" font-size="10" font-weight="800" fill="#B91C1C" text-anchor="middle">REKOMENDASI ADMIN: TOLAK PEMBAYARAN</text>
+  <text x="200" y="562" font-family="Arial, sans-serif" font-size="9" fill="#7F1D1D" text-anchor="middle">Bukti tidak valid atau editan. Klik 'Tolak Pembayaran'.</text>
+</svg>
