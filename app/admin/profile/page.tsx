@@ -12,7 +12,6 @@ import {
   Save,
   Eye,
   EyeOff,
-  CheckCircle2,
   Lock,
 } from 'lucide-react';
 
@@ -142,23 +141,13 @@ export default function AdminProfilePage() {
               <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#4B0B7A] via-[#5C0E99] to-[#7028B8] text-[#FFD52E] font-black text-2xl flex items-center justify-center shadow-md ring-4 ring-[#F6F1F8]">
                 {avatarInitials || 'AH'}
               </div>
-              <span
-                className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#21865B] ring-2 ring-white shadow-xs"
-                title="Status Aktif"
-              />
             </div>
 
             {/* Profile Info: Nama Lengkap, Email, Nomor Telfon */}
             <div className="min-w-0 flex-1 space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <h2 className="text-2xl sm:text-3xl font-black text-[#24172B] tracking-tight">
-                  {name || 'Admin HUMORA'}
-                </h2>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#EAF8F1] text-[#21865B] border border-[#C6EFD9] flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Akun Administrator Aktif</span>
-                </span>
-              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-[#24172B] tracking-tight">
+                {name || 'Admin HUMORA'}
+              </h2>
 
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#786F7D] font-medium pt-1">
                 <span className="flex items-center gap-1.5 text-[#24172B] font-semibold">
