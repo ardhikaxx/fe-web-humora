@@ -110,28 +110,29 @@ export function StatusBadge({ type, value, size = 'sm', className = '' }: Status
     if (value === 'success') {
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-medium rounded-full bg-[#EAF8F1] text-[#21865B] border border-[#C6EFD9] ${sizeClass} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#EAF8F1] text-[#21865B] border border-[#C6EFD9] ${sizeClass} ${className}`}
         >
           <CheckCircle2 className="w-3.5 h-3.5" />
-          Berhasil
+          Diverifikasi
         </span>
       );
     }
     if (value === 'pending') {
       return (
         <span
-          className={`inline-flex items-center gap-1.5 font-medium rounded-full bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A] ${sizeClass} ${className}`}
+          className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A] animate-pulse ${sizeClass} ${className}`}
         >
           <Clock className="w-3.5 h-3.5" />
-          Menunggu
+          Menunggu Verifikasi
         </span>
       );
     }
     return (
       <span
-        className={`inline-flex items-center gap-1.5 font-medium rounded-full bg-[#FEECEF] text-[#D94152] border border-[#FECDD3] ${sizeClass} ${className}`}
+        className={`inline-flex items-center gap-1.5 font-semibold rounded-full bg-[#FEECEF] text-[#D94152] border border-[#FECDD3] ${sizeClass} ${className}`}
       >
-        Gagal
+        <AlertCircle className="w-3.5 h-3.5" />
+        Ditolak
       </span>
     );
   }
