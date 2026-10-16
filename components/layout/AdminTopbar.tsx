@@ -119,9 +119,9 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
                 setIsProfileDropdownOpen(!isProfileDropdownOpen);
                 setIsNotifDropdownOpen(false);
               }}
-              className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-xl hover:bg-[#F6F1F8] transition-colors"
+              className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-full hover:bg-[#F6F1F8] transition-colors"
             >
-              <div className="w-8 h-8 rounded-lg bg-[#4B0B7A] text-[#FFD52E] font-extrabold text-xs flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-[#4B0B7A] text-[#FFD52E] font-extrabold text-xs flex items-center justify-center shadow-xs">
                 {adminProfile.avatarInitials || 'AH'}
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-[#786F7D]" />

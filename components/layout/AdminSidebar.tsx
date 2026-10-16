@@ -177,10 +177,10 @@ export function AdminSidebar({
           title="Buka Profil Admin"
         >
           <div className="relative shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#4B0B7A] to-[#7028B8] text-white font-bold text-xs flex items-center justify-center shadow-xs border border-white">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#4B0B7A] to-[#7028B8] text-white font-bold text-xs flex items-center justify-center shadow-xs border border-white">
               {adminProfile.avatarInitials || 'AH'}
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#21865B] border-2 border-white" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#21865B] border-2 border-white" />
           </div>
 
           {!isCollapsed && (
