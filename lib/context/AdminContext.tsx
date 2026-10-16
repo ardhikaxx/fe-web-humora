@@ -16,6 +16,7 @@ import {
   PublicationStatus,
   AccessType,
 } from '../types/admin';
+import { formatRupiah } from '../utils/formatters';
 import {
   INITIAL_SERIES,
   INITIAL_EPISODES,
@@ -108,6 +109,16 @@ interface AdminContextType {
   toggleSectionVisibility: (sectionId: string) => void;
   reorderSection: (sectionId: string, direction: 'up' | 'down') => void;
   updateSectionSeries: (sectionId: string, seriesIds: string[]) => void;
+
+  // Transaction Verification & Simulation
+  verifyTransaction: (
+    transactionId: string,
+    action: 'approve' | 'reject',
+    rejectionReason?: string
+  ) => void;
+  createSimulationPayment: (
+    paymentData: Omit<AdminTransaction, 'id' | 'createdAt' | 'status'>
+  ) => AdminTransaction;
 
   // Settings & System
   updateSettings: (newSettings: Partial<AdminSettingsConfig>) => void;
@@ -584,6 +595,135 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
+  // Transaction Verification (Approve / Reject)
+  const verifyTransaction = useCallback(
+    (transactionId: string, action: 'approve' | 'reject', rejectionReason?: string) => {
+      let targetTx: AdminTransaction | undefined;
+
+      setTransactions((prev) =>
+        prev.map((t) => {
+          if (t.id === transactionId) {
+            targetTx = t;
+            if (action === 'approve') {
+              return {
+                ...t,
+                status: 'success',
+                verifiedAt: new Date().toISOString(),
+                verifiedBy: 'Admin HUMORA',
+                rejectionReason: undefined,
+              };
+            } else {
+              return {
+                ...t,
+                status: 'failed',
+                verifiedAt: new Date().toISOString(),
+                verifiedBy: 'Admin HUMORA',
+                rejectionReason: rejectionReason || 'Bukti transfer tidak valid atau dana tidak ditemukan pada mutasi',
+              };
+            }
+          }
+          return t;
+        })
+      );
+
+      if (targetTx) {
+        if (action === 'approve') {
+          // 1. Activate user subscription status
+          setUsers((prev) =>
+            prev.map((u) =>
+              u.id === targetTx!.userId
+                ? { ...u, subscriptionStatus: 'premium' }
+                : u
+            )
+          );
+
+          // 2. Add or update subscriber record
+          const durationDays = targetTx.planDurationDays || (targetTx.planId === 'annual' ? 365 : targetTx.planId === 'quarterly' ? 90 : 30);
+          const startDate = new Date().toISOString();
+          const endDate = new Date(Date.now() + durationDays * 86400000).toISOString();
+
+          setSubscribers((prev) => {
+            const existingIdx = prev.findIndex((s) => s.userId === targetTx!.userId);
+            if (existingIdx >= 0) {
+              const updated = [...prev];
+              updated[existingIdx] = {
+                ...updated[existingIdx],
+                planId: targetTx!.planId,
+                planName: targetTx!.planName,
+                price: targetTx!.total,
+                startDate,
+                endDate,
+                status: 'active',
+                paymentMethod: targetTx!.paymentMethod,
+                totalSpent: (updated[existingIdx].totalSpent || 0) + targetTx!.total,
+              };
+              return updated;
+            } else {
+              const newSub: AdminSubscriber = {
+                id: `sub-${Date.now()}`,
+                userId: targetTx!.userId,
+                userName: targetTx!.userName,
+                userEmail: targetTx!.userEmail,
+                userAvatar: targetTx!.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop',
+                planId: targetTx!.planId,
+                planName: targetTx!.planName,
+                price: targetTx!.total,
+                startDate,
+                endDate,
+                status: 'active',
+                paymentMethod: targetTx!.paymentMethod,
+                autoRenew: true,
+                totalSpent: targetTx!.total,
+              };
+              return [newSub, ...prev];
+            }
+          });
+
+          // 3. Add activity
+          addActivity({
+            type: 'access_changed',
+            title: 'Pembayaran Disetujui & Langganan Aktif',
+            description: `${targetTx.userName} berhasil berlangganan ${targetTx.planName} (${formatRupiah(targetTx.total)}). Status akun kini Premium.`,
+            link: '/admin/transactions',
+          });
+        } else {
+          // Add activity for rejection
+          addActivity({
+            type: 'access_changed',
+            title: 'Pembayaran Ditolak',
+            description: `Transaksi ${targetTx.id} atas nama ${targetTx.userName} (${targetTx.planName}) ditolak oleh admin. Alasan: ${rejectionReason || 'Bukti transfer tidak valid'}.`,
+            link: '/admin/transactions',
+          });
+        }
+      }
+    },
+    [addActivity]
+  );
+
+  // Create Simulation Payment (Demo User Checkout)
+  const createSimulationPayment = useCallback(
+    (paymentData: Omit<AdminTransaction, 'id' | 'createdAt' | 'status'>): AdminTransaction => {
+      const newTx: AdminTransaction = {
+        ...paymentData,
+        id: `TRX-2026-${1051 + transactions.length}`,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      };
+
+      setTransactions((prev) => [newTx, ...prev]);
+
+      addActivity({
+        type: 'access_changed',
+        title: 'Pembayaran Masuk (Menunggu Verifikasi)',
+        description: `${paymentData.userName} mengunggah bukti pembayaran untuk ${paymentData.planName} (${formatRupiah(paymentData.total)}).`,
+        link: '/admin/transactions',
+      });
+
+      return newTx;
+    },
+    [addActivity, transactions.length]
+  );
+
   // Settings
   const updateSettings = useCallback((newSettings: Partial<AdminSettingsConfig>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));
@@ -652,6 +792,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     toggleSectionVisibility,
     reorderSection,
     updateSectionSeries,
+    verifyTransaction,
+    createSimulationPayment,
     updateSettings,
     resetAllDataToDefault,
   };
