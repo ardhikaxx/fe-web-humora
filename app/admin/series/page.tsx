@@ -17,8 +17,6 @@ import { AdminSeries } from '../../../lib/types/admin';
 import {
   Clapperboard,
   Plus,
-  LayoutGrid,
-  List,
   Heart,
   Eye,
   Edit,
@@ -33,7 +31,6 @@ export default function SeriesListPage() {
   const { series, episodes, deleteSeries, toggleSeriesPublish } = useAdmin();
   const { success } = useToast();
 
-  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
   const [searchQuery, setSearchQuery] = useState('');
   const [genreFilter, setGenreFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -214,30 +211,10 @@ export default function SeriesListPage() {
           <option value="likes">Suka Terbanyak</option>
         </select>
 
-        {/* Table / Grid Toggle */}
-        <div className="flex items-center gap-1 bg-[#F8F7FA] p-1 rounded-xl border border-[#EEE8F0]">
-          <button
-            onClick={() => setViewMode('table')}
-            className={`p-1.5 rounded-lg transition-colors ${
-              viewMode === 'table' ? 'bg-[#4B0B7A] text-white shadow-2xs' : 'text-[#786F7D]'
-            }`}
-            title="Tampilan Tabel"
-          >
-            <List className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg transition-colors ${
-              viewMode === 'grid' ? 'bg-[#4B0B7A] text-white shadow-2xs' : 'text-[#786F7D]'
-            }`}
-            title="Tampilan Grid Card"
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </button>
-        </div>
+
       </SearchFilterBar>
 
-      {/* Main Content: Table or Grid */}
+      {/* Main Content: Table */}
       {filteredSeries.length === 0 ? (
         <EmptyState
           icon={<Clapperboard className="w-7 h-7" />}
@@ -246,8 +223,7 @@ export default function SeriesListPage() {
           actionLabel="Tambah Series Baru"
           onAction={() => router.push('/admin/series/create')}
         />
-      ) : viewMode === 'table' ? (
-        /* TABLE VIEW */
+      ) : (
         <div className="bg-white rounded-2xl border border-[#EEE8F0] shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
@@ -338,7 +314,10 @@ export default function SeriesListPage() {
                       {/* Likes */}
                       <td className="py-3 px-4 text-center">
                         {(s.likes || 0) > 0 ? (
-                          <span className="inline-flex items-center gap-1 font-bold text-[#D94152]">
+                          <span
+                            className="inline-flex items-center gap-1 font-bold text-[#D94152]"
+                            title={`${formatLikes(s.likes || 0)} suka`}
+                          >
                             <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
                             {formatNumber(s.likes || 0)}
                           </span>
@@ -402,97 +381,6 @@ export default function SeriesListPage() {
               setItemsPerPage(size);
               setCurrentPage(1);
             }}
-          />
-        </div>
-      ) : (
-        /* GRID VIEW */
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {paginatedSeries.map((s) => (
-              <div
-                key={s.id}
-                className="bg-white rounded-2xl border border-[#EEE8F0] shadow-xs overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group"
-              >
-                <div>
-                  {/* Thumbnail Aspect Ratio 16:9 */}
-                  <div className="relative aspect-16/9 w-full overflow-hidden bg-black/10">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={s.thumbnail || s.cover || s.poster || ''}
-                      alt={s.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-
-                    <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
-                      <StatusBadge type="publication" value={s.publicationStatus} />
-                      {s.featured && (
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#FFD52E] text-[#21052F] shadow-xs">
-                          Unggulan
-                        </span>
-                      )}
-                    </div>
-
-                    {(s.likes || 0) > 0 && (
-                      <div className="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-xs text-white px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1">
-                        <Heart className="w-3 h-3 fill-[#D94152] text-[#D94152]" />
-                        {formatLikes(s.likes || 0)} suka
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-4">
-                    <Link
-                      href={`/admin/series/${s.id}`}
-                      className="font-bold text-sm text-[#24172B] hover:text-[#4B0B7A] line-clamp-1"
-                    >
-                      {s.title}
-                    </Link>
-
-                    <p className="text-[11px] text-[#786F7D] line-clamp-2 mt-1 leading-relaxed">
-                      {s.synopsis}
-                    </p>
-
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {s.genres.map((g) => (
-                        <span
-                          key={g}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#F6F1F8] text-[#4B0B7A]"
-                        >
-                          {g}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-[#FAF8FB] border-t border-[#EEE8F0] flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#24172B]">{s.episodeCount} Episode</span>
-                  <div className="flex items-center gap-1">
-                    <Link
-                      href={`/admin/series/${s.id}`}
-                      className="px-2.5 py-1 rounded-lg bg-[#4B0B7A] text-white text-[11px] font-semibold hover:bg-[#3B0762] transition-colors"
-                    >
-                      Detail
-                    </Link>
-                    <Link
-                      href={`/admin/series/${s.id}/edit`}
-                      className="p-1 rounded-lg text-[#786F7D] hover:text-[#4B0B7A] hover:bg-[#EEE8F0] transition-colors"
-                      title="Edit"
-                    >
-                      <Edit className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalItems={filteredSeries.length}
-            itemsPerPage={itemsPerPage}
-            onPageChange={setCurrentPage}
           />
         </div>
       )}
