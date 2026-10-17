@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAdmin } from '../../lib/context/AdminContext';
-import { HumoraLogo } from '../brand/HumoraLogo';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { useToast } from '../ui/Toast';
 import {
@@ -88,12 +87,6 @@ export function AdminTopbar({
               <Menu className="w-5 h-5" />
             )}
           </button>
-
-          <div className="lg:hidden flex items-center">
-            <Link href="/admin" className="flex items-center">
-              <HumoraLogo type="full" size="sm" showAdminBadge={true} />
-            </Link>
-          </div>
         </div>
 
         {/* Right Actions: System Activity Bell, User Avatar */}
