@@ -116,8 +116,6 @@ export default function VideosListPage() {
       thumbnail: ep.thumbnail,
       videoSource: ep.videoSource,
       hasVideoFile: ep.hasVideoFile,
-      hasSubtitleFile: ep.hasSubtitleFile,
-      subtitleLanguage: ep.subtitleLanguage,
       releaseDate: 'Draf',
       views: 0,
       watchTimeHours: 0,

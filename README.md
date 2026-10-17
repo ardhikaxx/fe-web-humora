@@ -53,7 +53,6 @@ Platform HUMORA beroperasi dengan model freemium video series:
 | `/admin/videos/create` | **Tambah Episode Baru** | Auto-suggestion nomor episode berikutnya, radio card pilihan *Free Preview* vs *Premium*, drag-and-drop simulasi file video, dan checklist kelengkapan metadata otomatis. |
 | `/admin/videos/[id]/edit` | **Edit Episode** | Perubahan judul, deskripsi, durasi menit:detik, tanggal rilis, thumbnail, dan status akses. |
 | `/admin/categories` | **Kategori & Genre** | Tabel kategori lengkap, formulir tambah/edit dengan validasi keunikan slug, serta pengaman penghapusan (*deletion guard*) jika masih ada series terkait. |
-| `/admin/subtitles` | **Subtitle & Kepsion** | Pengelolaan trek subtitle multi-bahasa (ID/EN) dan format (SRT/VTT), unduh simulasi file, serta **Modal Pratinjau Cue Lines Interaktif** dengan timestamp penanda waktu. |
 | `/admin/users` | **Pengguna Aplikasi** | Daftar pengguna demo, status akun (Aktif/Ditangguhkan), modal detail profil pengguna beserta riwayat tontonan terakhir. |
 | `/admin/subscribers` | **Pelanggan Aktif** | Distribusi paket (Bulanan/Tahunan), tanggal kedaluwarsa, nilai kontribusi LTV, dan modal linimasa riwayat perpanjangan langganan. |
 | `/admin/transactions` | **Verifikasi & Transaksi** | Manajemen alur 3 status pembayaran (*Menunggu Verifikasi*, *Diverifikasi*, *Ditolak*), pemeriksaan foto bukti transfer bank/QRIS, perbandingan data nominal vs bukti, aktivasi otomatis akun Premium saat disetujui, penolakan bukti palsu/kurang bayar, dan cetak kuitansi digital. |

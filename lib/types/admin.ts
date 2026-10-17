@@ -18,8 +18,6 @@ export interface AdminEpisode {
   thumbnail: string;
   videoSource?: string;
   hasVideoFile?: boolean;
-  hasSubtitleFile?: boolean;
-  subtitleLanguage?: string;
   releaseDate: string;
   views: number;
   watchTimeHours: number;
@@ -60,23 +58,6 @@ export interface AdminCategory {
   seriesCount: number;
   episodeCount: number;
   createdAt: string;
-}
-
-export interface AdminSubtitle {
-  id: string;
-  episodeId: number;
-  episodeNumber: number;
-  episodeTitle: string;
-  seriesId: string;
-  seriesTitle: string;
-  language: 'id' | 'en';
-  languageLabel: string;
-  format: 'SRT' | 'VTT';
-  fileName: string;
-  fileSize: string;
-  status: 'active' | 'draft';
-  sampleLines: { timestamp: string; text: string }[];
-  updatedAt: string;
 }
 
 export interface UserWatchHistoryItem {

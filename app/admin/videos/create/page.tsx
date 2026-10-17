@@ -25,7 +25,7 @@ function CreateEpisodeForm() {
   const searchParams = useSearchParams();
   const preselectedSeriesId = searchParams?.get('seriesId') || '';
 
-  const { series, episodes, addEpisode, addSubtitle } = useAdmin();
+  const { series, episodes, addEpisode } = useAdmin();
   const { success, error } = useToast();
 
   const initialSeriesId = preselectedSeriesId || (series[0]?.id ?? '');
@@ -52,9 +52,6 @@ function CreateEpisodeForm() {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>(
     initialSeries?.thumbnail || initialSeries?.cover || initialSeries?.poster || '/images/thumbnails/tipe-penumpang-taxi-online.jpg'
   );
-  const [hasSubtitle, setHasSubtitle] = useState(false);
-  const [subtitleFileName, setSubtitleFileName] = useState('');
-  const [subtitleLanguage, setSubtitleLanguage] = useState<'id' | 'en'>('id');
 
   // Inline errors
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -87,14 +84,13 @@ function CreateEpisodeForm() {
   // Completeness score
   const completeness = useMemo(() => {
     let score = 0;
-    if (title.trim()) score += 20;
-    if (selectedSeriesId) score += 20;
-    if (hasVideo) score += 20;
+    if (title.trim()) score += 25;
+    if (selectedSeriesId) score += 25;
+    if (hasVideo) score += 25;
     if (thumbnailUrl) score += 15;
-    if (description.trim()) score += 15;
-    if (hasSubtitle) score += 10;
+    if (description.trim()) score += 10;
     return Math.min(100, score);
-  }, [title, selectedSeriesId, hasVideo, thumbnailUrl, description, hasSubtitle]);
+  }, [title, selectedSeriesId, hasVideo, thumbnailUrl, description]);
 
   const handleSubmit = (e: React.FormEvent, forceStatus?: PublicationStatus) => {
     e.preventDefault();
@@ -128,32 +124,11 @@ function CreateEpisodeForm() {
       thumbnail: thumbnailUrl,
       videoSource: videoPreview,
       hasVideoFile: hasVideo,
-      hasSubtitleFile: hasSubtitle,
-      subtitleLanguage: hasSubtitle ? subtitleLanguage : undefined,
       releaseDate,
       views: 0,
       watchTimeHours: 0,
       completionRate: 0,
     });
-
-    if (hasSubtitle && subtitleFileName) {
-      addSubtitle({
-        episodeId: newEp.id,
-        episodeNumber: newEp.number,
-        episodeTitle: newEp.title,
-        seriesId: newEp.seriesId,
-        seriesTitle: currentSeries?.title || '',
-        language: subtitleLanguage,
-        languageLabel: subtitleLanguage === 'id' ? 'Bahasa Indonesia' : 'English',
-        format: subtitleFileName.endsWith('.vtt') ? 'VTT' : 'SRT',
-        fileName: subtitleFileName,
-        fileSize: '14.5 KB',
-        status: 'active',
-        sampleLines: [
-          { timestamp: '00:00:03,000 --> 00:00:07,000', text: `Dialog dialog video: ${newEp.title}` },
-        ],
-      });
-    }
 
     success('Video Berhasil Disimpan', `Video ${newEp.number} "${newEp.title}" berhasil ditambahkan.`);
     router.push('/admin/videos');
@@ -392,10 +367,10 @@ function CreateEpisodeForm() {
             </div>
           </div>
 
-          {/* Card 3: Unggah Berkas Video & Subtitle */}
+          {/* Card 3: Unggah Berkas Video & Thumbnail */}
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h2 className="text-sm font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              3. Unggah Berkas Media & Subtitle
+              3. Unggah Berkas Video & Thumbnail
             </h2>
 
             <div className="space-y-4">
@@ -413,46 +388,13 @@ function CreateEpisodeForm() {
                 }}
               />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <UploadDropzone
-                  acceptType="image"
-                  value={thumbnailUrl}
-                  label="Thumbnail Video (16:9)"
-                  hint="Gambar sampul video (otomatis tersinkron dari judul besar)"
-                  onSelect={(m) => m?.previewUrl && setThumbnailUrl(m.previewUrl)}
-                />
-
-                <div className="space-y-2">
-                  <UploadDropzone
-                    acceptType="subtitle"
-                    label="File Subtitle (.SRT / .VTT)"
-                    hint="Pilih berkas subtitle terjemahan opsional"
-                    onSelect={(m) => {
-                      if (m) {
-                        setHasSubtitle(true);
-                        setSubtitleFileName(m.name);
-                      } else {
-                        setHasSubtitle(false);
-                        setSubtitleFileName('');
-                      }
-                    }}
-                  />
-
-                  {hasSubtitle && (
-                    <div className="flex items-center gap-2 pt-1">
-                      <span className="text-xs text-[#786F7D] font-bold">Bahasa:</span>
-                      <select
-                        value={subtitleLanguage}
-                        onChange={(e) => setSubtitleLanguage(e.target.value as 'id' | 'en')}
-                        className="bg-[#F8F7FA] border border-[#EEE8F0] rounded-lg px-2.5 py-1 text-xs font-semibold text-[#24172B]"
-                      >
-                        <option value="id">Bahasa Indonesia</option>
-                        <option value="en">English</option>
-                      </select>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <UploadDropzone
+                acceptType="image"
+                value={thumbnailUrl}
+                label="Thumbnail Video (16:9)"
+                hint="Gambar sampul video (otomatis tersinkron dari judul besar)"
+                onSelect={(m) => m?.previewUrl && setThumbnailUrl(m.previewUrl)}
+              />
             </div>
           </div>
         </div>
@@ -603,10 +545,6 @@ function CreateEpisodeForm() {
               <li className="flex items-center gap-2">
                 <CheckCircle2 className={`w-3.5 h-3.5 ${thumbnailUrl ? 'text-[#21865B]' : 'text-[#EEE8F0]'}`} />
                 <span>Thumbnail 16:9 tersedia</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className={`w-3.5 h-3.5 ${hasSubtitle ? 'text-[#21865B]' : 'text-[#EEE8F0]'}`} />
-                <span>Subtitle ({hasSubtitle ? 'Tersedia' : 'Opsional'})</span>
               </li>
             </ul>
           </div>

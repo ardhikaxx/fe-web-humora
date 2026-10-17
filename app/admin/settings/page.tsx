@@ -298,7 +298,7 @@ export default function SettingsPage() {
       <ConfirmDialog
         isOpen={isResetModalOpen}
         title="Reset Semua Data ke Kondisi Awal?"
-        message="Tindakan ini akan mengembalikan data series, episode, kategori, subtitle, user, dan transaksi ke kondisi bawaan awal HUMORA. Seluruh perubahan lokal Anda akan digantikan dengan dataset demo asli."
+        message="Tindakan ini akan mengembalikan data series, episode, kategori, user, dan transaksi ke kondisi bawaan awal HUMORA. Seluruh perubahan lokal Anda akan digantikan dengan dataset demo asli."
         confirmLabel="Ya, Reset Semua Data"
         cancelLabel="Batal"
         variant="danger"

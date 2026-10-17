@@ -10,7 +10,6 @@ import {
   Clapperboard,
   Video,
   FolderTree,
-  FileText,
   Users,
   Crown,
   Receipt,
@@ -66,7 +65,6 @@ export function AdminSidebar({
         { label: 'Judul Konten', href: '/admin/series', icon: Clapperboard },
         { label: 'Kelola Video', href: '/admin/videos', icon: Video },
         { label: 'Kategori', href: '/admin/categories', icon: FolderTree },
-        { label: 'Subtitle', href: '/admin/subtitles', icon: FileText },
       ],
     },
     {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { UploadCloud, Film, Image as ImageIcon, FileText, CheckCircle2, X } from 'lucide-react';
+import { UploadCloud, Film, Image as ImageIcon, CheckCircle2, X } from 'lucide-react';
 
 interface UploadMeta {
   name: string;
@@ -11,7 +11,7 @@ interface UploadMeta {
 }
 
 interface UploadDropzoneProps {
-  acceptType: 'video' | 'image' | 'subtitle';
+  acceptType: 'video' | 'image';
   value?: string;
   existingMeta?: UploadMeta | null;
   onSelect: (meta: UploadMeta | null) => void;
@@ -47,16 +47,12 @@ export function UploadDropzone({
   const acceptMime =
     acceptType === 'video'
       ? 'video/mp4,video/webm'
-      : acceptType === 'image'
-      ? 'image/jpeg,image/png,image/webp'
-      : '.srt,.vtt,text/plain';
+      : 'image/jpeg,image/png,image/webp';
 
   const defaultHint =
     acceptType === 'video'
       ? 'MP4 atau WebM (Simulasi preview browser)'
-      : acceptType === 'image'
-      ? 'JPG, PNG, atau WebP (Rasio 16:9 atau 2:3)'
-      : 'File teks subtitle format .SRT atau .VTT';
+      : 'JPG, PNG, atau WebP (Rasio 16:9 atau 2:3)';
 
   const handleFiles = (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) return;
@@ -103,7 +99,7 @@ export function UploadDropzone({
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const IconComp = acceptType === 'video' ? Film : acceptType === 'image' ? ImageIcon : FileText;
+  const IconComp = acceptType === 'video' ? Film : ImageIcon;
 
   return (
     <div className={`space-y-1.5 ${className}`}>

@@ -2,7 +2,6 @@ import {
   AdminSeries,
   AdminEpisode,
   AdminCategory,
-  AdminSubtitle,
   AdminUser,
   AdminSubscriber,
   AdminTransaction,
@@ -450,8 +449,6 @@ function generateEpisodes(): AdminEpisode[] {
         thumbnail: s.thumbnail,
         videoSource: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
         hasVideoFile: true,
-        hasSubtitleFile: true,
-        subtitleLanguage: 'id',
         releaseDate: `${10 + epNum * 2} Feb 2026`,
         views,
         watchTimeHours,
@@ -466,67 +463,6 @@ function generateEpisodes(): AdminEpisode[] {
 }
 
 export const INITIAL_EPISODES: AdminEpisode[] = generateEpisodes();
-
-export const INITIAL_SUBTITLES: AdminSubtitle[] = [
-  {
-    id: 'sub-1',
-    episodeId: 1,
-    episodeNumber: 1,
-    episodeTitle: 'Tipe Bawel',
-    seriesId: 'series-1',
-    seriesTitle: 'Tipe Penumpang Taxi Online',
-    language: 'id',
-    languageLabel: 'Bahasa Indonesia',
-    format: 'SRT',
-    fileName: 'tipe-penumpang-ep1-id.srt',
-    fileSize: '12.2 KB',
-    status: 'active',
-    sampleLines: [
-      { timestamp: '00:00:03,100 --> 00:00:06,250', text: 'Penumpang: Siang Pak! Aduh macet banget ya hari ini.' },
-      { timestamp: '00:00:07,000 --> 00:00:11,400', text: 'Supir: Iya Bu, maklum jam pulang kantor.' },
-      { timestamp: '00:00:12,200 --> 00:00:16,800', text: 'Penumpang: Dulu nenek saya kalau masak opor ayam bumbunya digerus sendiri lho...' },
-    ],
-    updatedAt: '2026-02-11T10:00:00Z',
-  },
-  {
-    id: 'sub-2',
-    episodeId: 1,
-    episodeNumber: 1,
-    episodeTitle: 'Tipe Bawel',
-    seriesId: 'series-1',
-    seriesTitle: 'Tipe Penumpang Taxi Online',
-    language: 'en',
-    languageLabel: 'English',
-    format: 'VTT',
-    fileName: 'tipe-penumpang-ep1-en.vtt',
-    fileSize: '11.8 KB',
-    status: 'active',
-    sampleLines: [
-      { timestamp: '00:00:03.100 --> 00:00:06.250', text: 'Passenger: Afternoon sir! Traffic is crazy today.' },
-      { timestamp: '00:00:07.000 --> 00:00:11.400', text: 'Driver: Yes maam, typical rush hour.' },
-    ],
-    updatedAt: '2026-02-11T10:30:00Z',
-  },
-  {
-    id: 'sub-3',
-    episodeId: 5,
-    episodeNumber: 1,
-    episodeTitle: 'Pake Hadiah',
-    seriesId: 'series-2',
-    seriesTitle: 'Cara Deketin Cewek',
-    language: 'id',
-    languageLabel: 'Bahasa Indonesia',
-    format: 'SRT',
-    fileName: 'cara-deketin-ep1-id.srt',
-    fileSize: '14.5 KB',
-    status: 'active',
-    sampleLines: [
-      { timestamp: '00:00:02,500 --> 00:00:06,200', text: 'Rian: Pokoknya buket snack ini bakal bikin dia luluh!' },
-      { timestamp: '00:00:07,000 --> 00:00:11,100', text: 'Satpam: Mas, buketnya malah dikirim ke pos ronda depan!' },
-    ],
-    updatedAt: '2026-02-13T14:15:00Z',
-  },
-];
 
 export const INITIAL_USERS: AdminUser[] = [
   {

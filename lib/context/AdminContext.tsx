@@ -6,7 +6,6 @@ import {
   AdminSeries,
   AdminEpisode,
   AdminCategory,
-  AdminSubtitle,
   AdminUser,
   AdminSubscriber,
   AdminTransaction,
@@ -21,7 +20,6 @@ import {
   INITIAL_SERIES,
   INITIAL_EPISODES,
   INITIAL_CATEGORIES,
-  INITIAL_SUBTITLES,
   INITIAL_USERS,
   INITIAL_SUBSCRIBERS,
   INITIAL_TRANSACTIONS,
@@ -44,7 +42,6 @@ interface AdminContextType {
   series: AdminSeries[];
   episodes: AdminEpisode[];
   categories: AdminCategory[];
-  subtitles: AdminSubtitle[];
   users: AdminUser[];
   subscribers: AdminSubscriber[];
   transactions: AdminTransaction[];
@@ -90,10 +87,6 @@ interface AdminContextType {
   updateCategory: (id: string, updates: Partial<AdminCategory>) => void;
   deleteCategory: (id: string) => void;
 
-  // Subtitle actions
-  addSubtitle: (subData: Omit<AdminSubtitle, 'id' | 'updatedAt'>) => AdminSubtitle;
-  deleteSubtitle: (id: string) => void;
-
   // User actions
   updateUserStatus: (id: string, status: 'active' | 'suspended') => void;
 
@@ -126,7 +119,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [series, setSeries] = useState<AdminSeries[]>(INITIAL_SERIES);
   const [episodes, setEpisodes] = useState<AdminEpisode[]>(INITIAL_EPISODES);
   const [categories, setCategories] = useState<AdminCategory[]>(INITIAL_CATEGORIES);
-  const [subtitles, setSubtitles] = useState<AdminSubtitle[]>(INITIAL_SUBTITLES);
   const [users, setUsers] = useState<AdminUser[]>(INITIAL_USERS);
   const [subscribers, setSubscribers] = useState<AdminSubscriber[]>(INITIAL_SUBSCRIBERS);
   const [transactions, setTransactions] = useState<AdminTransaction[]>(INITIAL_TRANSACTIONS);
@@ -178,7 +170,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         if (parsed.series && Array.isArray(parsed.series)) setSeries(parsed.series);
         if (parsed.episodes && Array.isArray(parsed.episodes)) setEpisodes(parsed.episodes);
         if (parsed.categories && Array.isArray(parsed.categories)) setCategories(parsed.categories);
-        if (parsed.subtitles && Array.isArray(parsed.subtitles)) setSubtitles(parsed.subtitles);
         if (parsed.users && Array.isArray(parsed.users)) setUsers(parsed.users);
         if (parsed.subscribers && Array.isArray(parsed.subscribers)) setSubscribers(parsed.subscribers);
         if (parsed.transactions && Array.isArray(parsed.transactions)) setTransactions(parsed.transactions);
@@ -202,7 +193,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         series,
         episodes,
         categories,
-        subtitles,
         users,
         subscribers,
         transactions,
@@ -220,7 +210,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     series,
     episodes,
     categories,
-    subtitles,
     users,
     subscribers,
     transactions,
@@ -498,21 +487,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setCategories((prev) => prev.filter((c) => c.id !== id));
   }, []);
 
-  // Subtitle Actions
-  const addSubtitle = useCallback((subData: Omit<AdminSubtitle, 'id' | 'updatedAt'>): AdminSubtitle => {
-    const newSub: AdminSubtitle = {
-      ...subData,
-      id: `sub-${Date.now()}`,
-      updatedAt: new Date().toISOString(),
-    };
-    setSubtitles((prev) => [newSub, ...prev]);
-    return newSub;
-  }, []);
-
-  const deleteSubtitle = useCallback((id: string) => {
-    setSubtitles((prev) => prev.filter((s) => s.id !== id));
-  }, []);
-
   // User Actions
   const updateUserStatus = useCallback((id: string, status: 'active' | 'suspended') => {
     setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, status } : u)));
@@ -751,7 +725,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     setSeries(INITIAL_SERIES);
     setEpisodes(INITIAL_EPISODES);
     setCategories(INITIAL_CATEGORIES);
-    setSubtitles(INITIAL_SUBTITLES);
     setUsers(INITIAL_USERS);
     setSubscribers(INITIAL_SUBSCRIBERS);
     setTransactions(INITIAL_TRANSACTIONS);
@@ -773,7 +746,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     series,
     episodes,
     categories,
-    subtitles,
     users,
     subscribers,
     transactions,
@@ -796,8 +768,6 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     addCategory,
     updateCategory,
     deleteCategory,
-    addSubtitle,
-    deleteSubtitle,
     updateUserStatus,
     addAdmin,
     updateAdmin,
