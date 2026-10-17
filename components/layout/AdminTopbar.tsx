@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAdmin } from '../../lib/context/AdminContext';
-import { GlobalSearchModal } from './GlobalSearchModal';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { useToast } from '../ui/Toast';
 import {
   Menu,
-  Search,
   Bell,
   CheckCircle2,
   Settings,
@@ -27,7 +25,6 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
   const { recentActivities, adminProfile } = useAdmin();
   const { success } = useToast();
 
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNotifDropdownOpen, setIsNotifDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
@@ -48,7 +45,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
   return (
     <>
       <header className="h-16 px-4 lg:px-8 bg-white border-b border-[#EEE8F0] sticky top-0 z-20 flex items-center justify-between gap-4">
-        {/* Left: Mobile Toggle & Quick Search Trigger */}
+        {/* Left: Mobile Toggle */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenMobileSidebar}
@@ -56,17 +53,6 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
             aria-label="Buka menu navigasi"
           >
             <Menu className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#F8F7FA] hover:bg-[#F6F1F8] border border-[#EEE8F0] text-xs text-[#786F7D] hover:text-[#24172B] transition-colors w-48 sm:w-64"
-          >
-            <Search className="w-4 h-4 text-[#786F7D]" />
-            <span className="flex-1 text-left truncate">Cari di admin...</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white rounded border border-[#EEE8F0] text-[#786F7D]">
-              Ctrl+K
-            </kbd>
           </button>
         </div>
 
@@ -182,9 +168,6 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
           </div>
         </div>
       </header>
-
-      {/* Global Search Modal */}
-      <GlobalSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Logout Confirmation Dialog */}
       <ConfirmDialog
