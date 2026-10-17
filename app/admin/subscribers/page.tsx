@@ -12,12 +12,11 @@ import { formatDate, formatRupiah, formatNumber } from '../../../lib/utils/forma
 import { AdminSubscriber } from '../../../lib/types/admin';
 import {
   Crown,
-  CheckCircle2,
+  User,
   Clock,
   Sparkles,
   CreditCard,
   X,
-  Calendar,
 } from 'lucide-react';
 
 export default function SubscribersPage() {
@@ -176,9 +175,8 @@ export default function SubscribersPage() {
                   <tr key={sub.id} className="hover:bg-[#FAF8FB] transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl overflow-hidden bg-black/10 shrink-0 border border-[#EEE8F0]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={sub.userAvatar} alt={sub.userName} className="w-full h-full object-cover" />
+                        <div className="w-9 h-9 rounded-xl bg-[#F3E8FF] border border-[#EEE8F0] shrink-0 flex items-center justify-center text-[#6B21A8]">
+                          <User className="w-4.5 h-4.5" />
                         </div>
                         <div>
                           <p className="font-bold text-[#24172B] text-sm">{sub.userName}</p>
@@ -256,9 +254,8 @@ export default function SubscribersPage() {
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-xl bg-[#FAF8FB] border border-[#EEE8F0]">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-black/10 shrink-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={selectedSubscriber.userAvatar} alt={selectedSubscriber.userName} className="w-full h-full object-cover" />
+              <div className="w-12 h-12 rounded-xl bg-[#F3E8FF] border border-[#EEE8F0] shrink-0 flex items-center justify-center text-[#6B21A8] shadow-2xs">
+                <User className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-bold text-sm text-[#24172B]">{selectedSubscriber.userName}</h4>

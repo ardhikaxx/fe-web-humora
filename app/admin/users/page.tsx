@@ -14,15 +14,13 @@ import { formatDate, formatDateTime, formatNumber } from '../../../lib/utils/for
 import { AdminUser } from '../../../lib/types/admin';
 import {
   Users,
+  User,
   Eye,
   ShieldCheck,
-  ShieldAlert,
   Clock,
   Crown,
-  Calendar,
   X,
   Play,
-  RotateCcw,
 } from 'lucide-react';
 
 export default function UsersPage() {
@@ -67,7 +65,6 @@ export default function UsersPage() {
     currentPage * itemsPerPage
   );
 
-  const activeCount = users.filter((u) => u.status === 'active').length;
   const premiumCount = users.filter((u) => u.subscriptionStatus === 'premium').length;
 
   const handleToggleStatusConfirm = () => {
@@ -204,9 +201,8 @@ export default function UsersPage() {
                   <tr key={u.id} className="hover:bg-[#FAF8FB] transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl overflow-hidden bg-black/10 shrink-0 border border-[#EEE8F0]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={u.avatarUrl} alt={u.name} className="w-full h-full object-cover" />
+                        <div className="w-9 h-9 rounded-xl bg-[#F6F1F8] border border-[#EEE8F0] shrink-0 flex items-center justify-center text-[#4B0B7A]">
+                          <User className="w-4.5 h-4.5" />
                         </div>
                         <div>
                           <p className="font-bold text-[#24172B] text-sm">{u.name}</p>
@@ -284,9 +280,8 @@ export default function UsersPage() {
 
             {/* Profile Info Header */}
             <div className="flex items-center gap-4 p-4 rounded-xl bg-[#FAF8FB] border border-[#EEE8F0]">
-              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-black/10 shrink-0 border border-[#EEE8F0]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={selectedUser.avatarUrl} alt={selectedUser.name} className="w-full h-full object-cover" />
+              <div className="w-14 h-14 rounded-2xl bg-[#F6F1F8] border border-[#EEE8F0] shrink-0 flex items-center justify-center text-[#4B0B7A] shadow-2xs">
+                <User className="w-7 h-7" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">

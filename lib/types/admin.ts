@@ -80,7 +80,7 @@ export interface AdminUser {
   name: string;
   email: string;
   phone: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   joinedDate: string;
   status: AccountStatus;
   subscriptionStatus: UserSubscriptionStatus;
@@ -95,7 +95,7 @@ export interface AdminSubscriber {
   userId: string;
   userName: string;
   userEmail: string;
-  userAvatar: string;
+  userAvatar?: string;
   planId: 'monthly' | 'quarterly' | 'annual';
   planName: string;
   price: number;
