@@ -138,7 +138,7 @@ export default function AdminProfilePage() {
           <div className="relative flex flex-col sm:flex-row sm:items-center gap-5">
             {/* Avatar Box */}
             <div className="relative shrink-0">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#4B0B7A] via-[#5C0E99] to-[#7028B8] text-[#FFD52E] font-black text-2xl flex items-center justify-center shadow-md ring-4 ring-[#F6F1F8]">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#4B0B7A] via-[#5C0E99] to-[#7028B8] text-[#FFD52E] font-black text-2xl flex items-center justify-center shadow-md ring-4 ring-[#F6F1F8]">
                 {avatarInitials || 'AH'}
               </div>
             </div>

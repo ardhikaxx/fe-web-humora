@@ -306,7 +306,7 @@ export default function TransactionsPage() {
                                 setSelectedTxForVerification(tx);
                                 setIsRejecting(false);
                               }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-white text-xs font-bold shadow-xs transition-all animate-pulse"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
                             >
                               <ShieldCheck className="w-3.5 h-3.5 text-[#FFD52E]" />
                               Periksa & Verifikasi

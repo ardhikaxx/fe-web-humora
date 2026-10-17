@@ -13,7 +13,6 @@ import {
   UserPlus,
   Mail,
   Phone,
-  Lock,
   Eye,
   EyeOff,
   Edit2,
@@ -29,9 +28,6 @@ export default function AdminManagementPage() {
   const { success, error: toastError, warning } = useToast();
 
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Password visibility map for table rows (key: admin id)
-  const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
 
   // Modal states
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -62,14 +58,6 @@ export default function AdminManagementPage() {
       return matchName || matchEmail || matchPhone;
     });
   }, [admins, searchQuery]);
-
-  // Toggle table row password visibility
-  const toggleRowPasswordVisibility = (id: string) => {
-    setVisiblePasswords((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
 
   // Open Create Modal
   const handleOpenCreateModal = () => {
@@ -269,15 +257,12 @@ export default function AdminManagementPage() {
                 <tr className="border-b border-[#EEE8F0] bg-[#FAF8FB] text-[11px] font-bold text-[#786F7D] uppercase tracking-wider">
                   <th className="py-3.5 px-4 sm:px-6">Nama Lengkap</th>
                   <th className="py-3.5 px-4">Email</th>
-                  <th className="py-3.5 px-4">Password</th>
                   <th className="py-3.5 px-4">Nomor Telfon</th>
                   <th className="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EEE8F0] text-xs">
                 {filteredAdmins.map((adm) => {
-                  const isPassVisible = Boolean(visiblePasswords[adm.id]);
-
                   return (
                     <tr key={adm.id} className="hover:bg-[#FAF8FB] transition-colors">
                       {/* 1. Nama Lengkap */}
@@ -307,29 +292,7 @@ export default function AdminManagementPage() {
                         </div>
                       </td>
 
-                      {/* 3. Password */}
-                      <td className="py-3.5 px-4">
-                        <div className="inline-flex items-center gap-2 bg-[#F8F7FA] px-2.5 py-1 rounded-lg border border-[#EEE8F0]">
-                          <Lock className="w-3.5 h-3.5 text-[#786F7D] shrink-0" />
-                          <span className="font-mono text-xs text-[#24172B]">
-                            {isPassVisible ? adm.password : '••••••••'}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => toggleRowPasswordVisibility(adm.id)}
-                            className="text-[#786F7D] hover:text-[#24172B] p-0.5 transition-colors"
-                            title={isPassVisible ? 'Sembunyikan password' : 'Lihat password'}
-                          >
-                            {isPassVisible ? (
-                              <EyeOff className="w-3.5 h-3.5" />
-                            ) : (
-                              <Eye className="w-3.5 h-3.5" />
-                            )}
-                          </button>
-                        </div>
-                      </td>
-
-                      {/* 4. Nomor Telfon */}
+                      {/* 3. Nomor Telfon */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-1.5 font-medium text-[#24172B]">
                           <Phone className="w-3.5 h-3.5 text-[#786F7D] shrink-0" />

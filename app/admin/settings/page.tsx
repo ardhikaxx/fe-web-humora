@@ -3,32 +3,11 @@
 import React, { useState } from 'react';
 import { useAdmin } from '../../../lib/context/AdminContext';
 import { PageHeader } from '../../../components/ui/PageHeader';
-import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
 import { useToast } from '../../../components/ui/Toast';
-import { formatRupiah } from '../../../lib/utils/formatters';
-import {
-  Settings,
-  Save,
-  RotateCcw,
-  Sparkles,
-  CreditCard,
-  Crown,
-  Shield,
-  Layers,
-  Database,
-  CheckCircle2,
-} from 'lucide-react';
+import { Save, Crown } from 'lucide-react';
 
 export default function SettingsPage() {
-  const {
-    settings,
-    updateSettings,
-    resetAllDataToDefault,
-    series,
-    episodes,
-    users,
-    transactions,
-  } = useAdmin();
+  const { settings, updateSettings } = useAdmin();
   const { success } = useToast();
 
   const [appName, setAppName] = useState(settings.appName);
@@ -36,8 +15,6 @@ export default function SettingsPage() {
   const [supportEmail, setSupportEmail] = useState(settings.supportEmail);
   const [defaultFreeEpisodes, setDefaultFreeEpisodes] = useState(settings.defaultFreeEpisodes);
   const [plans, setPlans] = useState(settings.plans);
-
-  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   const handlePlanPriceChange = (planId: string, newPrice: number) => {
     setPlans((prev) =>
@@ -54,16 +31,7 @@ export default function SettingsPage() {
       defaultFreeEpisodes,
       plans,
     });
-    success('Pengaturan Disimpan', 'Konfigurasi brand, paket langganan, dan demo berhasil diperbarui.');
-  };
-
-  const handleResetConfirm = () => {
-    resetAllDataToDefault();
-    setAppName('HUMORA');
-    setTagline('Scroll. laugh. repeat.');
-    setDefaultFreeEpisodes(2);
-    setIsResetModalOpen(false);
-    success('Data Demo Direset', 'Katalog dan analitik dikembalikan ke kondisi bawaan awal.');
+    success('Pengaturan Disimpan', 'Konfigurasi brand dan paket langganan berhasil diperbarui.');
   };
 
   return (
@@ -71,23 +39,16 @@ export default function SettingsPage() {
       {/* Header */}
       <PageHeader
         title="Pengaturan Admin & Platform"
-        description="Konfigurasi identitas brand HUMORA, aturan batas episode gratis, paket langganan premium, dan kontrol data simulasi."
+        description="Konfigurasi identitas brand HUMORA, aturan batas episode gratis, dan paket langganan premium."
         breadcrumbs={[{ label: 'Pengaturan' }]}
         actions={
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsResetModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#D94152]/30 bg-[#FEECEF] text-xs font-bold text-[#D94152] hover:bg-[#FCD8DF] transition-colors"
-            >
-              <RotateCcw className="w-4 h-4" /> Reset Data Demo
-            </button>
-            <button
-              onClick={handleSave}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs"
-            >
-              <Save className="w-4 h-4 text-[#FFD52E]" /> Simpan Pengaturan
-            </button>
-          </div>
+          <button
+            onClick={handleSave}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B0B7A] hover:bg-[#3B0762] text-xs font-bold text-white transition-all shadow-xs cursor-pointer"
+          >
+            <Save className="w-4 h-4 text-[#FFD52E]" />
+            <span>Simpan Pengaturan</span>
+          </button>
         }
       />
 
@@ -109,7 +70,7 @@ export default function SettingsPage() {
                   type="text"
                   value={appName}
                   onChange={(e) => setAppName(e.target.value)}
-                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-bold text-[#24172B]"
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-bold text-[#24172B] focus:outline-hidden focus:border-[#4B0B7A] focus:bg-white transition-all"
                 />
               </div>
 
@@ -121,7 +82,7 @@ export default function SettingsPage() {
                   type="text"
                   value={tagline}
                   onChange={(e) => setTagline(e.target.value)}
-                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B]"
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B] focus:outline-hidden focus:border-[#4B0B7A] focus:bg-white transition-all"
                 />
               </div>
             </div>
@@ -134,41 +95,8 @@ export default function SettingsPage() {
                 type="email"
                 value={supportEmail}
                 onChange={(e) => setSupportEmail(e.target.value)}
-                className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B]"
+                className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B] focus:outline-hidden focus:border-[#4B0B7A] focus:bg-white transition-all"
               />
-            </div>
-
-            {/* Brand Colors Palette Preview */}
-            <div className="pt-2">
-              <span className="block text-xs font-bold text-[#786F7D] uppercase tracking-wider mb-2">
-                Palet Warna Resmi HUMORA
-              </span>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-[10px] font-bold">
-                <div className="p-2 rounded-xl bg-[#FFD52E] text-[#21052F] shadow-2xs">
-                  #FFD52E
-                  <span className="block text-[8px] opacity-80">Brand Yellow</span>
-                </div>
-                <div className="p-2 rounded-xl bg-[#4B0B7A] text-white shadow-2xs">
-                  #4B0B7A
-                  <span className="block text-[8px] opacity-80">Primary Purple</span>
-                </div>
-                <div className="p-2 rounded-xl bg-[#21052F] text-white shadow-2xs">
-                  #21052F
-                  <span className="block text-[8px] opacity-80">Dark Purple</span>
-                </div>
-                <div className="p-2 rounded-xl bg-[#7028B8] text-white shadow-2xs">
-                  #7028B8
-                  <span className="block text-[8px] opacity-80">Light Purple</span>
-                </div>
-                <div className="p-2 rounded-xl bg-[#F8F7FA] text-[#24172B] border border-[#EEE8F0]">
-                  #F8F7FA
-                  <span className="block text-[8px] opacity-80">Neutral Bg</span>
-                </div>
-                <div className="p-2 rounded-xl bg-[#21865B] text-white shadow-2xs">
-                  #21865B
-                  <span className="block text-[8px] opacity-80">Success</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -182,7 +110,7 @@ export default function SettingsPage() {
             </div>
 
             <p className="text-xs text-[#786F7D]">
-              Ubah nominal harga paket demo di bawah ini. Nilai ini menjadi acuan paket yang tampil di simulasi pembayaran mobile HUMORA.
+              Ubah nominal harga paket di bawah ini. Nilai ini menjadi acuan paket yang tampil di simulasi pembayaran mobile HUMORA.
             </p>
 
             <div className="space-y-4">
@@ -213,7 +141,7 @@ export default function SettingsPage() {
                       step={1000}
                       value={plan.price}
                       onChange={(e) => handlePlanPriceChange(plan.id, Number(e.target.value))}
-                      className="w-32 bg-white border border-[#EEE8F0] rounded-xl px-3 py-2 text-xs font-black text-[#24172B] text-right"
+                      className="w-32 bg-white border border-[#EEE8F0] rounded-xl px-3 py-2 text-xs font-black text-[#24172B] text-right focus:outline-hidden focus:border-[#4B0B7A]"
                     />
                   </div>
                 </div>
@@ -222,7 +150,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Side Column: Rules & Demo Reset (1 col) */}
+        {/* Side Column: Rules (1 col) */}
         <div className="space-y-6">
           {/* Content Rule Card */}
           <div className="bg-white p-5 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
@@ -241,7 +169,7 @@ export default function SettingsPage() {
                   max={5}
                   value={defaultFreeEpisodes}
                   onChange={(e) => setDefaultFreeEpisodes(Number(e.target.value))}
-                  className="w-20 bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-3 py-2 text-sm font-black text-[#24172B] text-center"
+                  className="w-20 bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-3 py-2 text-sm font-black text-[#24172B] text-center focus:outline-hidden focus:border-[#4B0B7A]"
                 />
                 <span className="text-xs text-[#786F7D]">episode pertama per series</span>
               </div>
@@ -250,61 +178,8 @@ export default function SettingsPage() {
               </p>
             </div>
           </div>
-
-          {/* LocalStorage Demo State Summary */}
-          <div className="bg-white p-5 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-[#EEE8F0]">
-              <h3 className="text-xs font-bold text-[#24172B] uppercase tracking-wider flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-[#4B0B7A]" /> Ringkasan Data Lokal
-              </h3>
-              <span className="text-[10px] font-bold text-[#21865B] bg-[#EAF8F1] px-2 py-0.5 rounded-full">
-                Tersimpan di Browser
-              </span>
-            </div>
-
-            <ul className="space-y-2 text-xs">
-              <li className="flex justify-between py-1 border-b border-[#F6F1F8]">
-                <span className="text-[#786F7D]">Total Series Tersimpan:</span>
-                <span className="font-bold text-[#24172B]">{series.length} Series</span>
-              </li>
-              <li className="flex justify-between py-1 border-b border-[#F6F1F8]">
-                <span className="text-[#786F7D]">Total Episode Terdaftar:</span>
-                <span className="font-bold text-[#24172B]">{episodes.length} Episode</span>
-              </li>
-              <li className="flex justify-between py-1 border-b border-[#F6F1F8]">
-                <span className="text-[#786F7D]">Pengguna Demo:</span>
-                <span className="font-bold text-[#24172B]">{users.length} Akun</span>
-              </li>
-              <li className="flex justify-between py-1">
-                <span className="text-[#786F7D]">Transaksi Tercatat:</span>
-                <span className="font-bold text-[#24172B]">{transactions.length} Data</span>
-              </li>
-            </ul>
-
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => setIsResetModalOpen(true)}
-                className="w-full py-2.5 px-4 rounded-xl border border-[#D94152]/30 bg-[#FEECEF] text-xs font-bold text-[#D94152] hover:bg-[#FCD8DF] transition-colors flex items-center justify-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" /> Reset Semua Data Demo
-              </button>
-            </div>
-          </div>
         </div>
       </form>
-
-      {/* Reset Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={isResetModalOpen}
-        title="Reset Semua Data ke Kondisi Awal?"
-        message="Tindakan ini akan mengembalikan data series, episode, kategori, user, dan transaksi ke kondisi bawaan awal HUMORA. Seluruh perubahan lokal Anda akan digantikan dengan dataset demo asli."
-        confirmLabel="Ya, Reset Semua Data"
-        cancelLabel="Batal"
-        variant="danger"
-        onConfirm={handleResetConfirm}
-        onCancel={() => setIsResetModalOpen(false)}
-      />
     </div>
   );
 }
