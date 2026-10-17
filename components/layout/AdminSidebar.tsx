@@ -134,7 +134,7 @@ export function AdminSidebar({
           {collapsed ? (
             <HumoraLogo type="icon" size="md" showAdminBadge={false} />
           ) : (
-            <HumoraLogo type="full" size="md" showAdminBadge={true} />
+            <HumoraLogo type="full" size="md" showAdminBadge={false} />
           )}
         </Link>
       </div>
