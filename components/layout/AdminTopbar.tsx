@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAdmin } from '../../lib/context/AdminContext';
+import { HumoraLogo } from '../brand/HumoraLogo';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { useToast } from '../ui/Toast';
 import {
@@ -44,16 +45,22 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
 
   return (
     <>
-      <header className="h-16 px-4 lg:px-8 bg-white border-b border-[#EEE8F0] sticky top-0 z-20 flex items-center justify-between gap-4">
-        {/* Left: Mobile Toggle */}
-        <div className="flex items-center gap-3">
+      <header className="h-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#EEE8F0] sticky top-0 z-20 flex items-center justify-between gap-3 sm:gap-4">
+        {/* Left: Mobile Toggle & Mobile Brand Logo */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <button
             onClick={onOpenMobileSidebar}
-            className="lg:hidden p-2 rounded-xl text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
+            className="lg:hidden p-2 rounded-xl text-[#24172B] hover:bg-[#F6F1F8] border border-transparent hover:border-[#EEE8F0] active:scale-95 transition-all"
             aria-label="Buka menu navigasi"
           >
             <Menu className="w-5 h-5" />
           </button>
+
+          <div className="lg:hidden flex items-center">
+            <Link href="/admin" className="flex items-center">
+              <HumoraLogo size="sm" showAdminBadge={true} showTagline={false} />
+            </Link>
+          </div>
         </div>
 
         {/* Right Actions: System Activity Bell, User Avatar */}
@@ -75,7 +82,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
             </button>
 
             {isNotifDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-[#EEE8F0] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-sm bg-white rounded-2xl shadow-xl border border-[#EEE8F0] p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-[#EEE8F0] mb-2 px-1">
                   <span className="text-xs font-bold text-[#24172B]">Aktivitas Sistem ({systemAlerts.length})</span>
                   <span className="text-[10px] font-semibold text-[#786F7D]">Terbaru</span>
