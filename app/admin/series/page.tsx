@@ -12,7 +12,7 @@ import { Pagination } from '../../../components/ui/Pagination';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
 import { useToast } from '../../../components/ui/Toast';
-import { formatDate, formatNumber } from '../../../lib/utils/formatters';
+import { formatDate, formatNumber, formatLikes } from '../../../lib/utils/formatters';
 import { AdminSeries } from '../../../lib/types/admin';
 import {
   Clapperboard,
@@ -435,7 +435,7 @@ export default function SeriesListPage() {
                     {(s.likes || 0) > 0 && (
                       <div className="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-xs text-white px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1">
                         <Heart className="w-3 h-3 fill-[#D94152] text-[#D94152]" />
-                        {formatNumber(s.likes || 0)}
+                        {formatLikes(s.likes || 0)} suka
                       </div>
                     )}
                   </div>

@@ -12,7 +12,7 @@ import { Pagination } from '../../../components/ui/Pagination';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
 import { useToast } from '../../../components/ui/Toast';
-import { formatNumber } from '../../../lib/utils/formatters';
+import { formatNumber, formatLikes } from '../../../lib/utils/formatters';
 import { AdminEpisode } from '../../../lib/types/admin';
 import {
   Video,
@@ -358,7 +358,10 @@ export default function VideosListPage() {
 
                     {/* Likes */}
                     <td className="py-3 px-4 text-right">
-                      <span className="inline-flex items-center justify-end gap-1.5 font-bold text-[#D94152]">
+                      <span
+                        className="inline-flex items-center justify-end gap-1.5 font-bold text-[#D94152]"
+                        title={`${formatLikes(ep.likes ?? 0)} suka`}
+                      >
                         <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
                         {formatNumber(ep.likes ?? 0)}
                       </span>

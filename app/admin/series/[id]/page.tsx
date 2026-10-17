@@ -10,7 +10,7 @@ import { StatusBadge } from '../../../../components/ui/StatusBadge';
 import { ConfirmDialog } from '../../../../components/ui/ConfirmDialog';
 import { EmptyState } from '../../../../components/ui/EmptyState';
 import { useToast } from '../../../../components/ui/Toast';
-import { formatNumber, formatDate } from '../../../../lib/utils/formatters';
+import { formatNumber, formatDate, formatLikes } from '../../../../lib/utils/formatters';
 import { AdminEpisode } from '../../../../lib/types/admin';
 import {
   ArrowLeft,
@@ -159,7 +159,7 @@ function SeriesDetailContent() {
                 <span className="text-xs text-[#786F7D] font-medium">• {currentSeries.year}</span>
                 {(currentSeries.likes || 0) > 0 && (
                   <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D94152] bg-[#FEECEF] px-2.5 py-0.5 rounded-md">
-                    <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" /> {formatNumber(currentSeries.likes || 0)} Suka
+                    <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" /> {formatLikes(currentSeries.likes || 0)} suka ({formatNumber(currentSeries.likes || 0)})
                   </span>
                 )}
               </div>

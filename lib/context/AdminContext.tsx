@@ -111,7 +111,7 @@ interface AdminContextType {
   resetAllDataToDefault: () => void;
 }
 
-const STORAGE_KEY = 'humora_admin_data_v2';
+const STORAGE_KEY = 'humora_admin_data_v3';
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
@@ -167,8 +167,30 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed.series && Array.isArray(parsed.series)) setSeries(parsed.series);
-        if (parsed.episodes && Array.isArray(parsed.episodes)) setEpisodes(parsed.episodes);
+        if (parsed.series && Array.isArray(parsed.series)) {
+          const mergedSeries = parsed.series.map((s: AdminSeries) => {
+            const init = INITIAL_SERIES.find((x) => x.id === s.id || x.slug === s.slug);
+            const likesVal = s.likes ?? s.likesCount ?? init?.likes ?? 0;
+            return {
+              ...s,
+              likes: likesVal,
+              likesCount: likesVal,
+            };
+          });
+          setSeries(mergedSeries);
+        }
+        if (parsed.episodes && Array.isArray(parsed.episodes)) {
+          const mergedEpisodes = parsed.episodes.map((ep: AdminEpisode) => {
+            const init = INITIAL_EPISODES.find((x) => x.id === ep.id);
+            const likesVal = ep.likes ?? ep.likesCount ?? init?.likes ?? 0;
+            return {
+              ...ep,
+              likes: likesVal,
+              likesCount: likesVal,
+            };
+          });
+          setEpisodes(mergedEpisodes);
+        }
         if (parsed.categories && Array.isArray(parsed.categories)) setCategories(parsed.categories);
         if (parsed.users && Array.isArray(parsed.users)) setUsers(parsed.users);
         if (parsed.subscribers && Array.isArray(parsed.subscribers)) setSubscribers(parsed.subscribers);
@@ -276,6 +298,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       const thumb = seriesData.thumbnail || seriesData.cover || seriesData.poster || '/images/thumbnails/tipe-penumpang-taxi-online.jpg';
       const newSeries: AdminSeries = {
         ...seriesData,
+        likes: seriesData.likes ?? seriesData.likesCount ?? 0,
+        likesCount: seriesData.likesCount ?? seriesData.likes ?? 0,
         thumbnail: thumb,
         poster: seriesData.poster || thumb,
         cover: seriesData.cover || thumb,
@@ -369,7 +393,8 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
         ...episodeData,
         id: newId,
         views: episodeData.views ?? 0,
-        likes: episodeData.likes ?? 0,
+        likes: episodeData.likes ?? episodeData.likesCount ?? 0,
+        likesCount: episodeData.likesCount ?? episodeData.likes ?? 0,
         watchTimeHours: episodeData.watchTimeHours ?? 0,
         completionRate: episodeData.completionRate ?? 0,
         createdAt: now,

@@ -97,3 +97,18 @@ export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength)}...`;
 }
+
+/**
+ * Format likes count matching the mobile prototype format (e.g. 14200 -> "14.2rb")
+ */
+export function formatLikes(count?: number | null): string {
+  if (!count && count !== 0) return '0';
+  if (count >= 1000000) {
+    return `${(count / 1000000).toFixed(1).replace('.0', '')}jt`;
+  }
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1).replace('.0', '')}rb`;
+  }
+  return count.toLocaleString('id-ID');
+}
+

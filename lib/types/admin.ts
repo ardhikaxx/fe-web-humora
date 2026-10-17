@@ -21,6 +21,7 @@ export interface AdminEpisode {
   releaseDate: string;
   views: number;
   likes: number; // Jumlah suka (Likes)
+  likesCount?: number; // Sinkron dengan mobile prototype (e.g. 4250)
   watchTimeHours: number;
   completionRate: number; // e.g. 84 for 84%
   createdAt: string;
@@ -37,6 +38,7 @@ export interface AdminSeries {
   poster?: string; // Optional fallback
   cover?: string; // Optional fallback
   likes: number; // Jumlah suka (Likes)
+  likesCount?: number; // Sinkron dengan mobile prototype (e.g. 14200)
   year: number;
   videoCount?: number;
   episodeCount: number;
