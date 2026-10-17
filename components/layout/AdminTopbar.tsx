@@ -58,7 +58,7 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
 
           <div className="lg:hidden flex items-center">
             <Link href="/admin" className="flex items-center">
-              <HumoraLogo size="sm" showAdminBadge={true} showTagline={false} />
+              <HumoraLogo type="full" size="sm" showAdminBadge={true} />
             </Link>
           </div>
         </div>

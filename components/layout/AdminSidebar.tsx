@@ -127,14 +127,18 @@ export function AdminSidebar({
   const renderSidebarContent = (collapsed: boolean, isMobileDrawer: boolean) => (
     <div className="h-full flex flex-col bg-white select-none">
       {/* Brand Header */}
-      <div className="h-16 px-4 sm:px-5 shrink-0 border-b border-[#EEE8F0] flex items-center justify-between gap-2">
+      <div
+        className={`h-16 shrink-0 border-b border-[#EEE8F0] flex items-center ${
+          collapsed
+            ? 'px-2 justify-center gap-1.5'
+            : 'px-4 sm:px-5 justify-between gap-2'
+        }`}
+      >
         <Link href="/admin" onClick={onCloseMobile} className="flex items-center">
           {collapsed ? (
-            <div className="w-9 h-9 rounded-xl bg-[#4B0B7A] flex items-center justify-center text-[#FFD52E] font-black text-lg shadow-xs">
-              H
-            </div>
+            <HumoraLogo type="icon" size="sm" showAdminBadge={false} />
           ) : (
-            <HumoraLogo size="sm" showAdminBadge={true} showTagline={false} />
+            <HumoraLogo type="full" size="sm" showAdminBadge={true} />
           )}
         </Link>
 
