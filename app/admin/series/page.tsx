@@ -12,14 +12,14 @@ import { Pagination } from '../../../components/ui/Pagination';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
 import { useToast } from '../../../components/ui/Toast';
-import { formatDate } from '../../../lib/utils/formatters';
+import { formatDate, formatNumber } from '../../../lib/utils/formatters';
 import { AdminSeries } from '../../../lib/types/admin';
 import {
   Clapperboard,
   Plus,
   LayoutGrid,
   List,
-  Star,
+  Heart,
   Eye,
   Edit,
   Trash2,
@@ -37,7 +37,7 @@ export default function SeriesListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [genreFilter, setGenreFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [sortBy, setSortBy] = useState<'newest' | 'title' | 'episodes' | 'rating'>('newest');
+  const [sortBy, setSortBy] = useState<'newest' | 'title' | 'episodes' | 'likes'>('newest');
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -67,7 +67,7 @@ export default function SeriesListPage() {
       .sort((a, b) => {
         if (sortBy === 'title') return a.title.localeCompare(b.title);
         if (sortBy === 'episodes') return b.episodeCount - a.episodeCount;
-        if (sortBy === 'rating') return b.rating - a.rating;
+        if (sortBy === 'likes') return (b.likes || 0) - (a.likes || 0);
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
   }, [series, searchQuery, genreFilter, statusFilter, sortBy]);
@@ -205,13 +205,13 @@ export default function SeriesListPage() {
         {/* Sort By */}
         <select
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as 'newest' | 'title' | 'episodes' | 'rating')}
+          onChange={(e) => setSortBy(e.target.value as 'newest' | 'title' | 'episodes' | 'likes')}
           className="bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-3 py-2 text-xs font-semibold text-[#24172B] focus:outline-hidden"
         >
           <option value="newest">Terbaru</option>
           <option value="title">Judul (A-Z)</option>
           <option value="episodes">Jumlah Episode</option>
-          <option value="rating">Rating Tertinggi</option>
+          <option value="likes">Suka Terbanyak</option>
         </select>
 
         {/* Table / Grid Toggle */}
@@ -258,7 +258,7 @@ export default function SeriesListPage() {
                   <th className="py-3 px-4 text-center">Total Episode</th>
                   <th className="py-3 px-4 text-center">Akses Episode</th>
                   <th className="py-3 px-4 text-center">Status</th>
-                  <th className="py-3 px-4 text-center">Rating</th>
+                  <th className="py-3 px-4 text-center">Jumlah Suka</th>
                   <th className="py-3 px-4">Diperbarui</th>
                   <th className="py-3 px-4 text-right">Tindakan</th>
                 </tr>
@@ -335,12 +335,12 @@ export default function SeriesListPage() {
                         <StatusBadge type="publication" value={s.publicationStatus} />
                       </td>
 
-                      {/* Rating */}
+                      {/* Likes */}
                       <td className="py-3 px-4 text-center">
-                        {s.rating > 0 ? (
-                          <span className="inline-flex items-center gap-1 font-bold text-[#24172B]">
-                            <Star className="w-3.5 h-3.5 fill-[#FFD52E] text-[#FFD52E]" />
-                            {s.rating}
+                        {(s.likes || 0) > 0 ? (
+                          <span className="inline-flex items-center gap-1 font-bold text-[#D94152]">
+                            <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
+                            {formatNumber(s.likes || 0)}
                           </span>
                         ) : (
                           <span className="text-[#786F7D]">-</span>
@@ -432,10 +432,10 @@ export default function SeriesListPage() {
                       )}
                     </div>
 
-                    {s.rating > 0 && (
+                    {(s.likes || 0) > 0 && (
                       <div className="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-xs text-white px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-[#FFD52E] text-[#FFD52E]" />
-                        {s.rating}
+                        <Heart className="w-3 h-3 fill-[#D94152] text-[#D94152]" />
+                        {formatNumber(s.likes || 0)}
                       </div>
                     )}
                   </div>

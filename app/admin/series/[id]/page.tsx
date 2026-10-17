@@ -18,10 +18,9 @@ import {
   Edit,
   Trash2,
   CheckCircle2,
-  Star,
+  Heart,
   Play,
   Eye,
-  Clock,
   Sparkles,
   Crown,
   Calendar,
@@ -158,9 +157,9 @@ function SeriesDetailContent() {
                   </span>
                 ))}
                 <span className="text-xs text-[#786F7D] font-medium">• {currentSeries.year}</span>
-                {currentSeries.rating > 0 && (
-                  <span className="inline-flex items-center gap-1 text-xs font-black text-[#24172B] bg-[#FFF9E0] px-2 py-0.5 rounded-md">
-                    <Star className="w-3.5 h-3.5 fill-[#FFD52E] text-[#FFD52E]" /> {currentSeries.rating}
+                {(currentSeries.likes || 0) > 0 && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D94152] bg-[#FEECEF] px-2.5 py-0.5 rounded-md">
+                    <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" /> {formatNumber(currentSeries.likes || 0)} Suka
                   </span>
                 )}
               </div>
@@ -269,6 +268,7 @@ function SeriesDetailContent() {
                   <th className="py-3 px-4 text-center">Tipe Akses (Klik Toggle)</th>
                   <th className="py-3 px-4 text-center">Publikasi</th>
                   <th className="py-3 px-4 text-right">Views</th>
+                  <th className="py-3 px-4 text-right">Jumlah Suka</th>
                   <th className="py-3 px-4 text-right">Completion</th>
                   <th className="py-3 px-4 text-right">Tindakan</th>
                 </tr>
@@ -332,6 +332,13 @@ function SeriesDetailContent() {
 
                     <td className="py-3 px-4 text-right font-black text-[#24172B]">
                       {formatNumber(ep.views)}
+                    </td>
+
+                    <td className="py-3 px-4 text-right">
+                      <span className="inline-flex items-center justify-end gap-1 font-bold text-[#D94152]">
+                        <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
+                        {formatNumber(ep.likes ?? 0)}
+                      </span>
                     </td>
 
                     <td className="py-3 px-4 text-right font-bold text-[#21865B]">

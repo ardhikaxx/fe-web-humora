@@ -83,7 +83,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/tipe-penumpang-taxi-online.jpg',
     poster: '/images/thumbnails/tipe-penumpang-taxi-online.jpg',
     cover: '/images/thumbnails/tipe-penumpang-taxi-online.jpg',
-    rating: 4.9,
+    likes: 74200,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -105,7 +105,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/cara-deketin-cewek.jpg',
     poster: '/images/thumbnails/cara-deketin-cewek.jpg',
     cover: '/images/thumbnails/cara-deketin-cewek.jpg',
-    rating: 4.8,
+    likes: 64800,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -127,7 +127,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/tipe-tipe-teman-sekantor.jpg',
     poster: '/images/thumbnails/tipe-tipe-teman-sekantor.jpg',
     cover: '/images/thumbnails/tipe-tipe-teman-sekantor.jpg',
-    rating: 4.9,
+    likes: 81900,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -149,7 +149,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/drama-warga-grup-rt.jpg',
     poster: '/images/thumbnails/drama-warga-grup-rt.jpg',
     cover: '/images/thumbnails/drama-warga-grup-rt.jpg',
-    rating: 4.7,
+    likes: 49300,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -171,7 +171,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/momen-canggung-kencan-pertama.jpg',
     poster: '/images/thumbnails/momen-canggung-kencan-pertama.jpg',
     cover: '/images/thumbnails/momen-canggung-kencan-pertama.jpg',
-    rating: 4.8,
+    likes: 68700,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -193,7 +193,7 @@ export const INITIAL_SERIES: AdminSeries[] = [
     thumbnail: '/images/thumbnails/tipe-pembeli-di-toko-kelontong.jpg',
     poster: '/images/thumbnails/tipe-pembeli-di-toko-kelontong.jpg',
     cover: '/images/thumbnails/tipe-pembeli-di-toko-kelontong.jpg',
-    rating: 4.8,
+    likes: 54100,
     year: 2026,
     videoCount: 4,
     episodeCount: 4,
@@ -431,6 +431,7 @@ function generateEpisodes(): AdminEpisode[] {
       const epNum = idx + 1;
       const baseViews = 24000 - idx * 3000;
       const views = v.accessType === 'free' ? baseViews : Math.floor(baseViews * 0.75);
+      const likes = Math.round(views * (0.42 + (idx % 3) * 0.05));
       const watchTimeHours = Math.round((views * (v.seconds / 60)) / 60);
       const completionRate = Math.max(70, 92 - idx * 4);
 
@@ -451,6 +452,7 @@ function generateEpisodes(): AdminEpisode[] {
         hasVideoFile: true,
         releaseDate: `${10 + epNum * 2} Feb 2026`,
         views,
+        likes,
         watchTimeHours,
         completionRate,
         createdAt: '2026-02-01T08:00:00Z',

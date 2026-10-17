@@ -23,6 +23,7 @@ import {
   Edit,
   Trash2,
   Copy,
+  Heart,
 } from 'lucide-react';
 
 export default function VideosListPage() {
@@ -41,7 +42,7 @@ export default function VideosListPage() {
   const [seriesFilter, setSeriesFilter] = useState('all');
   const [accessFilter, setAccessFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [sortBy, setSortBy] = useState<'number' | 'views' | 'title' | 'duration'>('views');
+  const [sortBy, setSortBy] = useState<'number' | 'views' | 'likes' | 'title' | 'duration'>('views');
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,6 +76,7 @@ export default function VideosListPage() {
         if (sortBy === 'number') return a.number - b.number;
         if (sortBy === 'title') return a.title.localeCompare(b.title);
         if (sortBy === 'duration') return b.durationSeconds - a.durationSeconds;
+        if (sortBy === 'likes') return (b.likes || 0) - (a.likes || 0);
         return b.views - a.views;
       });
   }, [episodes, searchQuery, seriesFilter, accessFilter, statusFilter, sortBy]);
@@ -118,6 +120,7 @@ export default function VideosListPage() {
       hasVideoFile: ep.hasVideoFile,
       releaseDate: 'Draf',
       views: 0,
+      likes: 0,
       watchTimeHours: 0,
       completionRate: 0,
     });
@@ -247,10 +250,11 @@ export default function VideosListPage() {
         {/* Sort By */}
         <select
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as 'number' | 'views' | 'title' | 'duration')}
+          onChange={(e) => setSortBy(e.target.value as 'number' | 'views' | 'likes' | 'title' | 'duration')}
           className="bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-3 py-2 text-xs font-semibold text-[#24172B] focus:outline-hidden"
         >
           <option value="views">Views Terbanyak</option>
+          <option value="likes">Suka Terbanyak</option>
           <option value="number">Nomor Episode</option>
           <option value="title">Judul (A-Z)</option>
           <option value="duration">Durasi Terlama</option>
@@ -278,6 +282,7 @@ export default function VideosListPage() {
                   <th className="py-3 px-4 text-center">Tipe Akses (Klik Toggle)</th>
                   <th className="py-3 px-4 text-center">Status Publikasi</th>
                   <th className="py-3 px-4 text-right">Penayangan</th>
+                  <th className="py-3 px-4 text-right">Jumlah Suka</th>
                   <th className="py-3 px-4 text-right">Completion</th>
                   <th className="py-3 px-4 text-right">Tindakan</th>
                 </tr>
@@ -349,6 +354,14 @@ export default function VideosListPage() {
                     {/* Views */}
                     <td className="py-3 px-4 text-right font-black text-[#24172B]">
                       {formatNumber(ep.views)}
+                    </td>
+
+                    {/* Likes */}
+                    <td className="py-3 px-4 text-right">
+                      <span className="inline-flex items-center justify-end gap-1.5 font-bold text-[#D94152]">
+                        <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
+                        {formatNumber(ep.likes ?? 0)}
+                      </span>
                     </td>
 
                     {/* Completion rate */}

@@ -26,6 +26,7 @@ import {
   Crown,
   CreditCard,
   Calendar,
+  Heart,
 } from 'lucide-react';
 
 export default function AnalyticsPage() {
@@ -35,7 +36,7 @@ export default function AnalyticsPage() {
 
   // Video table filters & sorting
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'views' | 'completion' | 'watchTime'>('views');
+  const [sortBy, setSortBy] = useState<'views' | 'likes' | 'completion' | 'watchTime'>('views');
 
   const summary = getAnalyticsForPeriod(period);
 
@@ -77,6 +78,7 @@ export default function AnalyticsPage() {
       .sort((a, b) => {
         if (sortBy === 'completion') return b.completionRate - a.completionRate;
         if (sortBy === 'watchTime') return b.watchTimeHours - a.watchTimeHours;
+        if (sortBy === 'likes') return (b.likes || 0) - (a.likes || 0);
         return b.views - a.views;
       });
   }, [episodes, searchQuery, sortBy]);
@@ -375,10 +377,11 @@ export default function AnalyticsPage() {
             <span className="text-[#786F7D] font-medium">Urutkan:</span>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'views' | 'completion' | 'watchTime')}
+              onChange={(e) => setSortBy(e.target.value as 'views' | 'likes' | 'completion' | 'watchTime')}
               className="bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-3 py-1.5 text-xs text-[#24172B] font-semibold focus:outline-hidden"
             >
               <option value="views">Views Terbanyak</option>
+              <option value="likes">Suka Terbanyak</option>
               <option value="completion">Completion Rate Tertinggi</option>
               <option value="watchTime">Watch Time Terlama</option>
             </select>
@@ -402,6 +405,7 @@ export default function AnalyticsPage() {
                 <th className="py-3 px-4">Episode & Series</th>
                 <th className="py-3 px-4 text-center">Status Akses</th>
                 <th className="py-3 px-4 text-right">Views</th>
+                <th className="py-3 px-4 text-right">Jumlah Suka</th>
                 <th className="py-3 px-4 text-right">Watch Time</th>
                 <th className="py-3 px-4 text-right">Completion Rate</th>
                 <th className="py-3 px-4 text-center">Tindakan</th>
@@ -430,6 +434,12 @@ export default function AnalyticsPage() {
                   </td>
                   <td className="py-3 px-4 text-right font-black text-[#24172B]">
                     {formatNumber(ep.views)}
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <span className="inline-flex items-center justify-end gap-1 font-bold text-[#D94152]">
+                      <Heart className="w-3.5 h-3.5 fill-[#D94152] text-[#D94152]" />
+                      {formatNumber(ep.likes ?? 0)}
+                    </span>
                   </td>
                   <td className="py-3 px-4 text-right font-semibold text-[#786F7D]">
                     {formatNumber(ep.watchTimeHours)} jam

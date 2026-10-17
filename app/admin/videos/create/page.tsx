@@ -126,6 +126,7 @@ function CreateEpisodeForm() {
       hasVideoFile: hasVideo,
       releaseDate,
       views: 0,
+      likes: 0,
       watchTimeHours: 0,
       completionRate: 0,
     });

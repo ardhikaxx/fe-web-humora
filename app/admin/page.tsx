@@ -32,6 +32,7 @@ import {
   Sparkles,
   CheckCircle2,
   Calendar,
+  Heart,
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
@@ -234,6 +235,7 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4">Episode</th>
                     <th className="py-3 px-4">Series & Kategori</th>
                     <th className="py-3 px-4 text-right">Views</th>
+                    <th className="py-3 px-4 text-right">Suka</th>
                     <th className="py-3 px-4 text-right">Completion</th>
                     <th className="py-3 px-4 text-center">Akses</th>
                   </tr>
@@ -265,6 +267,12 @@ export default function AdminDashboardPage() {
                       </td>
                       <td className="py-3 px-4 text-right font-black text-[#24172B]">
                         {formatNumber(ep.views)}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <span className="inline-flex items-center justify-end gap-1 font-bold text-[#D94152]">
+                          <Heart className="w-3 h-3 fill-[#D94152] text-[#D94152]" />
+                          {formatNumber(ep.likes ?? 0)}
+                        </span>
                       </td>
                       <td className="py-3 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">

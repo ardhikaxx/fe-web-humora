@@ -368,9 +368,10 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
       const newEpisode: AdminEpisode = {
         ...episodeData,
         id: newId,
-        views: 0,
-        watchTimeHours: 0,
-        completionRate: 0,
+        views: episodeData.views ?? 0,
+        likes: episodeData.likes ?? 0,
+        watchTimeHours: episodeData.watchTimeHours ?? 0,
+        completionRate: episodeData.completionRate ?? 0,
         createdAt: now,
         updatedAt: now,
       };

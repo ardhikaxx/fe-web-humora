@@ -20,6 +20,7 @@ export interface AdminEpisode {
   hasVideoFile?: boolean;
   releaseDate: string;
   views: number;
+  likes: number; // Jumlah suka (Likes)
   watchTimeHours: number;
   completionRate: number; // e.g. 84 for 84%
   createdAt: string;
@@ -35,7 +36,7 @@ export interface AdminSeries {
   thumbnail: string; // Unified 16:9 thumbnail (tidak perlu poster dan cover terpisah)
   poster?: string; // Optional fallback
   cover?: string; // Optional fallback
-  rating: number; // e.g. 4.9
+  likes: number; // Jumlah suka (Likes)
   year: number;
   videoCount?: number;
   episodeCount: number;

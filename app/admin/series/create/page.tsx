@@ -95,7 +95,7 @@ export default function CreateSeriesPage() {
       genres: selectedGenres,
       year,
       displayOrder,
-      rating: 4.8,
+      likes: 0,
       episodeCount: 0,
       videoCount: 0,
       featured,
