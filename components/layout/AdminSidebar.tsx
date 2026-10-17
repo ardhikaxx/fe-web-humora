@@ -122,15 +122,9 @@ export function AdminSidebar({
 
   const renderSidebarContent = (collapsed: boolean) => (
     <div className="h-full flex flex-col bg-white select-none">
-      {/* Brand Header: Fokus menampilkan logo yang besar dan jelas tanpa tombol penutup di sidebar */}
-      <div
-        className={`h-16 shrink-0 border-b border-[#EEE8F0] flex items-center ${
-          collapsed
-            ? 'px-2 justify-center'
-            : 'px-4 sm:px-5 justify-start'
-        }`}
-      >
-        <Link href="/admin" onClick={onCloseMobile} className="flex items-center">
+      {/* Brand Header: Logo benar-benar berada persis di tengah secara horizontal */}
+      <div className="h-16 shrink-0 border-b border-[#EEE8F0] px-4 flex items-center justify-center w-full">
+        <Link href="/admin" onClick={onCloseMobile} className="flex items-center justify-center">
           {collapsed ? (
             <HumoraLogo type="icon" size="md" showAdminBadge={false} />
           ) : (

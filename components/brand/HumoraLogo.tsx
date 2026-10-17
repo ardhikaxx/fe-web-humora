@@ -30,7 +30,7 @@ export function HumoraLogo({
         : { width: 80, height: 80, class: 'w-20 h-20 sm:w-24 sm:h-24 rounded-2xl' };
 
     return (
-      <div className={`inline-flex items-center gap-2 select-none ${className}`}>
+      <div className={`inline-flex items-center justify-center gap-2 select-none ${className}`}>
         <div
           className={`relative overflow-hidden shadow-xs border border-[#EEE8F0] shrink-0 transition-transform hover:scale-105 active:scale-95 ${iconDimensions.class}`}
         >
@@ -77,7 +77,7 @@ export function HumoraLogo({
 
   if (size === 'md') {
     return (
-      <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
+      <div className={`inline-flex items-center justify-center gap-2.5 select-none ${className}`}>
         <div className="h-12 w-24 sm:h-13 sm:w-[104px] rounded-xl overflow-hidden shadow-xs border border-[#EEE8F0] shrink-0 transition-transform hover:scale-[1.02]">
           <Image
             src="/images/logo-humora-komersial.png"
