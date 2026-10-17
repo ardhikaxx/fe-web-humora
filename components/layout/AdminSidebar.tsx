@@ -14,19 +14,16 @@ import {
   Crown,
   Receipt,
   Settings,
-  ChevronLeft,
-  ChevronRight,
   Shield,
   ShieldCheck,
   Sparkles,
   UserCheck,
-  X,
 } from 'lucide-react';
 import { useAdmin } from '../../lib/context/AdminContext';
 
 interface AdminSidebarProps {
   isCollapsed: boolean;
-  onToggleCollapse: () => void;
+  onToggleCollapse?: () => void;
   isMobileOpen: boolean;
   onCloseMobile: () => void;
 }
@@ -45,7 +42,6 @@ interface NavGroup {
 
 export function AdminSidebar({
   isCollapsed,
-  onToggleCollapse,
   isMobileOpen,
   onCloseMobile,
 }: AdminSidebarProps) {
@@ -124,42 +120,23 @@ export function AdminSidebar({
     return pathname.startsWith(href);
   };
 
-  const renderSidebarContent = (collapsed: boolean, isMobileDrawer: boolean) => (
+  const renderSidebarContent = (collapsed: boolean) => (
     <div className="h-full flex flex-col bg-white select-none">
-      {/* Brand Header */}
+      {/* Brand Header: Fokus menampilkan logo yang besar dan jelas tanpa tombol penutup di sidebar */}
       <div
         className={`h-16 shrink-0 border-b border-[#EEE8F0] flex items-center ${
           collapsed
-            ? 'px-2 justify-center gap-1.5'
-            : 'px-4 sm:px-5 justify-between gap-2'
+            ? 'px-2 justify-center'
+            : 'px-4 sm:px-5 justify-start'
         }`}
       >
         <Link href="/admin" onClick={onCloseMobile} className="flex items-center">
           {collapsed ? (
-            <HumoraLogo type="icon" size="sm" showAdminBadge={false} />
+            <HumoraLogo type="icon" size="md" showAdminBadge={false} />
           ) : (
-            <HumoraLogo type="full" size="sm" showAdminBadge={true} />
+            <HumoraLogo type="full" size="md" showAdminBadge={true} />
           )}
         </Link>
-
-        {/* Action button: X on mobile/tablet drawer, collapse toggle on desktop */}
-        {isMobileDrawer ? (
-          <button
-            onClick={onCloseMobile}
-            className="p-2 rounded-xl text-[#786F7D] hover:text-[#24172B] hover:bg-[#F6F1F8] border border-transparent hover:border-[#EEE8F0] active:scale-95 transition-all"
-            aria-label="Tutup navigasi"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        ) : (
-          <button
-            onClick={onToggleCollapse}
-            className="p-1.5 rounded-lg text-[#786F7D] hover:text-[#24172B] hover:bg-[#F6F1F8] transition-colors"
-            title={collapsed ? 'Perluas Sidebar' : 'Ciutkan Sidebar'}
-          >
-            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-          </button>
-        )}
       </div>
 
       {/* Navigation Menus with flexible scroll container */}
@@ -258,26 +235,26 @@ export function AdminSidebar({
           isCollapsed ? 'w-[76px]' : 'w-[260px]'
         }`}
       >
-        {renderSidebarContent(isCollapsed, false)}
+        {renderSidebarContent(isCollapsed)}
       </aside>
 
       {/* Mobile & Tablet Backdrop (below lg: < 1024px) */}
       <div
         onClick={onCloseMobile}
-        className={`fixed inset-0 z-40 bg-[#21052F]/40 backdrop-blur-xs transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 top-16 z-40 bg-[#21052F]/40 backdrop-blur-xs transition-opacity duration-300 lg:hidden ${
           isMobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         aria-hidden="true"
       />
 
-      {/* Mobile & Tablet Slide-out Drawer */}
+      {/* Mobile & Tablet Slide-out Drawer (Di bawah Topbar sehingga penutup di kiri topbar tetap dapat diklik) */}
       <aside
         aria-label="Navigasi admin"
-        className={`fixed inset-y-0 left-0 z-50 h-[100dvh] w-[280px] max-w-[85vw] sm:w-[320px] bg-white shadow-2xl flex flex-col border-r border-[#EEE8F0] transform transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed top-16 bottom-0 left-0 z-40 h-[calc(100dvh-4rem)] w-[280px] max-w-[85vw] sm:w-[320px] bg-white shadow-2xl flex flex-col border-r border-[#EEE8F0] transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {renderSidebarContent(false, true)}
+        {renderSidebarContent(false)}
       </aside>
     </>
   );

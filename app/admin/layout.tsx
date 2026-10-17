@@ -31,7 +31,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 flex flex-col min-h-screen">
-        <AdminTopbar onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)} />
+        <AdminTopbar
+          isDesktopCollapsed={isSidebarCollapsed}
+          onToggleDesktopSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          isMobileOpen={isMobileSidebarOpen}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 w-full max-w-full min-w-0 animate-in fade-in duration-150">
           {children}
         </main>

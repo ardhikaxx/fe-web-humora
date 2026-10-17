@@ -9,6 +9,9 @@ import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { useToast } from '../ui/Toast';
 import {
   Menu,
+  X,
+  PanelLeft,
+  PanelLeftClose,
   Bell,
   CheckCircle2,
   Settings,
@@ -18,10 +21,20 @@ import {
 } from 'lucide-react';
 
 interface AdminTopbarProps {
-  onOpenMobileSidebar: () => void;
+  isDesktopCollapsed?: boolean;
+  onToggleDesktopSidebar?: () => void;
+  isMobileOpen?: boolean;
+  onToggleMobileSidebar?: () => void;
+  onOpenMobileSidebar?: () => void;
 }
 
-export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
+export function AdminTopbar({
+  isDesktopCollapsed = false,
+  onToggleDesktopSidebar,
+  isMobileOpen = false,
+  onToggleMobileSidebar,
+  onOpenMobileSidebar,
+}: AdminTopbarProps) {
   const router = useRouter();
   const { recentActivities, adminProfile } = useAdmin();
   const { success } = useToast();
@@ -45,15 +58,35 @@ export function AdminTopbar({ onOpenMobileSidebar }: AdminTopbarProps) {
 
   return (
     <>
-      <header className="h-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#EEE8F0] sticky top-0 z-20 flex items-center justify-between gap-3 sm:gap-4">
-        {/* Left: Mobile Toggle & Mobile Brand Logo */}
+      <header className="h-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-[#EEE8F0] sticky top-0 z-50 flex items-center justify-between gap-3 sm:gap-4">
+        {/* Left: Sidebar Toggle (Penutup / Pembuka Sidebar di sebelah kiri topbar) & Mobile Logo */}
         <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Desktop Collapse / Expand Toggle Button */}
           <button
-            onClick={onOpenMobileSidebar}
-            className="lg:hidden p-2 rounded-xl text-[#24172B] hover:bg-[#F6F1F8] border border-transparent hover:border-[#EEE8F0] active:scale-95 transition-all"
-            aria-label="Buka menu navigasi"
+            onClick={onToggleDesktopSidebar}
+            className="hidden lg:flex items-center justify-center p-2 rounded-xl text-[#786F7D] hover:text-[#4B0B7A] hover:bg-[#F6F1F8] border border-[#EEE8F0] active:scale-95 transition-all"
+            aria-label={isDesktopCollapsed ? 'Perluas sidebar' : 'Ciutkan sidebar'}
+            title={isDesktopCollapsed ? 'Perluas sidebar' : 'Ciutkan sidebar'}
           >
-            <Menu className="w-5 h-5" />
+            {isDesktopCollapsed ? (
+              <PanelLeft className="w-5 h-5 text-[#4B0B7A]" />
+            ) : (
+              <PanelLeftClose className="w-5 h-5" />
+            )}
+          </button>
+
+          {/* Mobile & Tablet Toggle Button: Menutup dan membuka drawer mobile */}
+          <button
+            onClick={onToggleMobileSidebar || onOpenMobileSidebar}
+            className="lg:hidden p-2 rounded-xl text-[#24172B] hover:bg-[#F6F1F8] border border-[#EEE8F0] active:scale-95 transition-all"
+            aria-label={isMobileOpen ? 'Tutup navigasi' : 'Buka navigasi'}
+            title={isMobileOpen ? 'Tutup navigasi' : 'Buka navigasi'}
+          >
+            {isMobileOpen ? (
+              <X className="w-5 h-5 text-[#D94152]" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
 
           <div className="lg:hidden flex items-center">
