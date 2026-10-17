@@ -20,7 +20,6 @@ import {
   Clock,
   Crown,
   X,
-  Play,
 } from 'lucide-react';
 
 export default function UsersPage() {
@@ -87,7 +86,7 @@ export default function UsersPage() {
       {/* Header */}
       <PageHeader
         title="Pengguna Aplikasi"
-        description="Pantau ringkasan profil pengguna aplikasi mobile HUMORA, riwayat tontonan, dan status akun."
+        description="Pantau ringkasan profil pengguna aplikasi mobile HUMORA, status langganan, dan status akun."
         breadcrumbs={[{ label: 'Pengguna' }]}
       />
 
@@ -187,11 +186,10 @@ export default function UsersPage() {
               <thead>
                 <tr className="bg-[#FAF8FB] text-[11px] font-bold text-[#786F7D] uppercase tracking-wider border-b border-[#EEE8F0]">
                   <th className="py-3 px-4">Pengguna</th>
-                  <th className="py-3 px-4">Kontak Tersamar</th>
+                  <th className="py-3 px-4">Kontak</th>
                   <th className="py-3 px-4">Bergabung</th>
                   <th className="py-3 px-4 text-center">Status Akun</th>
                   <th className="py-3 px-4 text-center">Subscription</th>
-                  <th className="py-3 px-4 text-right">Ditonton</th>
                   <th className="py-3 px-4">Aktivitas Terakhir</th>
                   <th className="py-3 px-4 text-right">Tindakan</th>
                 </tr>
@@ -226,10 +224,6 @@ export default function UsersPage() {
 
                     <td className="py-3 px-4 text-center">
                       <StatusBadge type="subscription" value={u.subscriptionStatus} />
-                    </td>
-
-                    <td className="py-3 px-4 text-right font-bold text-[#24172B]">
-                      {u.episodesWatched} Ep ({u.totalWatchHours} jam)
                     </td>
 
                     <td className="py-3 px-4 text-[#786F7D]">
@@ -298,58 +292,32 @@ export default function UsersPage() {
               </div>
             </div>
 
-            {/* Quick Metrics */}
+            {/* Account Details */}
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="p-3 rounded-xl bg-[#F8F7FA] border border-[#EEE8F0]">
-                <span className="text-[11px] text-[#786F7D]">Total Episode Ditonton</span>
-                <p className="text-lg font-black text-[#24172B] mt-0.5">
-                  {selectedUser.episodesWatched} Episode
+                <span className="text-[11px] text-[#786F7D]">ID Pengguna</span>
+                <p className="text-xs font-mono font-bold text-[#24172B] mt-0.5 truncate">
+                  {selectedUser.id}
                 </p>
               </div>
               <div className="p-3 rounded-xl bg-[#F8F7FA] border border-[#EEE8F0]">
-                <span className="text-[11px] text-[#786F7D]">Total Durasi Tonton</span>
-                <p className="text-lg font-black text-[#4B0B7A] mt-0.5">
-                  {selectedUser.totalWatchHours} Jam
+                <span className="text-[11px] text-[#786F7D]">Nomor Telepon</span>
+                <p className="text-xs font-mono font-bold text-[#24172B] mt-0.5 truncate">
+                  {selectedUser.phone}
                 </p>
               </div>
-            </div>
-
-            {/* Watch History */}
-            <div>
-              <h5 className="text-xs font-bold text-[#24172B] uppercase tracking-wide mb-2 flex items-center gap-1.5">
-                <Play className="w-3.5 h-3.5 text-[#4B0B7A]" /> Riwayat Tontonan Terakhir
-              </h5>
-
-              {selectedUser.watchHistory.length === 0 ? (
-                <div className="p-4 rounded-xl bg-[#F8F7FA] text-center text-xs text-[#786F7D]">
-                  Belum ada riwayat tontonan tersimpan untuk pengguna ini.
-                </div>
-              ) : (
-                <div className="space-y-2 max-h-48 overflow-y-auto no-scrollbar">
-                  {selectedUser.watchHistory.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2.5 rounded-xl bg-[#F8F7FA] border border-[#EEE8F0] flex items-center justify-between text-xs"
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-8 h-10 rounded-md overflow-hidden bg-black/10 shrink-0">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={item.seriesPoster} alt={item.seriesTitle} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-bold text-[#24172B] truncate">{item.seriesTitle}</p>
-                          <p className="text-[11px] text-[#786F7D]">
-                            Ep {item.episodeNumber}: {item.episodeTitle}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="px-2 py-0.5 rounded font-bold bg-[#EAF8F1] text-[#21865B] text-[10px]">
-                        {item.progressPercent}% Selesai
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="p-3 rounded-xl bg-[#F8F7FA] border border-[#EEE8F0]">
+                <span className="text-[11px] text-[#786F7D]">Tanggal Bergabung</span>
+                <p className="text-xs font-bold text-[#24172B] mt-0.5">
+                  {formatDate(selectedUser.joinedDate)}
+                </p>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F8F7FA] border border-[#EEE8F0]">
+                <span className="text-[11px] text-[#786F7D]">Aktivitas Terakhir</span>
+                <p className="text-xs font-bold text-[#4B0B7A] mt-0.5">
+                  {formatDateTime(selectedUser.lastActiveAt)}
+                </p>
+              </div>
             </div>
 
             {/* Modal Actions */}
