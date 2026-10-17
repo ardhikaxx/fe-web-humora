@@ -30,7 +30,6 @@ import {
   TrendingUp,
   Clapperboard,
   Sparkles,
-  Layers,
   CheckCircle2,
   Calendar,
 } from 'lucide-react';
@@ -204,44 +203,6 @@ export default function AdminDashboardPage() {
             title="Distribusi Genre Tontonan"
             className="h-full"
           />
-        </div>
-      </div>
-
-      {/* Content Overview Counters Bar */}
-      <div className="bg-gradient-to-r from-[#21052F] to-[#4B0B7A] rounded-2xl p-6 text-white shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-[#FFD52E] text-xs font-bold uppercase tracking-wider">
-              <Layers className="w-4 h-4" /> Ringkasan Katalog Aktif
-            </div>
-            <h3 className="text-xl font-black mt-1">Status Konten Platform HUMORA</h3>
-            <p className="text-xs text-white/80 mt-0.5">
-              Status ini menentukan ketersediaan konten di katalog aplikasi mobile HUMORA.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 shrink-0">
-            <div className="bg-white/10 rounded-xl p-3 backdrop-blur-xs border border-white/10 text-center">
-              <p className="text-[10px] text-white/70 font-semibold uppercase">Series Aktif</p>
-              <p className="text-xl font-black text-white mt-0.5">{stats.publishedSeriesCount}</p>
-            </div>
-            <div className="bg-white/10 rounded-xl p-3 backdrop-blur-xs border border-white/10 text-center">
-              <p className="text-[10px] text-white/70 font-semibold uppercase">Ep Published</p>
-              <p className="text-xl font-black text-[#FFD52E] mt-0.5">{stats.publishedEpisodesCount}</p>
-            </div>
-            <div className="bg-white/10 rounded-xl p-3 backdrop-blur-xs border border-white/10 text-center">
-              <p className="text-[10px] text-white/70 font-semibold uppercase">Ep Draft</p>
-              <p className="text-xl font-black text-white/80 mt-0.5">{stats.draftEpisodesCount}</p>
-            </div>
-            <div className="bg-white/10 rounded-xl p-3 backdrop-blur-xs border border-white/10 text-center">
-              <p className="text-[10px] text-white/70 font-semibold uppercase">Free Preview</p>
-              <p className="text-xl font-black text-[#56ECC4] mt-0.5">{stats.freeEpisodesCount}</p>
-            </div>
-            <div className="bg-white/10 rounded-xl p-3 backdrop-blur-xs border border-white/10 text-center">
-              <p className="text-[10px] text-white/70 font-semibold uppercase">Premium</p>
-              <p className="text-xl font-black text-[#D6B5FF] mt-0.5">{stats.premiumEpisodesCount}</p>
-            </div>
-          </div>
         </div>
       </div>
 
