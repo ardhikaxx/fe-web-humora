@@ -166,7 +166,7 @@ export function AdminSidebar({
                   />
 
                   {!collapsed && (
-                    <span className="flex-1 truncate leading-none">{item.label}</span>
+                    <span className="flex-1 truncate leading-normal py-0.5">{item.label}</span>
                   )}
 
                   {!collapsed && item.badge && (
@@ -205,7 +205,7 @@ export function AdminSidebar({
           {!collapsed && (
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
-                <p className="text-xs font-bold text-[#24172B] truncate leading-tight">
+                <p className="text-xs font-bold text-[#24172B] truncate leading-normal">
                   {adminProfile.name}
                 </p>
                 <Shield className="w-3 h-3 text-[#4B0B7A] shrink-0" />
