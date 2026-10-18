@@ -51,7 +51,7 @@ export function UploadDropzone({
 
   const defaultHint =
     acceptType === 'video'
-      ? 'MP4 atau WebM (Simulasi preview browser)'
+      ? 'MP4 atau WebM (Pratinjau di browser)'
       : 'JPG, PNG, atau WebP (Rasio 16:9 atau 2:3)';
 
   const handleFiles = (fileList: FileList | null) => {
@@ -174,7 +174,7 @@ export function UploadDropzone({
                     {selectedFile?.name || value?.split('/').pop() || 'Aset Terpilih'}
                   </p>
                   <p className="text-[10px] text-[#786F7D]">
-                    {selectedFile?.size ? `Ukuran: ${selectedFile.size}` : 'Simulasi asset default'}
+                    {selectedFile?.size ? `Ukuran: ${selectedFile.size}` : 'Aset bawaan'}
                   </p>
                 </div>
               </div>
@@ -201,9 +201,6 @@ export function UploadDropzone({
           </div>
         )}
       </div>
-      <p className="text-[10px] text-[#A39CA9] italic">
-        *Simulasi frontend: file diproses secara lokal pada sesi browser Anda.
-      </p>
     </div>
   );
 }

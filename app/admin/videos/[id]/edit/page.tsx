@@ -17,14 +17,13 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
   const { success, error } = useToast();
 
   const [title, setTitle] = useState(ep.title);
-  const [episodeNumber, setEpisodeNumber] = useState<number>(ep.number);
+  const episodeNumber = ep.number;
   const [description, setDescription] = useState(ep.description);
   const [durationMinutes, setDurationMinutes] = useState<number>(Math.floor(ep.durationSeconds / 60));
   const [durationSeconds, setDurationSeconds] = useState<number>(ep.durationSeconds % 60);
   const [releaseDate, setReleaseDate] = useState(ep.releaseDate);
   const [accessType, setAccessType] = useState<AccessType>(ep.accessType);
   const [publicationStatus, setPublicationStatus] = useState<PublicationStatus>(ep.publicationStatus);
-  const [thumbnailUrl, setThumbnailUrl] = useState(ep.thumbnail);
   const [videoSource, setVideoSource] = useState(ep.videoSource || '');
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -48,7 +47,6 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
       durationSeconds: durationTotalSeconds,
       accessType,
       publicationStatus,
-      thumbnail: thumbnailUrl,
       videoSource,
     });
 
@@ -60,7 +58,7 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
     <div className="space-y-6">
       <PageHeader
         title={`Edit Video: ${ep.title}`}
-        description={`Bagian dari judul besar "${ep.seriesTitle}". Ubah status akses, durasi, atau thumbnail video.`}
+        description={`Bagian dari judul besar "${ep.seriesTitle}". Thumbnail otomatis mengikuti sampul judul besar.`}
         breadcrumbs={[
           { label: 'Kelola Video', href: '/admin/videos' },
           { label: `Video #${ep.number}` },
@@ -98,11 +96,13 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
                 </label>
                 <input
                   type="number"
-                  min={1}
                   value={episodeNumber}
-                  onChange={(e) => setEpisodeNumber(Number(e.target.value))}
-                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-black text-[#24172B]"
+                  disabled
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-black text-[#24172B] cursor-not-allowed opacity-80 focus:outline-hidden"
                 />
+                <p className="text-[11px] text-[#786F7D] mt-1">
+                  Terisi otomatis berdasarkan jumlah video pada judul ini.
+                </p>
               </div>
 
               <div className="sm:col-span-3">
@@ -178,22 +178,14 @@ function EditEpisodeInner({ ep }: { ep: AdminEpisode }) {
 
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h3 className="text-sm font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              Aset Media
+              Aset Video
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <UploadDropzone
-                acceptType="image"
-                value={thumbnailUrl}
-                label="Thumbnail Episode (16:9)"
-                onSelect={(m) => m?.previewUrl && setThumbnailUrl(m.previewUrl)}
-              />
-              <UploadDropzone
-                acceptType="video"
-                value={videoSource}
-                label="Video File"
-                onSelect={(m) => m?.previewUrl && setVideoSource(m.previewUrl)}
-              />
-            </div>
+            <UploadDropzone
+              acceptType="video"
+              value={videoSource}
+              label="Video File"
+              onSelect={(m) => m?.previewUrl && setVideoSource(m.previewUrl)}
+            />
           </div>
         </div>
 

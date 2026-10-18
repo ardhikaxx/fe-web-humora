@@ -48,10 +48,6 @@ function CreateEpisodeForm() {
   // Media
   const [videoPreview, setVideoPreview] = useState<string>('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4');
   const [hasVideo, setHasVideo] = useState(true);
-  const initialSeries = series.find((s) => s.id === initialSeriesId);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
-    initialSeries?.thumbnail || initialSeries?.cover || initialSeries?.poster || '/images/thumbnails/tipe-penumpang-taxi-online.jpg'
-  );
 
   // Inline errors
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -66,10 +62,6 @@ function CreateEpisodeForm() {
     const nextNum = existingEpCount + 1;
     setEpisodeNumber(nextNum);
     setAccessType(nextNum <= 2 ? 'free' : 'premium');
-    const targetSeries = series.find((s) => s.id === sId);
-    if (targetSeries) {
-      setThumbnailUrl(targetSeries.thumbnail || targetSeries.cover || targetSeries.poster || '');
-    }
   };
 
   const handleTitleChange = (val: string) => {
@@ -87,10 +79,10 @@ function CreateEpisodeForm() {
     if (title.trim()) score += 25;
     if (selectedSeriesId) score += 25;
     if (hasVideo) score += 25;
-    if (thumbnailUrl) score += 15;
+    if (currentSeries?.thumbnail || currentSeries?.cover || currentSeries?.poster) score += 15;
     if (description.trim()) score += 10;
     return Math.min(100, score);
-  }, [title, selectedSeriesId, hasVideo, thumbnailUrl, description]);
+  }, [title, selectedSeriesId, hasVideo, currentSeries, description]);
 
   const handleSubmit = (e: React.FormEvent, forceStatus?: PublicationStatus) => {
     e.preventDefault();
@@ -121,7 +113,12 @@ function CreateEpisodeForm() {
       durationSeconds: durationTotalSeconds,
       accessType,
       publicationStatus: finalStatus,
-      thumbnail: thumbnailUrl,
+      // Thumbnail: otomatis memakai sampul judul besar (tidak diunggah di sini)
+      thumbnail:
+        currentSeries?.thumbnail ||
+        currentSeries?.cover ||
+        currentSeries?.poster ||
+        '/images/thumbnails/tipe-penumpang-taxi-online.jpg',
       videoSource: videoPreview,
       hasVideoFile: hasVideo,
       releaseDate,
@@ -140,7 +137,7 @@ function CreateEpisodeForm() {
       {/* Page Header */}
       <PageHeader
         title="Tambah Video Baru"
-        description="Tambahkan video pendek (-+2 menit) ke dalam judul besar konten pilihan. Thumbnail otomatis disinkronkan dan dapat disesuaikan."
+        description="Tambahkan video pendek (-+2 menit) ke dalam judul besar konten pilihan. Thumbnail otomatis mengikuti sampul judul besar."
         breadcrumbs={[
           { label: 'Kelola Video', href: '/admin/videos' },
           { label: 'Tambah Video' },
@@ -253,13 +250,13 @@ function CreateEpisodeForm() {
                 </label>
                 <input
                   type="number"
-                  min={1}
                   value={episodeNumber}
-                  onChange={(e) => setEpisodeNumber(Number(e.target.value))}
-                  className={`w-full bg-[#F8F7FA] border rounded-xl px-4 py-2.5 text-sm font-black text-[#24172B] focus:bg-white focus:outline-hidden ${
-                    errors.episodeNumber ? 'border-[#D94152]' : 'border-[#EEE8F0] focus:border-[#4B0B7A]'
-                  }`}
+                  disabled
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm font-black text-[#24172B] cursor-not-allowed opacity-80 focus:outline-hidden"
                 />
+                <p className="text-[11px] text-[#786F7D] mt-1">
+                  Terisi otomatis berdasarkan jumlah video pada judul ini.
+                </p>
               </div>
 
               <div className="sm:col-span-3">
@@ -368,10 +365,10 @@ function CreateEpisodeForm() {
             </div>
           </div>
 
-          {/* Card 3: Unggah Berkas Video & Thumbnail */}
+          {/* Card 3: Unggah Berkas Video */}
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h2 className="text-sm font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              3. Unggah Berkas Video & Thumbnail
+              3. Unggah Berkas Video
             </h2>
 
             <div className="space-y-4">
@@ -387,14 +384,6 @@ function CreateEpisodeForm() {
                     setHasVideo(false);
                   }
                 }}
-              />
-
-              <UploadDropzone
-                acceptType="image"
-                value={thumbnailUrl}
-                label="Thumbnail Video (16:9)"
-                hint="Gambar sampul video (otomatis tersinkron dari judul besar)"
-                onSelect={(m) => m?.previewUrl && setThumbnailUrl(m.previewUrl)}
               />
             </div>
           </div>
@@ -544,8 +533,8 @@ function CreateEpisodeForm() {
                 <span>File video siap</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className={`w-3.5 h-3.5 ${thumbnailUrl ? 'text-[#21865B]' : 'text-[#EEE8F0]'}`} />
-                <span>Thumbnail 16:9 tersedia</span>
+                <CheckCircle2 className={`w-3.5 h-3.5 ${currentSeries?.thumbnail || currentSeries?.cover || currentSeries?.poster ? 'text-[#21865B]' : 'text-[#EEE8F0]'}`} />
+                <span>Thumbnail 16:9 mengikuti judul besar</span>
               </li>
             </ul>
           </div>

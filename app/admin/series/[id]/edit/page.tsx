@@ -22,9 +22,6 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
   const [year, setYear] = useState(seriesItem.year);
   const [displayOrder, setDisplayOrder] = useState(seriesItem.displayOrder);
   const [publicationStatus, setPublicationStatus] = useState<PublicationStatus>(seriesItem.publicationStatus);
-  const [featured, setFeatured] = useState(seriesItem.featured);
-  const [isPopular, setIsPopular] = useState(seriesItem.isPopular);
-  const [isNew, setIsNew] = useState(seriesItem.isNew);
   const [thumbnailUrl, setThumbnailUrl] = useState(
     seriesItem.thumbnail || seriesItem.cover || seriesItem.poster || ''
   );
@@ -62,9 +59,6 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
       year,
       displayOrder,
       publicationStatus,
-      featured,
-      isPopular,
-      isNew,
       thumbnail: thumbnailUrl,
       poster: thumbnailUrl,
       cover: thumbnailUrl,
@@ -78,7 +72,7 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
     <div className="space-y-6">
       <PageHeader
         title={`Edit Series: ${seriesItem.title}`}
-        description="Perbarui informasi sinopsis, poster, genre, dan penempatan section katalog."
+        description="Perbarui informasi sinopsis, thumbnail, genre, dan detail judul konten."
         breadcrumbs={[
           { label: 'Series', href: '/admin/series' },
           { label: seriesItem.title, href: `/admin/series/${seriesItem.id}` },
@@ -217,7 +211,7 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
         <div className="space-y-6">
           <div className="bg-white p-5 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h3 className="text-xs font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
-              Status & Penempatan
+              Pengaturan Publikasi
             </h3>
 
             <div>
@@ -246,38 +240,6 @@ function EditSeriesInner({ seriesItem }: { seriesItem: AdminSeries }) {
                   Draft
                 </button>
               </div>
-            </div>
-
-            <div className="space-y-2.5 pt-2 border-t border-[#EEE8F0]">
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-bold text-[#24172B]">Series Unggulan Hero</span>
-              </label>
-
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isPopular}
-                  onChange={(e) => setIsPopular(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-semibold text-[#786F7D]">Section Populer</span>
-              </label>
-
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isNew}
-                  onChange={(e) => setIsNew(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-semibold text-[#786F7D]">Lencana Series Baru</span>
-              </label>
             </div>
           </div>
         </div>

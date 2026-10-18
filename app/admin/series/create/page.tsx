@@ -14,16 +14,8 @@ import {
   Save,
   ArrowLeft,
   Sparkles,
+  Image as ImageIcon,
 } from 'lucide-react';
-
-const PRESET_THUMBNAILS = [
-  { label: 'Tipe Penumpang Taxi Online', path: '/images/thumbnails/tipe-penumpang-taxi-online.jpg' },
-  { label: 'Cara Deketin Cewek', path: '/images/thumbnails/cara-deketin-cewek.jpg' },
-  { label: 'Tipe-Tipe Teman Sekantor', path: '/images/thumbnails/tipe-tipe-teman-sekantor.jpg' },
-  { label: 'Drama Warga Grup RT', path: '/images/thumbnails/drama-warga-grup-rt.jpg' },
-  { label: 'Momen Canggung Kencan Pertama', path: '/images/thumbnails/momen-canggung-kencan-pertama.jpg' },
-  { label: 'Tipe Pembeli di Toko Kelontong', path: '/images/thumbnails/tipe-pembeli-di-toko-kelontong.jpg' },
-];
 
 export default function CreateSeriesPage() {
   const router = useRouter();
@@ -32,27 +24,23 @@ export default function CreateSeriesPage() {
 
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
-  const [isSlugManual, setIsSlugManual] = useState(false);
   const [synopsis, setSynopsis] = useState('');
   const [selectedGenres, setSelectedGenres] = useState<string[]>(['Komedi']);
   const [year, setYear] = useState(2026);
-  const [displayOrder, setDisplayOrder] = useState(series.length + 1);
   const [publicationStatus, setPublicationStatus] = useState<PublicationStatus>('published');
-  const [featured, setFeatured] = useState(false);
-  const [isPopular, setIsPopular] = useState(false);
-  const [isNew, setIsNew] = useState(true);
 
-  // Single Unified Thumbnail (No poster & cover separation)
-  const [thumbnailUrl, setThumbnailUrl] = useState('/images/thumbnails/tipe-penumpang-taxi-online.jpg');
+  // Urutan tampil di katalog terisi otomatis, tidak dapat diubah manual
+  const displayOrder = series.length + 1;
+
+  // Thumbnail tunggal 16:9 (tidak terisi otomatis, diunggah manual oleh admin)
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   // Inline errors
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleTitleChange = (val: string) => {
     setTitle(val);
-    if (!isSlugManual) {
-      setSlug(generateSlug(val));
-    }
+    setSlug(generateSlug(val));
   };
 
   const toggleGenre = (genre: string) => {
@@ -98,14 +86,14 @@ export default function CreateSeriesPage() {
       likes: 0,
       episodeCount: 0,
       videoCount: 0,
-      featured,
-      isPopular,
-      isNew,
+      featured: false,
+      isPopular: false,
+      isNew: true, // Lencana "Baru di HUMORA" mengikuti data: judul yang baru dibuat otomatis berstatus baru
       publicationStatus: finalStatus,
       thumbnail: thumbnailUrl,
       poster: thumbnailUrl,
       cover: thumbnailUrl,
-      sectionPlacements: featured ? ['popular', 'recommended'] : ['new'],
+      sectionPlacements: ['new'],
     });
 
     success('Judul Konten Berhasil Dibuat', `Judul "${newSeries.title}" berhasil disimpan.`);
@@ -171,18 +159,9 @@ export default function CreateSeriesPage() {
 
             {/* Slug URL */}
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold text-[#24172B] uppercase tracking-wide">
-                  Slug Identifikasi <span className="text-[#D94152]">*</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setIsSlugManual(!isSlugManual)}
-                  className="text-[11px] text-[#4B0B7A] hover:underline font-semibold"
-                >
-                  {isSlugManual ? 'Otomatis dari Judul' : 'Kustomisasi Manual'}
-                </button>
-              </div>
+              <label className="block text-xs font-bold text-[#24172B] uppercase tracking-wide mb-1.5">
+                Slug Identifikasi <span className="text-[#D94152]">*</span>
+              </label>
               <div className="flex items-center">
                 <span className="px-3.5 py-2.5 bg-[#FAF8FB] border border-r-0 border-[#EEE8F0] rounded-l-xl text-xs text-[#786F7D] font-mono select-none">
                   humora.id/watch/
@@ -190,11 +169,10 @@ export default function CreateSeriesPage() {
                 <input
                   type="text"
                   value={slug}
-                  readOnly={!isSlugManual}
-                  onChange={(e) => setSlug(e.target.value)}
-                  className={`w-full bg-[#F8F7FA] border rounded-r-xl px-4 py-2 text-sm text-[#24172B] font-mono focus:bg-white focus:outline-hidden ${
-                    errors.slug ? 'border-[#D94152]' : 'border-[#EEE8F0] focus:border-[#4B0B7A]'
-                  } ${!isSlugManual ? 'cursor-not-allowed opacity-80' : ''}`}
+                  readOnly
+                  className={`w-full bg-[#F8F7FA] border rounded-r-xl px-4 py-2 text-sm text-[#24172B] font-mono cursor-not-allowed opacity-80 focus:outline-hidden ${
+                    errors.slug ? 'border-[#D94152]' : 'border-[#EEE8F0]'
+                  }`}
                 />
               </div>
               {errors.slug && <p className="text-xs text-[#D94152] mt-1">{errors.slug}</p>}
@@ -267,14 +245,17 @@ export default function CreateSeriesPage() {
                 <input
                   type="number"
                   value={displayOrder}
-                  onChange={(e) => setDisplayOrder(Number(e.target.value))}
-                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B] focus:bg-white focus:outline-hidden"
+                  readOnly
+                  className="w-full bg-[#F8F7FA] border border-[#EEE8F0] rounded-xl px-4 py-2.5 text-sm text-[#24172B] cursor-not-allowed opacity-80 focus:outline-hidden"
                 />
+                <p className="text-[11px] text-[#786F7D] mt-1">
+                  Terisi otomatis berdasarkan jumlah judul konten.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Card Media Aset Visual: Thumbnail 16:9 Tunggal */}
+          {/* Card Media Aset Visual: Thumbnail 16:9 */}
           <div className="bg-white p-6 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[#EEE8F0]">
               <h2 className="text-sm font-bold text-[#24172B] uppercase tracking-wider">
@@ -294,47 +275,12 @@ export default function CreateSeriesPage() {
                 if (meta?.previewUrl) setThumbnailUrl(meta.previewUrl);
               }}
             />
-
-            {/* Quick Presets from Prototype Mobile */}
-            <div className="pt-2 border-t border-[#EEE8F0] space-y-2">
-              <span className="text-xs font-bold text-[#24172B]">
-                Pilih Dari Aset Thumbnail Prototype Mobile (D:\fe-humora):
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {PRESET_THUMBNAILS.map((preset) => (
-                  <button
-                    key={preset.path}
-                    type="button"
-                    onClick={() => {
-                      setThumbnailUrl(preset.path);
-                      if (!title) {
-                        setTitle(preset.label);
-                        if (!isSlugManual) setSlug(generateSlug(preset.label));
-                      }
-                    }}
-                    className={`p-2 rounded-xl border text-left flex items-center gap-2 transition-all ${
-                      thumbnailUrl === preset.path
-                        ? 'border-[#4B0B7A] bg-[#F3E8FF]/60 shadow-xs ring-1 ring-[#4B0B7A]'
-                        : 'border-[#EEE8F0] bg-[#FAF8FB] hover:border-[#D8B4FE]'
-                    }`}
-                  >
-                    <div className="aspect-16/9 w-12 rounded-lg overflow-hidden shrink-0 bg-black/10">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={preset.path} alt={preset.label} className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-[11px] font-bold text-[#24172B] truncate leading-tight">
-                      {preset.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Side Column: Placement, Status & Live Preview (1 col) */}
+        {/* Side Column: Status & Live Preview (1 col) */}
         <div className="space-y-6">
-          {/* Status Publikasi & Unggulan */}
+          {/* Status Publikasi */}
           <div className="bg-white p-5 rounded-2xl border border-[#EEE8F0] shadow-xs space-y-4">
             <h3 className="text-xs font-bold text-[#24172B] uppercase tracking-wider pb-2 border-b border-[#EEE8F0]">
               Pengaturan Publikasi
@@ -367,45 +313,6 @@ export default function CreateSeriesPage() {
                 </button>
               </div>
             </div>
-
-            {/* Checkbox Options */}
-            <div className="space-y-2.5 pt-2 border-t border-[#EEE8F0]">
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={featured}
-                  onChange={(e) => setFeatured(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-bold text-[#24172B]">
-                  Tampilkan sebagai Konten Unggulan
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isPopular}
-                  onChange={(e) => setIsPopular(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-semibold text-[#786F7D]">
-                  Masuk section &ldquo;Paling Banyak Ditonton&rdquo;
-                </span>
-              </label>
-
-              <label className="flex items-center gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isNew}
-                  onChange={(e) => setIsNew(e.target.checked)}
-                  className="rounded text-[#4B0B7A] focus:ring-[#4B0B7A] w-4 h-4"
-                />
-                <span className="text-xs font-semibold text-[#786F7D]">
-                  Beri lencana &ldquo;Baru di HUMORA&rdquo;
-                </span>
-              </label>
-            </div>
           </div>
 
           {/* Live Mini Preview Card */}
@@ -416,21 +323,23 @@ export default function CreateSeriesPage() {
             </h3>
 
             <div className="rounded-2xl border border-[#EEE8F0] overflow-hidden bg-[#FAF8FB] p-3">
-              <div className="relative aspect-16/9 w-full rounded-xl overflow-hidden bg-black/10 mb-3 border border-[#EEE8F0]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={thumbnailUrl}
-                  alt="Thumbnail Preview"
-                  className="w-full h-full object-cover"
-                />
+              <div className="relative aspect-16/9 w-full rounded-xl overflow-hidden bg-[#F6F1F8] mb-3 border border-[#EEE8F0]">
+                {thumbnailUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={thumbnailUrl}
+                    alt="Thumbnail Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-1">
+                    <ImageIcon className="w-5 h-5 text-[#C4BCC9]" />
+                    <span className="text-[10px] font-semibold text-[#A39CA9]">Belum ada thumbnail</span>
+                  </div>
+                )}
                 <div className="absolute top-2 left-2">
                   <StatusBadge type="publication" value={publicationStatus} />
                 </div>
-                {featured && (
-                  <div className="absolute bottom-2 left-2 bg-[#FFD52E] text-[#21052F] text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs">
-                    UNGGULAN
-                  </div>
-                )}
               </div>
 
               <h4 className="font-bold text-sm text-[#24172B] truncate">
