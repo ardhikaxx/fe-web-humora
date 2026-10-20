@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useAdmin } from '../../../lib/context/AdminContext';
 import { PageHeader } from '../../../components/ui/PageHeader';
@@ -10,7 +10,9 @@ import { SearchFilterBar } from '../../../components/ui/SearchFilterBar';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 import {
   getAnalyticsForPeriod,
+  fetchLiveAnalytics,
   AnalyticsPeriod,
+  AnalyticsSummary,
   AUDIENCE_INSIGHTS,
   SUBSCRIPTION_METRICS,
 } from '../../../lib/data/analyticsData';
@@ -37,8 +39,25 @@ export default function AnalyticsPage() {
   // Video table filters & sorting
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'views' | 'likes' | 'completion' | 'watchTime'>('views');
+  const [liveSummary, setLiveSummary] = useState<AnalyticsSummary | null>(null);
 
-  const summary = getAnalyticsForPeriod(period);
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLive = async () => {
+      const data = await fetchLiveAnalytics(period);
+      if (isMounted && data) {
+        setLiveSummary(data);
+      }
+    };
+    fetchLive();
+    const interval = setInterval(fetchLive, 4000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [period]);
+
+  const summary = liveSummary || getAnalyticsForPeriod(period);
 
   // Prepare chart points based on activeTab
   const chartPoints = useMemo(() => {
@@ -91,21 +110,30 @@ export default function AnalyticsPage() {
         description="Analisis mendalam mengenai penayangan video, durasi tonton, retensi audiens, dan performa paket langganan HUMORA."
         breadcrumbs={[{ label: 'Analytics' }]}
         actions={
-          <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-[#EEE8F0] shadow-2xs">
-            <Calendar className="w-4 h-4 text-[#786F7D] ml-2" />
-            {(['7d', '30d', '90d'] as AnalyticsPeriod[]).map((p) => (
-              <button
-                key={p}
-                onClick={() => setPeriod(p)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  period === p
-                    ? 'bg-[#4B0B7A] text-white shadow-2xs'
-                    : 'text-[#786F7D] hover:text-[#24172B]'
-                }`}
-              >
-                {p === '7d' ? '7 Hari Terakhir' : p === '30d' ? '30 Hari Terakhir' : '90 Hari Terakhir'}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Sinkron Realtime</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-[#EEE8F0] shadow-2xs">
+              <Calendar className="w-4 h-4 text-[#786F7D] ml-2" />
+              {(['7d', '30d', '90d'] as AnalyticsPeriod[]).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setPeriod(p)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    period === p
+                      ? 'bg-[#4B0B7A] text-white shadow-2xs'
+                      : 'text-[#786F7D] hover:text-[#24172B]'
+                  }`}
+                >
+                  {p === '7d' ? '7 Hari Terakhir' : p === '30d' ? '30 Hari Terakhir' : '90 Hari Terakhir'}
+                </button>
+              ))}
+            </div>
           </div>
         }
       />

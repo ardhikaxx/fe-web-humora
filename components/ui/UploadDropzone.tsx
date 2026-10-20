@@ -1,13 +1,17 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { UploadCloud, Film, Image as ImageIcon, CheckCircle2, X } from 'lucide-react';
+import { UploadCloud, Film, Image as ImageIcon, CheckCircle2, X, Zap, Loader2 } from 'lucide-react';
+import { compressImageToWebpClient, formatFileSize } from '../../lib/utils/mediaCompression';
 
 interface UploadMeta {
   name: string;
   size: string;
   previewUrl?: string;
   rawFile?: File;
+  originalSize?: string;
+  savingsPercent?: number;
+  isWebp?: boolean;
 }
 
 interface UploadDropzoneProps {
@@ -32,6 +36,7 @@ export function UploadDropzone({
   className = '',
 }: UploadDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [selectedFile, setSelectedFile] = useState<UploadMeta | null>(existingMeta || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const objectUrlRef = useRef<string | null>(null);
@@ -46,15 +51,15 @@ export function UploadDropzone({
 
   const acceptMime =
     acceptType === 'video'
-      ? 'video/mp4,video/webm'
+      ? 'video/mp4,video/webm,video/quicktime'
       : 'image/jpeg,image/png,image/webp';
 
   const defaultHint =
     acceptType === 'video'
-      ? 'MP4 atau WebM (Pratinjau di browser)'
-      : 'JPG, PNG, atau WebP (Rasio 16:9 atau 2:3)';
+      ? 'MP4 atau WebM (Otomatis dikonversi ke WebM saat disimpan)'
+      : 'JPG, PNG, atau WebP (Otomatis dikompresi ke WebP)';
 
-  const handleFiles = (fileList: FileList | null) => {
+  const handleFiles = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) return;
     const file = fileList[0];
 
@@ -64,14 +69,57 @@ export function UploadDropzone({
       objectUrlRef.current = null;
     }
 
-    let previewUrl: string | undefined = undefined;
-    if (acceptType === 'image' || acceptType === 'video') {
+    if (acceptType === 'image') {
+      setIsCompressing(true);
       try {
-        previewUrl = URL.createObjectURL(file);
-        objectUrlRef.current = previewUrl;
-      } catch (e) {
-        console.warn('Could not create object URL:', e);
+        const compressed = await compressImageToWebpClient(file, 1920, 1080, 0.82);
+        objectUrlRef.current = compressed.previewUrl;
+
+        const meta: UploadMeta = {
+          name: compressed.file.name,
+          size: formatFileSize(compressed.compressedSize),
+          originalSize: formatFileSize(compressed.originalSize),
+          savingsPercent: compressed.savingsPercent,
+          previewUrl: compressed.previewUrl,
+          rawFile: compressed.file,
+          isWebp: true,
+        };
+
+        setSelectedFile(meta);
+        onSelect(meta);
+      } catch (err) {
+        console.warn('Gagal mengompresi gambar, menggunakan file mentah:', err);
+        let previewUrl: string | undefined = undefined;
+        try {
+          previewUrl = URL.createObjectURL(file);
+          objectUrlRef.current = previewUrl;
+        } catch {
+          // ignore
+        }
+
+        const meta: UploadMeta = {
+          name: file.name,
+          size: formatFileSize(file.size),
+          previewUrl,
+          rawFile: file,
+          isWebp: file.name.endsWith('.webp'),
+        };
+
+        setSelectedFile(meta);
+        onSelect(meta);
+      } finally {
+        setIsCompressing(false);
       }
+      return;
+    }
+
+    // Video Handling
+    let previewUrl: string | undefined = undefined;
+    try {
+      previewUrl = URL.createObjectURL(file);
+      objectUrlRef.current = previewUrl;
+    } catch (e) {
+      console.warn('Could not create object URL:', e);
     }
 
     const sizeInMb = (file.size / (1024 * 1024)).toFixed(1);
@@ -107,10 +155,10 @@ export function UploadDropzone({
         <label className="text-xs font-bold text-[#24172B] uppercase tracking-wide">
           {label} {required && <span className="text-[#D94152]">*</span>}
         </label>
-        {selectedFile && (
+        {selectedFile && !isCompressing && (
           <span className="text-[11px] font-semibold text-[#21865B] flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            File Dipilih
+            {acceptType === 'image' && selectedFile.isWebp ? 'Terkonversi WebP' : 'File Dipilih'}
           </span>
         )}
       </div>
@@ -126,10 +174,12 @@ export function UploadDropzone({
           setIsDragging(false);
           handleFiles(e.dataTransfer.files);
         }}
-        onClick={() => fileInputRef.current?.click()}
+        onClick={() => !isCompressing && fileInputRef.current?.click()}
         className={`relative border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all ${
           isDragging
             ? 'border-[#4B0B7A] bg-[#F6F1F8]'
+            : isCompressing
+            ? 'border-[#4B0B7A]/40 bg-[#FAF8FB]'
             : selectedFile || value
             ? 'border-[#21865B]/40 bg-[#EAF8F1]/20'
             : 'border-[#EEE8F0] hover:border-[#4B0B7A]/50 bg-[#F8F7FA] hover:bg-[#F6F1F8]/50'
@@ -140,10 +190,17 @@ export function UploadDropzone({
           type="file"
           accept={acceptMime}
           className="hidden"
+          disabled={isCompressing}
           onChange={(e) => handleFiles(e.target.files)}
         />
 
-        {selectedFile || value ? (
+        {isCompressing ? (
+          <div className="py-6 flex flex-col items-center justify-center gap-2">
+            <Loader2 className="w-6 h-6 text-[#4B0B7A] animate-spin" />
+            <p className="text-xs font-bold text-[#24172B]">Mengompresi otomatis & konversi ke WebP...</p>
+            <p className="text-[11px] text-[#786F7D]">Memperkecil ukuran foto di browser agar hemat storage server</p>
+          </div>
+        ) : selectedFile || value ? (
           <div className="flex flex-col items-center">
             {/* Image Preview if available */}
             {acceptType === 'image' && (selectedFile?.previewUrl || value) && (
@@ -174,7 +231,17 @@ export function UploadDropzone({
                     {selectedFile?.name || value?.split('/').pop() || 'Aset Terpilih'}
                   </p>
                   <p className="text-[10px] text-[#786F7D]">
-                    {selectedFile?.size ? `Ukuran: ${selectedFile.size}` : 'Aset bawaan'}
+                    {selectedFile?.originalSize && selectedFile.savingsPercent ? (
+                      <span>
+                        <span className="line-through text-[#999]">{selectedFile.originalSize}</span> &rarr;{' '}
+                        <strong className="text-[#21865B]">{selectedFile.size}</strong>{' '}
+                        <span className="text-[#21865B] font-bold">(-{selectedFile.savingsPercent}%)</span>
+                      </span>
+                    ) : selectedFile?.size ? (
+                      `Ukuran: ${selectedFile.size}`
+                    ) : (
+                      'Aset bawaan'
+                    )}
                   </p>
                 </div>
               </div>
@@ -188,6 +255,29 @@ export function UploadDropzone({
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {/* Format Conversion Pill Info */}
+            {acceptType === 'image' && selectedFile?.isWebp && (
+              <div className="w-full mt-2 p-2 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-between text-[11px] text-[#065F46]">
+                <span className="flex items-center gap-1.5 font-bold">
+                  <Zap className="w-3.5 h-3.5 text-[#10B981]" /> Otomatis Dikonversi ke WebP
+                </span>
+                <span className="text-[10px] bg-white px-2 py-0.5 rounded-md font-semibold border border-[#A7F3D0]">
+                  Siap disimpan
+                </span>
+              </div>
+            )}
+
+            {acceptType === 'video' && (
+              <div className="w-full mt-2 p-2 rounded-lg bg-[#FAF8FB] border border-[#EEE8F0] flex items-center justify-between text-[11px] text-[#4B0B7A]">
+                <span className="flex items-center gap-1.5 font-bold">
+                  <Zap className="w-3.5 h-3.5 text-[#FFD52E]" /> Target Format Server: WebM (VP9/Opus)
+                </span>
+                <span className="text-[10px] bg-white px-2 py-0.5 rounded-md font-semibold border border-[#EEE8F0]">
+                  Hemat Bandwidth
+                </span>
+              </div>
+            )}
           </div>
         ) : (
           <div className="py-3 flex flex-col items-center justify-center">
