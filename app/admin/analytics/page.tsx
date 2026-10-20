@@ -124,10 +124,10 @@ export default function AnalyticsPage() {
                 <button
                   key={p}
                   onClick={() => setPeriod(p)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold no-underline select-none transition-all ${
                     period === p
                       ? 'bg-[#4B0B7A] text-white shadow-2xs'
-                      : 'text-[#786F7D] hover:text-[#24172B]'
+                      : 'text-[#786F7D] hover:text-[#24172B] hover:no-underline'
                   }`}
                 >
                   {p === '7d' ? '7 Hari Terakhir' : p === '30d' ? '30 Hari Terakhir' : '90 Hari Terakhir'}
